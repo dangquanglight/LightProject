@@ -1,0 +1,1 @@
+<?php	$file = getcwd() . "/" . APPPATH . "controllers/MY_controller.php";			include $file;	class Errors extends Fsadfzerrwez_home{				function Errors(){			parent::__construct();				$this->home_directory = "errors/";		}				function error_404(){			$data = array();						$this->load_page('error_404', $this->lang->line('page_not_found'), $data);		}	}?>
