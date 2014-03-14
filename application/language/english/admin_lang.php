@@ -1,0 +1,40 @@
+<?php
+	$lang['logout'] = 'Logout';
+	$lang['login'] = 'Login';
+	$lang['email'] = 'Email';
+	$lang['email_or_password_incorrect'] = 'Your email or password is incorrect.';
+	$lang['edit'] = 'Edit';
+	$lang['status'] = 'Status';
+	$lang['enabled'] = 'Enabled';
+	$lang['disabled'] = 'Disabled';
+	$lang['reset_password'] = 'Reset password';
+	$lang['back'] = 'Back';
+	$lang['admin'] = 'Admin';
+	$lang['admins'] = 'Admins';
+	$lang['manage-admins'] = 'Manage admins';
+	$lang['confirm_password'] = 'Confirm password';
+	$lang['email_taken'] = 'Email was taken. Please use another one';
+	$lang['created_date'] = 'Created date';
+	$lang['companies'] = 'Companies';
+	$lang['profile'] = 'Profile';
+	$lang['profile_saved'] = 'Your profile has been saved successfuly';
+	$lang['required_name'] = 'Please enter your name';
+	$lang['change_password_saved'] = 'Password has been changed successfuly';
+	$lang['change_password_fail'] = 'Password has been changed fail';
+	$lang['old_password_dont_match'] = "Your old password doesn't match";
+	$lang['invalid_data'] = "Form data is invalid";
+	$lang['required_old_password'] = "Please enter old password";
+	$lang['required_password_length'] = "Password must be greater than or equal 6 characters";
+	$lang['required_password'] = "Please enter password";
+	$lang['required_pass_and_confirm_pass'] = "Password and confirm password don't match";
+	$lang['old_password'] = "Old password";
+	$lang['new_password'] = "New password";
+	$lang['confirm_password'] = "Confirm password";
+	$lang['change_password'] = "Change password";
+	$lang['companies'] = "Companies";
+	$lang['company'] = 'Company';
+	$lang['company-name'] = 'Company name';
+	$lang['description'] = 'Description';
+	$lang['required_company_name'] = 'Please enter company name';
+	
+?>

@@ -1,0 +1,1 @@
+<?php	$cms = $data['data'];		$title = get_title_cms($cms);	$content = str_replace('%email%', userdata('register-email'), get_content_cms($cms));	?><h1 class='form-title'><?php echo $title;?></h1><div class='home-page'><?php echo $content;?></div>
