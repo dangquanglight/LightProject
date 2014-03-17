@@ -49,18 +49,9 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-if ($_SERVER['SERVER_NAME'] == "localhost"){
-	$db['default']['username'] = 'root';
-	$db['default']['password'] = '123';
-	$db['default']['database'] = 'mos';
-}
-else{
-	$db['default']['username'] = 'root';
-	//$db['default']['password'] = 'iCore1972';
-	$db['default']['password'] = 'testabc123';
-	$db['default']['database'] = 'mos';
-}
-
+$db['default']['username'] = '';
+$db['default']['password'] = '';
+$db['default']['database'] = '';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
