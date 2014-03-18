@@ -97,12 +97,73 @@
                                     </select>
                                 </div>
                                 <p>&nbsp;</p>
-                                <label class="control-label col-sm-4" for="controlled_device">Set value</label>
+                                <label class="control-label col-sm-4" for="set_value">Set value</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" id="set_value">
                                 </div>
                             </div>
                         </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h3>Schedule</h3>
+                        <div style="text-align: center">
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="btn btn-primary">
+                                    <input type="checkbox"> Monday
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="checkbox"> Tuesday
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="checkbox"> Wednesday
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="checkbox"> Thursday
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="checkbox"> Friday
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="checkbox"> Sartuday
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="checkbox"> Sunday
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="checkbox"> All
+                                </label>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>&nbsp;</p>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="start">
+                        </div>
+                        <label class="control-label col-sm-2" for="start">Start</label>
+
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="end">
+                        </div>
+                        <label class="control-label col-sm-2" for="end">End</label>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <h3>Exception</h3>
+                        <input type="text" class="form-control" id="start">
+                        <p>&nbsp;</p>
+                        <label class="control-label col-sm-3" for="set_value">Set value</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="set_value">
+                        </div>
                     </td>
                 </tr>
             </table>
