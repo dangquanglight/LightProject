@@ -11,11 +11,12 @@
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/dashboard.css" rel="stylesheet">
     <link href="css/range-slider.css" rel="stylesheet">
-    <link href="css/datepicker3.css" rel="stylesheet">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -54,12 +55,7 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="<?php echo base_url(); ?>">Home</a></li>
-                <li><a href="<?php echo base_url() , 'action_management' ?>">Action management</a></li>
-                <li><a href="#">Control</a></li>
-                <li><a href="#">Device management</a></li>
-                <li><a href="#">Indoor air quality</a></li>
-                <li><a href="#">Document</a></li>
+                <?php include('templates/sidebar.php'); ?>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -89,16 +85,16 @@
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
                                 <label class="control-label col-sm-4" for="controlled_device">Controlled device</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-5">
                                     <select class="form-control" id="controlled_device">
-                                        <option value="floor_1">Floor 1</option>
-                                        <option value="floor_2">Floor 2</option>
-                                        <option value="floor_3">Floor 3</option>
-                                        <option value="floor_4">Floor 4</option>
-                                        <option value="floor_5">Floor 5</option>
+                                        <option value="floor_1">Room temperature 1</option>
+                                        <option value="floor_2">Room temperature 2</option>
+                                        <option value="floor_3">Room temperature 3</option>
+                                        <option value="floor_4">Room temperature 4</option>
+                                        <option value="floor_5">Room temperature 5</option>
                                     </select>
                                 </div>
-                                <p>&nbsp;</p>
+                                <p>&nbsp;</p><p>&nbsp;</p>
 
                                 <label class="control-label col-sm-4" for="amount">Set value</label>
                                 <div class="col-sm-2">
@@ -145,12 +141,18 @@
                     <td>
                         <p>&nbsp;</p>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" id="start">
+                            <div id="timepicker1" class="input-group date form_time">
+                                <input class="form-control" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                            </div>
                         </div>
                         <label class="control-label col-sm-2" for="start">Start</label>
 
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" id="end">
+                            <div id="timepicker2" class="input-group date form_time">
+                                <input class="form-control" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                            </div>
                         </div>
                         <label class="control-label col-sm-2" for="end">End</label>
                     </td>
@@ -160,13 +162,13 @@
                     <td></td>
                     <td>
                         <h3>Exception</h3>
-                        <div class="input-group date col-sm-3" id="datepicker">
-                            <input type="text" class="form-control">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                        <div class="input-group date form_date col-sm-4" id="datepicker">
+                            <input class="form-control" type="text" value="" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
 
                         <p>&nbsp;</p>
-                        <label class="control-label col-sm-2" for="amount-2">Set value</label>
+                        <label class="control-label col-sm-3" for="amount-2">Set value</label>
                         <div class="col-sm-2">
                             <input type="text" class="form-control" id="amount-2" disabled>
                         </div>
@@ -184,7 +186,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/bootstrap-slider.js"></script>
-<script src="js/bootstrap-datepicker.js"></script>
+<script src="js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript">
     $(function(){
         $('#select-all').click(function(event) {
@@ -227,8 +229,39 @@
         $("#amount-2").val(slideEvt.value + ' C');
     });
 
-    $('#datepicker').datepicker({
-        todayBtn: "linked"
+    $('#datepicker').datetimepicker({
+        language:  'en',
+        format: 'dd/mm/yyyy',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+
+    $('#timepicker1').datetimepicker({
+        language:  'en',
+        format: 'hh:ii',
+        autoclose: 1,
+        weekStart: 1,
+        todayHighlight: 1,
+        startView: 0,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+    });
+    $('#timepicker2').datetimepicker({
+        language:  'en',
+        format: 'hh:ii',
+        autoclose: 1,
+        weekStart: 1,
+        todayHighlight: 1,
+        startView: 0,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
     });
 
 </script>

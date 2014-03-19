@@ -10,10 +10,12 @@
     <title>Dashboard Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="../css/dashboard.css" rel="stylesheet">
+    <link href="../css/range-slider.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -23,7 +25,6 @@
 </head>
 
 <body>
-
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -53,41 +54,21 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="<?php echo base_url(); ?>">Home</a></li>
-                <li><a href="<?php echo base_url() , 'action_management' ?>">Action management</a></li>
-                <li><a href="#">Control</a></li>
-                <li><a href="#">Device management</a></li>
-                <li><a href="#">Indoor air quality</a></li>
-                <li><a href="#">Document</a></li>
+                <?php include('templates/sidebar.php'); ?>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Action management</h1>
-
-            <label class="checkbox-inline">
-                <input type="checkbox" id="inlineCheckbox1" value="option1">
-                Enable
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" id="inlineCheckbox2" value="option2">
-                Disable
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" id="inlineCheckbox3" value="option3">
-                Exeption
-            </label>
+            <h1 class="page-header">Control</h1>
 
             <table border="0" style="width: 100%">
                 <tr>
-                    <td style="width: 50%">
-                        &nbsp;
-                    </td>
-                    <td>
+                    <td colspan="2">
                         <h3>Action</h3>
+
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
-                                <label class="control-label col-sm-4" for="controlled_device">Controlled device</label>
-                                <div class="col-sm-8">
+                                <label class="control-label col-sm-2" for="controlled_device">Controlled device</label>
+                                <div class="col-sm-3">
                                     <select class="form-control" id="controlled_device">
                                         <option value="floor_1">Floor 1</option>
                                         <option value="floor_2">Floor 2</option>
@@ -96,73 +77,38 @@
                                         <option value="floor_5">Floor 5</option>
                                     </select>
                                 </div>
-                                <p>&nbsp;</p>
-                                <label class="control-label col-sm-4" for="set_value">Set value</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="set_value">
-                                </div>
                             </div>
+                                <p>&nbsp;</p>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="amount">Set value</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" id="amount" disabled>
+                                </div>
+                                <input id="range-slider" type="text" />
+                                &nbsp;&nbsp;
+                                <button type="button" class="btn btn-primary">On/Off</button>
+                           </div>
                         </form>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <h3>Schedule</h3>
-                        <div style="text-align: center">
-                            <div class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-primary">
-                                    <input type="checkbox"> Monday
-                                </label>
-                                <label class="btn btn-primary">
-                                    <input type="checkbox"> Tuesday
-                                </label>
-                                <label class="btn btn-primary">
-                                    <input type="checkbox"> Wednesday
-                                </label>
-                                <label class="btn btn-primary">
-                                    <input type="checkbox"> Thursday
-                                </label>
-                                <label class="btn btn-primary">
-                                    <input type="checkbox"> Friday
-                                </label>
-                                <label class="btn btn-primary">
-                                    <input type="checkbox"> Sartuday
-                                </label>
-                                <label class="btn btn-primary">
-                                    <input type="checkbox"> Sunday
-                                </label>
-                                <label class="btn btn-primary">
-                                    <input type="checkbox"> All
-                                </label>
-                            </div>
+                        <h3>Mode</h3>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary">Occupied</button>
                         </div>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p>&nbsp;</p>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="start">
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary">Unoccupied</button>
                         </div>
-                        <label class="control-label col-sm-2" for="start">Start</label>
-
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="end">
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary">Lunch</button>
                         </div>
-                        <label class="control-label col-sm-2" for="end">End</label>
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <h3>Exception</h3>
-                        <input type="text" class="form-control" id="start">
-                        <p>&nbsp;</p>
-                        <label class="control-label col-sm-3" for="set_value">Set value</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" id="set_value">
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary">Off today</button>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary">Off tomorrow</button>
                         </div>
                     </td>
                 </tr>
@@ -174,8 +120,22 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/docs.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-slider.js"></script>
+<script type="text/javascript">
+    $("#amount").val('25 C');
+    $("#range-slider").slider({
+        tooltip: 'hide',
+        min: 17,
+        max: 35,
+        step: 1,
+        value: 25
+    });
+    $("#range-slider").on('slide', function(slideEvt) {
+        $("#amount").val(slideEvt.value + ' C');
+    });
+
+</script>
 </body>
 </html>
