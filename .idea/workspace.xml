@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dfeec5d2-ebbe-489d-83bd-dc6e120fb3d7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/application/controllers/control.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/application/views/control.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/action_management.php" afterPath="$PROJECT_DIR$/application/views/action_management.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="dfeec5d2-ebbe-489d-83bd-dc6e120fb3d7" name="Default" comment="" />
     <ignored path="gehouse.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
