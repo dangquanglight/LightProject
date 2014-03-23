@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand navbar-fixed-top" href="<?php echo base_url(); ?>">GE HOUSE PROJECT</a>
+            <a class="navbar-brand navbar-fixed-top" href="<?php echo base_url(); ?>">GE HOUSE KUORTANEENKATU 2</a>
         </div>
 <!--        <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -53,12 +53,7 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="<?php echo base_url(); ?>">Home</a></li>
-                <li><a href="<?php echo base_url() , 'action_management' ?>">Action management</a></li>
-                <li><a href="#">Control</a></li>
-                <li><a href="#">Device management</a></li>
-                <li><a href="#">Indoor air quality</a></li>
-                <li><a href="#">Document</a></li>
+                <?php include('templates/sidebar.php'); ?>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -102,6 +97,5 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="js/docs.min.js"></script>
 </body>
 </html>
