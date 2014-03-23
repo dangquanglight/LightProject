@@ -11,7 +11,10 @@ class Action_management extends GEH_Controller {
 
     public function index()
     {
-        $this->load->view('action_management');
+        $data = new ArrayObject();
+        $extend_data['content_view'] = $this->load->view('action_management/index', $data, TRUE);
+
+        $this->load_frontend_template($extend_data, 'ACTION MANAGEMENT');
     }
 
     public function action2()

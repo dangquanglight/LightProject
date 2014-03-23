@@ -11,7 +11,10 @@ class Home extends GEH_Controller {
 
 	public function index()
 	{
-		$this->load->view('home');
+        $data = new ArrayObject();
+        $extend_data['content_view'] = $this->load->view('home', $data, TRUE);
+
+        $this->load_frontend_template($extend_data, 'HOMEPAGE');
 	}
 }
 

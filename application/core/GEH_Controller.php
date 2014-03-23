@@ -9,38 +9,32 @@ class GEH_Controller extends CI_Controller {
         parent::__construct();
     }
 
-    function get_common_view($sidebar, $profile) {
+    function get_common_view() {
+        $data = new ArrayObject();
+
         $header = $this->load->view('templates/header', $data, TRUE);
         $footer = $this->load->view('templates/footer', $data, TRUE);
+        $sidebar = $this->load->view('templates/sidebar', $data, TRUE);
+
         $data = array(
             'header' => $header,
-            'footer' => $footer
+            'footer' => $footer,
+            'sidebar' => $sidebar
         );
-
-        $sidebar_content = $this->load->view("templates/sidebar", $arr, true);
-        $data["sidebar"] = $sidebar_content;
 
         return $data;
     }
 
-    function load_frontend_template($extend_data) {
-        $common_views = $this->get_common_view($sidebar);
+    function load_frontend_template($extend_data, $page_title = '') {
+        $common_views = $this->get_common_view();
         $common_views['content_view'] = '';
-
         if (isset($extend_data['content_view'])) {
             $common_views['content_view'] = $extend_data['content_view'];
         }
-        if (isset($extend_data['meta_tags'])) {
-            $common_views['meta_tags'] = $extend_data['meta_tags'];
-        }
-        if (isset($extend_data['link_tags'])) {
-            $common_views['link_tags'] = $extend_data['link_tags'];
-        }
-        if (isset($extend_data['title'])) {
-            $common_views['title'] = $extend_data['title'];
-        }
+
         $data['views'] = $common_views;
-        $data['content'] = $extend_data;
+        $data['page_title'] = $page_title;
+        //$data['content'] = $extend_data;
 
         $this->load->view('templates/default', $data);
     }

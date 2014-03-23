@@ -11,7 +11,10 @@ class Control extends GEH_Controller {
 
     public function index()
     {
-        $this->load->view('control');
+        $data = new ArrayObject();
+        $extend_data['content_view'] = $this->load->view('control', $data, TRUE);
+
+        $this->load_frontend_template($extend_data, 'CONTROL');
     }
 }
 

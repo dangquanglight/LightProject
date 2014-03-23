@@ -11,7 +11,10 @@ class Device_management extends GEH_Controller {
 
     public function index()
     {
-        $this->load->view('device_management');
+        $data = new ArrayObject();
+        $extend_data['content_view'] = $this->load->view('device_management', $data, TRUE);
+
+        $this->load_frontend_template($extend_data, 'DEVICE MANAGEMENT');
     }
 }
 
