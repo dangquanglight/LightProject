@@ -9,3 +9,4 @@ application/logs/*
 !application/logs/.htaccess
 .idea/workspace.xml
 .idea/workspace.xml
+.idea/workspace.xml.orig
