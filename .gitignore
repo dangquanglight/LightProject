@@ -8,6 +8,5 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 .idea/workspace.xml
-.idea/workspace.xml
 .idea/workspace.xml.orig
-.idea/workspace.xml
+
