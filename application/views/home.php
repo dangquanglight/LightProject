@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand navbar-fixed-top" href="<?php echo base_url(); ?>">GE HOUSE PROJECT</a>
+            <a class="navbar-brand navbar-fixed-top" href="<?php echo base_url(); ?>">GE HOUSE KUORTANEENKATU 2</a>
         </div>
 <!--        <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
