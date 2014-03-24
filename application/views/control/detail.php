@@ -1,4 +1,9 @@
-<h1 class="page-header">Action management 3</h1>
+<ol class="breadcrumb">
+    <li><a href="<?php echo control_controller_url(); ?>">Control</a></li>
+    <li class="active">Mode detail</li>
+</ol>
+
+<!--<h1 class="page-header">Mode Detail</h1>-->
 
 <label class="checkbox-inline">
     <input type="checkbox" id="inlineCheckbox1" value="option1">

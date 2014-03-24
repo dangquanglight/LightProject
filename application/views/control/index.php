@@ -1,5 +1,8 @@
-<h1 class="page-header">Control</h1>
+<ol class="breadcrumb">
+    <li class="active">Control</li>
+</ol>
 
+<!--<h1 class="page-header">Control</h1>-->
 <table border="0" style="width: 100%">
     <tr>
         <td colspan="2">
@@ -36,7 +39,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            <h3>Mode</h3>
+            <h3>Recent Used Mode</h3>
 
             <div class="col-sm-2">
                 <button type="button" class="btn btn-primary">Occupied</button>
@@ -60,35 +63,41 @@
 <div class="table-responsive">
     <table class="table table-hover">
         <thead>
-        <th>Name</th>
-        <th>Type</th>
-        <th>State</th>
+        <th style="width: 25%">Name</th>
+        <th style="width: 25%">Type</th>
+        <th style="width: 25%">State</th>
+        <th style="width: 25%">Action</th>
         </thead>
         <tbody>
         <tr>
             <td>Mode 1</td>
             <td>Type 1</td>
             <td>State 1</td>
+            <td>
+                <a href="<?php echo mode_detail_url(); ?>">
+                    <button type="button" onclick="" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-wrench"></span> Edit
+                    </button>
+                </a>
+                <button type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-trash"></span> Remove
+                </button>
+            </td>
         </tr>
         <tr>
             <td>Mode 1</td>
             <td>Type 1</td>
             <td>State 1</td>
-        </tr>
-        <tr>
-            <td>Mode 1</td>
-            <td>Type 1</td>
-            <td>State 1</td>
-        </tr>
-        <tr>
-            <td>Mode 1</td>
-            <td>Type 1</td>
-            <td>State 1</td>
-        </tr>
-        <tr>
-            <td>Mode 1</td>
-            <td>Type 1</td>
-            <td>State 1</td>
+            <td>
+                <a href="<?php echo mode_detail_url(); ?>">
+                    <button type="button" onclick="" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-wrench"></span> Edit
+                    </button>
+                </a>
+                <button type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-trash"></span> Remove
+                </button>
+            </td>
         </tr>
         </tbody>
     </table>

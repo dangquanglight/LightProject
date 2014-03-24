@@ -9,22 +9,30 @@ class Action_management extends GEH_Controller {
         parent::__construct();
     }
 
+    public $action_management_view = 'action_management/';
+
     public function index()
     {
         $data = new ArrayObject();
-        $extend_data['content_view'] = $this->load->view('action_management/index', $data, TRUE);
+        $extend_data['content_view'] = $this->load->view($this->action_management_view . 'index', $data, TRUE);
 
         $this->load_frontend_template($extend_data, 'ACTION MANAGEMENT');
     }
 
-    public function action2()
+    public function schedule()
     {
-        $this->load->view('action_management_2');
+        $data = new ArrayObject();
+        $extend_data['content_view'] = $this->load->view($this->action_management_view . 'manage_by_schedule', $data, TRUE);
+
+        $this->load_frontend_template($extend_data, 'ACTION MANAGEMENT BY SCHEDULE');
     }
 
-    public function action3()
+    public function event()
     {
-        $this->load->view('action_management_3');
+        $data = new ArrayObject();
+        $extend_data['content_view'] = $this->load->view($this->action_management_view . 'manage_by_event', $data, TRUE);
+
+        $this->load_frontend_template($extend_data, 'ACTION MANAGEMENT BY EVENT');
     }
 }
 

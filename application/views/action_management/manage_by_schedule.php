@@ -1,4 +1,9 @@
-<h1 class="page-header">Action management</h1>
+<ol class="breadcrumb">
+    <li><a href="<?php echo action_management_controller_url(); ?>">Action management</a></li>
+    <li class="active">Manage by schedule</li>
+</ol>
+
+<!--<h1 class="page-header">Action management</h1>-->
 
 <label class="checkbox-inline">
     <input type="checkbox" id="inlineCheckbox1" value="option1">
@@ -7,10 +12,6 @@
 <label class="checkbox-inline">
     <input type="checkbox" id="inlineCheckbox2" value="option2">
     Disable
-</label>
-<label class="checkbox-inline">
-    <input type="checkbox" id="inlineCheckbox3" value="option3">
-    Exeption
 </label>
 
 <table border="0" style="width: 100%">
@@ -108,9 +109,16 @@
         <td>
             <h3>Exception</h3>
 
-            <div class="input-group date form_date col-sm-4" id="datepicker">
-                <input class="form-control" type="text" value="" readonly>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            <div class="form-inline">
+                <div class="input-group date form_date col-sm-4" id="datepicker_from">
+                    <input class="form-control" type="text" value="" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+
+                <div class="input-group date form_date col-sm-4" id="datepicker_to">
+                    <input class="form-control" type="text" value="" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
             </div>
 
             <p>&nbsp;</p>
@@ -166,7 +174,19 @@
         $("#amount-2").val(slideEvt.value + ' C');
     });
 
-    $('#datepicker').datetimepicker({
+    $('#datepicker_from').datetimepicker({
+        language: 'en',
+        format: 'dd/mm/yyyy',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+
+    $('#datepicker_to').datetimepicker({
         language: 'en',
         format: 'dd/mm/yyyy',
         weekStart: 1,

@@ -7,6 +7,7 @@
         <li><a href="#abc">Document</a></li>
     </ul>
 </div>
+
 <script type="javascript">
     $('.nav li').click(function(){
         $('.nav li').removeClass("active");
