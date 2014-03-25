@@ -43,6 +43,26 @@ if (!function_exists('mode_detail_url')) {
 }
 // endregion CONTROL CONTROLLER
 
+// region DEVICE MANAGEMENT
+if (!function_exists('device_management_controller_url')) {
+    function device_management_controller_url() {
+        return base_url('device_management');
+    }
+}
+
+if (!function_exists('add_new_device_url')) {
+    function add_new_device_url() {
+        return base_url('device_management/modify');
+    }
+}
+
+if (!function_exists('edit_device_url')) {
+    function edit_device_url($device_id) {
+        return base_url('device_management/modify?id=' . $device_id);
+    }
+}
+// endregion DEVICE MANAGEMENT
+
 if (!function_exists('book_details_url_old')) {
     function book_details_url_old($book = FALSE, $sob_id = 0) {
         if(!$book) return base_url('/home');
