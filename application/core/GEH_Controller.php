@@ -117,4 +117,30 @@ class GEH_Controller extends CI_Controller {
         return $template_content;
     }
 
+    public function get_zones_list($floor_id) {
+        $this->load->model('zone_model');
+        $zones = $this->zone_model->get_by_floor_id($floor_id);
+        $data = array();
+        foreach ($zones as $key => $zone) {
+            $data[$key]['name'] = $zone['zone_name'];
+            $data[$key]['id'] = $zone['zone_id'];
+        }
+
+        return $data;
+    }
+
+    public function get_rooms_list($zone_id) {
+        $this->load->model('room_model');
+        $rooms = $this->room_model->get_by_zone_id($zone_id);
+        $data = array();
+        foreach ($rooms as $room) {
+            array_push($data, array(
+                'id' => $room['room_id'],
+                'name' => $room['room_name']
+            ));
+        }
+
+        return $data;
+    }
+
 }

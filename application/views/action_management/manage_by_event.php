@@ -88,72 +88,6 @@
                         <p>&nbsp;</p>
                     </td>
                 </tr>
-                <tr>
-                    <td><b>AND</b></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="form-group">
-                            <label class="control-label col-sm-1" for="condition">If</label>
-
-                            <div class="col-sm-3">
-                                <select class="form-control" id="condition">
-                                    <option value="co2_1">CO2 1</option>
-                                    <option value="co2_2">CO2 2</option>
-                                    <option value="pir_3">PIR 3</option>
-                                    <option value="sw_34">SW 34</option>
-                                    <option value="co2_5">CO2 5</option>
-                                </select>
-                            </div>
-                            <div class="col-xs-3">
-                                <select class="form-control" id="condition">
-                                    <option value="<"> &nbsp; <</option>
-                                    <option value="<="> &nbsp; <=</option>
-                                    <option value="="> &nbsp; =</option>
-                                    <option value=">"> &nbsp; ></option>
-                                    <option value=">="> &nbsp; >=</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" value="200 ppm">
-                            </div>
-                        </div>
-                        <p>&nbsp;</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td><b>AND</b></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="form-group">
-                            <label class="control-label col-sm-1" for="condition">If</label>
-
-                            <div class="col-sm-3">
-                                <select class="form-control" id="condition">
-                                    <option value="co2_1">CO2 1</option>
-                                    <option value="co2_2">CO2 2</option>
-                                    <option value="pir_3">PIR 3</option>
-                                    <option value="sw_34">SW 34</option>
-                                    <option value="co2_5">CO2 5</option>
-                                </select>
-                            </div>
-                            <div class="col-xs-3">
-                                <select class="form-control" id="condition">
-                                    <option value="<"> &nbsp; <</option>
-                                    <option value="<="> &nbsp; <=</option>
-                                    <option value="="> &nbsp; =</option>
-                                    <option value=">"> &nbsp; ></option>
-                                    <option value=">="> &nbsp; >=</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" value="200 ppm">
-                            </div>
-                        </div>
-                        <p>&nbsp;</p>
-                    </td>
-                </tr>
             </table>
         </td>
         <td>
@@ -165,11 +99,8 @@
 
                     <div class="col-sm-5">
                         <select class="form-control" id="controlled_device">
-                            <option value="floor_1">Room temperature 1</option>
-                            <option value="floor_2">Room temperature 2</option>
-                            <option value="floor_3">Room temperature 3</option>
-                            <option value="floor_4">Room temperature 4</option>
-                            <option value="floor_5">Room temperature 5</option>
+                            <option value="floor_1">VALVE1.1.1.1</option>
+                            <option value="floor_2">LIGHT1.1.3.5</option>
                         </select>
                     </div>
                     <p>&nbsp;</p>

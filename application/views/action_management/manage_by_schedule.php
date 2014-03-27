@@ -28,11 +28,8 @@
 
                     <div class="col-sm-5">
                         <select class="form-control" id="controlled_device">
-                            <option value="floor_1">Room temperature 1</option>
-                            <option value="floor_2">Room temperature 2</option>
-                            <option value="floor_3">Room temperature 3</option>
-                            <option value="floor_4">Room temperature 4</option>
-                            <option value="floor_5">Room temperature 5</option>
+                            <option value="floor_1">VALVE1.1.1.1</option>
+                            <option value="floor_2">LIGHT1.1.3.5</option>
                         </select>
                     </div>
                     <p>&nbsp;</p>

@@ -20,10 +20,22 @@
         echo link_tag('css/bootstrap-datetimepicker.min.css');
     ?>
 
-    <script src="<?php echo base_url('js/jquery-1.9.1.min.js') ?>"></script>
-    <script src="<?php echo base_url('js/bootstrap.min.js') ?>"></script>
-    <script src="<?php echo base_url('js/bootstrap-slider.js') ?>"></script>
-    <script src="<?php echo base_url('js/bootstrap-datetimepicker.js') ?>"></script>
+    <script src="<?php echo base_url('js/jquery-1.8.3.js') ?>" type="text/javascript"></script>
+    <script src="<?php echo base_url('js/jquery.validate.js') ?>" type="text/javascript"></script>
+    <script src="<?php echo base_url('js/bootstrap.min.js') ?>" type="text/javascript"></script>
+    <script src="<?php echo base_url('js/bootstrap-slider.js') ?>" type="text/javascript"></script>
+    <script src="<?php echo base_url('js/bootstrap-datetimepicker.js') ?>" type="text/javascript"></script>
+    <script src="<?php echo base_url('js/geh.core.js') ?>" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        /*
+         All global varian put here
+         */
+        var Global = {
+            siteUrl: "<?php echo base_url();?>"
+        };
+
+    </script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>

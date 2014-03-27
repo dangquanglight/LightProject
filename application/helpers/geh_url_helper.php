@@ -63,6 +63,14 @@ if (!function_exists('edit_device_url')) {
 }
 // endregion DEVICE MANAGEMENT
 
+// region STATIC PAGE
+if (!function_exists('document_viewer_url')) {
+    function document_viewer_url() {
+        return base_url('static_page/document_viewer');
+    }
+}
+// endregion STATIC PAGE
+
 if (!function_exists('book_details_url_old')) {
     function book_details_url_old($book = FALSE, $sob_id = 0) {
         if(!$book) return base_url('/home');

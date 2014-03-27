@@ -13,83 +13,33 @@
         <thead>
         <th>Device ID</th>
         <th>Name</th>
-        <th>Position</th>
+        <th>Location</th>
         <th>Type</th>
         <th>State</th>
         <th>Status</th>
         <th>Action</th>
         </thead>
         <tbody>
-        <tr>
-            <td>763672345823</td>
-            <td>Name 1</td>
-            <td>Floor 1, Zone 1, Room 1</td>
-            <td>Temperature</td>
-            <td>Celcius</td>
-            <td>Teached in</td>
-            <td>
-                <a href="<?php echo edit_device_url(1); ?>">
-                    <button type="button" onclick="" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-wrench"></span> Edit
+        <?php foreach($list_devices as $item): ?>
+            <tr>
+                <td><?php echo $item['device_id']; ?></td>
+                <td><?php echo $item['device_name']; ?></td>
+                <td><?php echo $item['device_location']; ?></td>
+                <td><?php echo $item['type_name']; ?></td>
+                <td><?php echo $item['state_name']; ?></td>
+                <td><?php echo $item['teach_in_status']; ?></td>
+                <td>
+                    <a href="<?php echo edit_device_url($item['row_device_id']); ?>">
+                        <button type="button" onclick="" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-wrench"></span> Edit
+                        </button>
+                    </a>
+                    <button type="button" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-trash"></span> Remove
                     </button>
-                </a>
-                <button type="button" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-trash"></span> Remove
-                </button>
-            </td>
-        </tr>
-        <tr>
-            <td>763672345823</td>
-            <td>Name 1</td>
-            <td>Floor 1, Zone 1, Room 1</td>
-            <td>Temperature</td>
-            <td>On/Off</td>
-            <td>Teached in</td>
-            <td>
-                <a href="<?php echo edit_device_url(2); ?>">
-                    <button type="button" onclick="" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-wrench"></span> Edit
-                    </button>
-                </a>
-                <button type="button" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-trash"></span> Remove
-                </button>
-            </td>
-        </tr><tr>
-            <td>763672345823</td>
-            <td>Name 1</td>
-            <td>Floor 1, Zone 1, Room 1</td>
-            <td>Temperature</td>
-            <td>Dimmer</td>
-            <td>Teached in</td>
-            <td>
-                <a href="<?php echo edit_device_url(3); ?>">
-                    <button type="button" onclick="" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-wrench"></span> Edit
-                    </button>
-                </a>
-                <button type="button" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-trash"></span> Remove
-                </button>
-            </td>
-        </tr><tr>
-            <td>763672345823</td>
-            <td>Name 1</td>
-            <td>Floor 1, Zone 1, Room 1</td>
-            <td>Temperature</td>
-            <td>Celcius</td>
-            <td>Teached in</td>
-            <td>
-                <a href="<?php echo edit_device_url(4); ?>">
-                    <button type="button" onclick="" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-wrench"></span> Edit
-                    </button>
-                </a>
-                <button type="button" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-trash"></span> Remove
-                </button>
-            </td>
-        </tr>
+                </td>
+            </tr>
+        <?php endforeach; ?>
         </tbody>
     </table>
 </div>
