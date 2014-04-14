@@ -143,4 +143,19 @@ class GEH_Controller extends CI_Controller {
         return $data;
     }
 
+    public function get_controlled_devices_list($room_id) {
+        $this->load->model(array('device_model', 'device_state_model'));
+        $state = $this->device_state_model->get_by_name(DEVICE_STATE_CONTROLLED);
+        $devices = $this->device_model->get_list_by_device_type_id_and_room_id($state['id'], $room_id);
+        $data = array();
+        foreach($devices as $device) {
+            array_push($data, array(
+                'id' => $device['row_device_id'],
+                'name' => $device['device_name']
+            ));
+        }
+
+        return $data;
+    }
+
 }

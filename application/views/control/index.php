@@ -2,32 +2,40 @@
     <li class="active">Control</li>
 </ol>
 
-<!--<h1 class="page-header">Control</h1>-->
 <table border="0" style="width: 100%">
     <tr>
         <td colspan="2">
             <h3>Action</h3>
 
-            <form class="form-horizontal" role="form">
+            <form class="form-horizontal" role="form" method="post" action="">
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Choose location</label>
+
+                    <div class="form-inline col-sm-10">
+                        <select class='form-control' name="floor" id="selectFloor">
+                            <?php foreach ($floor_list as $item): ?>
+                                <option
+                                    value="<?php echo $item['floor_id']; ?>"><?php echo $item['floor_name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <select class='form-control' name="zone" id="selectZone"></select>
+                        <select class='form-control' name="room" id="selectRoom"></select>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="controlled_device">Controlled device</label>
 
                     <div class="col-sm-3">
-                        <select class="form-control" id="controlled_device">
-                            <option value="floor_1">Floor 1</option>
-                            <option value="floor_2">Floor 2</option>
-                            <option value="floor_3">Floor 3</option>
-                            <option value="floor_4">Floor 4</option>
-                            <option value="floor_5">Floor 5</option>
-                        </select>
+                        <select class="form-control" id="selectDevice" name="device"></select>
                     </div>
                 </div>
-                <p>&nbsp;</p>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="amount">Set value</label>
+                    <label class="control-label col-sm-2" for="amount">Setpoint</label>
 
-                    <div class="col-sm-2">
+                    <div class="col-sm-1">
                         <input type="text" class="form-control" id="amount" disabled>
                     </div>
                     <input id="range-slider" type="text"/>
@@ -39,23 +47,10 @@
     </tr>
     <tr>
         <td colspan="2">
-            <h3>Recent Used Mode</h3>
-
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-primary">Occupied</button>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-primary">Unoccupied</button>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-primary">Lunch</button>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-primary">Off today</button>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-primary">Off tomorrow</button>
-            </div>
+            <h3>Group Action</h3>
+            <a href="<?php echo add_mode_url(); ?>">
+                <button type="button" class="btn btn-primary">Add new mode</button>
+            </a>
         </td>
     </tr>
 </table>
@@ -105,6 +100,64 @@
 
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        $("#addDeviceForm").validate({
+            rules: {
+                selectFloor: {
+                    greaterThan: 0
+                }
+            },
+            messages: {
+                selectFloor: "Please choose college"
+            }
+        });
+
+        $("#selectFloor").change(function () {
+            var floorID = $(this).val();
+            if (!floorID)
+                return false;
+            $.ajax({
+                url: "<?php echo base_url("ajax/get_zones?format=json") ?>",
+                data: {
+                    floorID: floorID
+                },
+                success: function (json) {
+                    var selectObject = GEH.selectList(json, "id", "name", null);
+                    $("#selectZone").html(selectObject.html()).change();
+                }
+            });
+        });
+        $("#selectFloor").change();
+
+        $("#selectZone").change(function () {
+            var zoneID = $(this).val();
+            $.ajax({
+                url: "<?php echo base_url("ajax/get_rooms?format=json") ?>",
+                data: {
+                    zoneID: zoneID
+                },
+                success: function (json) {
+                    var selectObject = GEH.selectList(json, "id", "name", null);
+                    $("#selectRoom").html(selectObject.html()).change();
+                }
+            });
+        });
+
+        $("#selectRoom").change(function () {
+            var roomID = $(this).val();
+            $.ajax({
+                url: "<?php echo base_url("ajax/get_controlled_device_by_room?format=json") ?>",
+                data: {
+                    roomID: roomID
+                },
+                success: function (json) {
+                    var selectObject = GEH.selectList(json, "id", "name", null);
+                    $("#selectDevice").html(selectObject.html()).change();
+                }
+            });
+        });
+    });
+
     $("#amount").val('25 C');
     $("#range-slider").slider({
         tooltip: 'hide',

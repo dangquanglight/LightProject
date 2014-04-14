@@ -1,7 +1,7 @@
 <?php
 
-class Device_type_model extends CI_Model{
-    private $_table_name = 'device_types';
+class Actions_model extends CI_Model{
+    private $_table_name = 'actions';
 
     public function insert($arr_data)
     {
@@ -24,39 +24,26 @@ class Device_type_model extends CI_Model{
         return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
     }
 
-    public function get_list($order_by = "type_name", $condition = "ASC")
+    public function get_list($order_by = "a.created_date", $condition = "DESC")
     {
-        $this->db->select('id AS device_type_id, type_name');
+        $this->db->select('d.device_name, a.id AS action_id, a.action_type, a.status');
+        $this->db->from($this->_table_name . ' a');
+        $this->db->join('devices d', 'd.device_id = a.device_id');
         $this->db->order_by($order_by, $condition);
-        $query = $this->db->get($this->_table_name);
+        $query = $this->db->get();
 
         return $query->result_array();
     }
 
     public function get_by_id($id)
     {
-        $this->db->where("id", $id);
+        $this->db->select('a.*, d.device_name');
+        $this->db->from($this->_table_name . ' a');
+        $this->db->where("a.id", $id);
+        $this->db->join('devices d', 'd.device_id = a.device_id');
         $query = $this->db->get($this->_table_name);
 
         return $query->row_array();
-    }
-
-    public function get_by_short_name($short_name)
-    {
-        $this->db->where("type_short_name", $short_name);
-        $query = $this->db->get($this->_table_name);
-
-        return $query->row_array();
-    }
-
-    public function get_by_state_id($id)
-    {
-        $this->db->select('');
-        $this->db->from($this->_table_name);
-        $this->db->where("state_id", $id);
-        $query = $this->db->get();
-
-        return $query->result_array();
     }
 
 }

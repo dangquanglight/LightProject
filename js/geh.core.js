@@ -12,6 +12,7 @@ var GEH = new function () {
             selectList.attr(attrs);
         for (var i = 0; i < list.length; i++) {
             var item = list[i];
+
             var opt = "<option value='{value}'>{text}</option>";
             opt = opt.replace("{value}", item[value])
                 .replace("{text}", item[text]);

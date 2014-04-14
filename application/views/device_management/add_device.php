@@ -14,52 +14,53 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-2 control-label">Location</label>
-
-        <div class="col-sm-3">
-            <select class='form-control' name="selectFloor" id="selectFloor">
-                <?php foreach ($floor_list as $item): ?>
-                    <option value="<?php echo $item['floor_id']; ?>"><?php echo $item['floor_name']; ?></option>
-                <?php endforeach; ?>
-            </select>
-            <p></p>
-            <select class='form-control' name="zone" id="selectZone">
-                <option value=''>Select zone</option>
-            </select>
-            <p></p>
-            <select class='form-control' name="room" id="selectRoom">
-                <option value=''>Select room</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
         <label class="col-sm-2 control-label">Device type</label>
 
         <div class="col-sm-3">
             <select class="form-control">
-                <?php foreach($device_type_list as $item): ?>
-                <option value="<?php echo $item['device_type_id']; ?>"><?php echo $item['type_name']; ?></option>
+                <?php foreach ($device_type_list as $item): ?>
+                    <option value="<?php echo $item['device_type_id']; ?>"><?php echo $item['type_name']; ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
     </div>
     <div class="form-group">
+        <label class="col-sm-2 control-label">Location</label>
+
+        <div class="form-inline col-sm-5">
+            <select class='form-control' name="floor" id="selectFloor">
+                <?php foreach ($floor_list as $item): ?>
+                    <option value="<?php echo $item['floor_id']; ?>"><?php echo $item['floor_name']; ?></option>
+                <?php endforeach; ?>
+            </select>
+
+            <select class='form-control' name="zone" id="selectZone"></select>
+            <select class='form-control' name="room" id="selectRoom"></select>
+        </div>
+    </div>
+<!--    <div class="form-group">
         <label class="col-sm-2 control-label">Description</label>
 
         <div class="col-sm-5">
             <textarea class="form-control" rows="3"></textarea>
         </div>
-    </div>
+    </div>-->
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button type="button" class="btn btn-default">Save</button>
-            <button type="button" class="btn btn-primary">Teach in</button>
+            <button type="button" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-success">Teach in</button>
+            <button type="button" class="btn btn-default"
+                    onclick="window.location.href = '<?php echo device_management_controller_url(); ?>'">Cancel
+            </button>
         </div>
+    </div>
 </form>
 
 <script type="text/javascript">
     $(document).ready(function () {
+
+
         $("#addDeviceForm").validate({
             rules: {
                 selectFloor: {
@@ -86,6 +87,7 @@
                 }
             });
         });
+        $("#selectFloor").change();
 
         $("#selectZone").change(function () {
             var zoneID = $(this).val();

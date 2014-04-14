@@ -41,7 +41,7 @@
                 </div>
             </div>
 
-            <div class="well col-sm-11">
+            <div class="well col-sm-8" style="padding: 2; margin-top: 10px;">
                 <h4>Wireless acutor</h4>
 
                 <div class="col-sm-5">
@@ -63,26 +63,15 @@
                 </label>
             </div>
 
-            <p>&nbsp;</p>
+            <p>&nbsp;</p> <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <p>&nbsp;</p>
 
-            <p>&nbsp;</p>
-
-            <p>&nbsp;</p>
-
-            <p>&nbsp;</p>
-
-            <p>&nbsp;</p>
-
-            <p>&nbsp;</p>
-
-            <p>&nbsp;</p>
-            <button type="button" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary">Save</button>
             &nbsp;&nbsp;
             <button type="button" class="btn btn-primary">Copy</button>
         </td>
         <td style="vertical-align: text-top">
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs nav-justified">
                 <li class="active"><a href="#tab_1" data-toggle="tab">Action 1-3</a></li>
                 <li><a href="#tab_2" data-toggle="tab">Action 4-6</a></li>
             </ul>
@@ -112,7 +101,7 @@
 
                         <p>&nbsp;</p>
 
-                        <label class="control-label col-sm-4" for="amount">Set value</label>
+                        <label class="control-label col-sm-4" for="amount">Setpoint</label>
 
                         <div class="col-sm-2">
                             <input type="text" class="form-control" id="amount" disabled>
@@ -137,7 +126,7 @@
 
                         <p>&nbsp;</p>
 
-                        <label class="control-label col-sm-4" for="amount-2">Set value</label>
+                        <label class="control-label col-sm-4" for="amount-2">Setpoint</label>
 
                         <div class="col-sm-3">
                             <input type="text" class="form-control" id="amount-2" disabled>

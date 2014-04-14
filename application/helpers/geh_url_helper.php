@@ -16,17 +16,18 @@ if (!function_exists('action_management_controller_url')) {
     }
 }
 
-if (!function_exists('manage_by_schedule_url')) {
-    function manage_by_schedule_url() {
-        return base_url('action_management/schedule');
+if (!function_exists('edit_action_url')) {
+    function edit_action_url($id) {
+        return base_url('action_management/modify?id=' . $id);
     }
 }
 
-if (!function_exists('manage_by_event_url')) {
-    function manage_by_event_url() {
-        return base_url('action_management/event');
+if (!function_exists('add_new_action_url')) {
+    function add_new_action_url($action_type) {
+        return base_url('action_management/modify?action_type=' . $action_type);
     }
 }
+
 // endregion ACTION MANAGEMENT CONTROLLER
 
 // region CONTROL CONTROLLER
@@ -39,6 +40,12 @@ if (!function_exists('control_controller_url')) {
 if (!function_exists('mode_detail_url')) {
     function mode_detail_url() {
         return base_url('control/detail');
+    }
+}
+
+if (!function_exists('add_mode_url')) {
+    function add_mode_url() {
+        return base_url('control/modify');
     }
 }
 // endregion CONTROL CONTROLLER

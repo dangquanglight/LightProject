@@ -10,11 +10,26 @@ class Ajax extends REST_Controller {
     }
 
     public function get_zones_get() {
-        $this->response($this->get_zones_list($this->input->get('floorID')));
+        $zones_list = $this->get_zones_list($this->input->get('floorID'));
+        array_push($zones_list, array(
+            'id' => '0',
+            'name' => 'All'
+        ));
+
+        $this->response($zones_list);
     }
 
     public function get_rooms_get() {
-        $this->response($this->get_rooms_list($this->input->get('zoneID')));
+        $rooms_list = $this->get_rooms_list($this->input->get('zoneID'));
+        array_push($rooms_list, array(
+            'id' => '0',
+            'name' => 'All'
+        ));
+
+        $this->response($rooms_list);
     }
 
+    public function get_controlled_device_by_room_get() {
+        $this->response($this->get_controlled_devices_list($this->input->get('roomID')));
+    }
 }

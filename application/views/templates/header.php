@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand navbar-fixed-top" href="<?php echo base_url(); ?>">&nbsp;&nbsp;&nbsp; GE HOUSE KUORTANEENKATU 2</a>
+            <div class="navbar-brand navbar-fixed-top" style="color: #ffffff">&nbsp;&nbsp;&nbsp; GE HOUSE KUORTANEENKATU 2</div>
         </div>
 
         <div class="navbar-collapse collapse">
@@ -16,7 +16,6 @@
                 <li><a href="#">Settings</a></li>
                 <li><a href="#">Profile</a></li>
                 <li><a href="#">Help</a></li>-->
-                <img src="<?php echo base_url('images/logo3.jpg'); ?>" width="70%">
             </ul>
             <!--<form class="navbar-form navbar-right">
                 <input type="text" class="form-control" placeholder="Search...">

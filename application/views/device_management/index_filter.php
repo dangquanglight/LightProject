@@ -11,7 +11,10 @@
 
     <select class='form-control' name="floor" id="selectFloor">
         <?php foreach ($floor_list as $item): ?>
-            <option value="<?php echo $item['floor_id']; ?>"><?php echo $item['floor_name']; ?></option>
+            <option value="<?php echo $item['floor_id']; ?>"
+                <?php if(isset($_GET['floor']) and $item['floor_id'] == $_GET['floor']) echo "selected"; ?>>
+                <?php echo $item['floor_name']; ?>
+            </option>
         <?php endforeach; ?>
     </select>
 
@@ -28,8 +31,7 @@
         <thead>
         <th style="width: 10%">Device ID</th>
         <th style="width: 10%"">Name</th>
-        <th style="width: 20%"">Location</th>
-        <th style="width: 20%"">Type</th>
+        <th style="width: 40%"">Type</th>
         <th style="width: 10%"">State</th>
         <th style="width: 10%">Status</th>
         <th style="width: 30%">Action</th>
@@ -39,7 +41,6 @@
             <tr>
                 <td style="vertical-align: middle;"><?php echo $item['device_id']; ?></td>
                 <td style="vertical-align: middle;"><?php echo $item['device_name']; ?></td>
-                <td style="vertical-align: middle;"><?php echo $item['device_location']; ?></td>
                 <td style="vertical-align: middle;"><?php echo $item['type_name']; ?></td>
                 <td style="vertical-align: middle;"><?php echo $item['state_name']; ?></td>
                 <td style="vertical-align: middle;"><?php echo $item['teach_in_status']; ?></td>
@@ -97,7 +98,11 @@
                     zoneID: zoneID
                 },
                 success: function (json) {
+                    <?php if(!isset($_GET['zone'])) { ?>
                     var selectObject = GEH.selectList(json, "id", "name", null);
+                    <?php } else { ?>
+                    var selectObject = GEH.selectList(json, "id", "name", null);
+                    <?php } ?>
                     $("#selectRoom").html(selectObject.html()).change();
                 }
             });

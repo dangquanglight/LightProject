@@ -36,10 +36,40 @@ define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
-// region DEVICE STATUS
+// region DEVICE MANAGEMENT
+
+// Teach-in status
 define('STATUS_TAUGHT_IN', 1);
 define('STATUS_PENDING_TEACH_IN', 0);
-// endregion DEVICE STATUS
+
+// Device state
+define('DEVICE_STATE_CONTROLLER', 'controller');
+define('DEVICE_STATE_CONTROLLED', 'controlled');
+define('DEVICE_STATE_INPUT', 'input');
+
+// endregion DEVICE MANAGEMENT
+
+//region ACTION MANAGEMENT
+
+// Action type
+define('ACTION_TYPE_SCHEDULE', 0);
+define('ACTION_TYPE_EVENT', 1);
+
+// Action status
+define('ACTION_ENABLE', 1);
+define('ACTION_DISABLE', 0);
+
+// Schedule days
+define('ACTION_SCHEDULE_MONDAY', 0);
+define('ACTION_SCHEDULE_TUESDAY', 1);
+define('ACTION_SCHEDULE_WEDNESDAY', 2);
+define('ACTION_SCHEDULE_THURSDAY', 3);
+define('ACTION_SCHEDULE_FRIDAY', 4);
+define('ACTION_SCHEDULE_SARTUDAY', 5);
+define('ACTION_SCHEDULE_SUNDAY', 6);
+define('ACTION_SCHEDULE_ALL_DAYS', 7);
+
+//endregion ACTION MANAGEMENT
 
 
 /* End of file constants.php */
