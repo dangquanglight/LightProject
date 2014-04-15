@@ -3,7 +3,7 @@
     <li class="active">Edit device</li>
 </ol>
 
-<form class="form-horizontal" role="form" id="addDeviceForm" method="get">
+<form class="form-horizontal" role="form" id="addDeviceForm" method="post">
 <div class="form-group">
     <label class="col-sm-2 control-label">Device ID</label>
 
@@ -50,7 +50,8 @@
             <label class="control-label col-sm-2" for="amount">Setpoint 1</label>
 
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="amount" disabled>
+                <input type="text" class="form-control" name="setpoint1" id="amount" disabled>
+                <input type="hidden" name="hiddenSetpoint1" id="hiddenSetpoint1">
             </div>
             <input id="range-slider" type="text"/>
         </div>
@@ -59,7 +60,8 @@
             <label class="control-label col-sm-2" for="amount2">Setpoint 2</label>
 
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="amount2" disabled>
+                <input type="text" class="form-control" name="setpoint2" id="amount2" disabled>
+                <input type="hidden" name="hiddenSetpoint2" id="hiddenSetpoint2">
             </div>
             <input id="range-slider2" type="text"/>
         </div>
@@ -68,9 +70,10 @@
             <label class="control-label col-sm-2" for="amount">Feedback source 1</label>
 
             <div class="col-sm-3">
-                <select class='form-control' name="inputDeviceList">
+                <select class='form-control' name="fb_source_1">
                     <?php foreach ($temp_devices_list as $item): ?>
-                        <option value="<?php echo $item['row_device_id']; ?>"><?php echo $item['device_name']; ?></option>
+                        <option
+                            value="<?php echo $item['row_device_id']; ?>"><?php echo $item['device_name']; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -80,33 +83,50 @@
             <label class="control-label col-sm-2" for="amount">Feedback source 2</label>
 
             <div class="col-sm-3">
-                <select class='form-control' name="inputDeviceList">
+                <select class='form-control' name="fb_source_2">
                     <?php foreach ($temp_devices_list as $item): ?>
-                        <option value="<?php echo $item['row_device_id']; ?>"><?php echo $item['device_name']; ?></option>
+                        <option
+                            value="<?php echo $item['row_device_id']; ?>"><?php echo $item['device_name']; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
         </div>
     <?php } else { ?>
+
         <div class="form-group">
             <label class="control-label col-sm-2" for="amount">Setpoint</label>
-
-            <div class="col-sm-2">
-                <input type="text" class="form-control" id="amount" disabled>
-            </div>
-            <input id="range-slider" type="text"/>
+            <?php if ($device['property_name'] != 'ON/OFF') { ?>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="amount" disabled>
+                </div>
+                <input id="range-slider" type="text"/>
+                <input type="hidden" name="hiddenSetpoint1" id="hiddenSetpoint1">
+            <?php } else { ?>
+                <div class="col-sm-2">
+                    <div class="btn-group btn-toggle" data-toggle="buttons">
+                        <label class="btn btn-primary active">
+                            <input name="on" value="1" type="radio"> ON
+                        </label>
+                        <label class="btn btn-default">
+                            <input name="off" value="0" checked="" type="radio"> OFF
+                        </label>
+                    </div>
+                </div>
+            <?php } ?>
         </div>
 
         <div class="form-group">
             <label class="control-label col-sm-2" for="amount">Feedback source</label>
 
             <div class="col-sm-3">
-                <select class='form-control' name="inputDeviceList">
+                <select class='form-control' name="fb_source_1">
                     <?php foreach ($temp_devices_list as $item): ?>
-                        <option value="<?php echo $item['row_device_id']; ?>"><?php echo $item['device_name']; ?></option>
+                        <option
+                            value="<?php echo $item['row_device_id']; ?>"><?php echo $item['device_name']; ?></option>
                     <?php endforeach; ?>
-                    <?php if($device['type_short_name'] == 'VALVE') : foreach($internal_devices_list as $item2): ?>
-                        <option value="<?php echo $item2['row_device_id']; ?>"><?php echo $item2['device_name']; ?></option>
+                    <?php if ($device['type_short_name'] == 'VALVE') : foreach ($internal_devices_list as $item2): ?>
+                        <option
+                            value="<?php echo $item2['row_device_id']; ?>"><?php echo $item2['device_name']; ?></option>
                     <?php endforeach; endif; ?>
                 </select>
             </div>
@@ -155,11 +175,11 @@ if ($device['type_name'] == 'DALI Controller'): ?>
                                 <p></p>
                                 <input type="radio" name="group_<?php echo $i; ?>" value="">
                             </td>
-                            <td style="width: 10%">
+                            <td style="width: 15%">
                                 <p></p>
                                 Group <?php echo $i; ?>
                             </td>
-                            <td style="width: 25%">
+                            <td style="width: 30%">
                                 <p></p>
 
                                 <div class="col-sm-12">
@@ -175,11 +195,11 @@ if ($device['type_name'] == 'DALI Controller'): ?>
                                 <p></p>
                                 <input type="radio" name="group_<?php echo $i + 4; ?>" value="">
                             </td>
-                            <td style="width: 10%">
+                            <td style="width: 15%">
                                 <p></p>
                                 Group <?php echo $i + 4; ?>
                             </td>
-                            <td style="width: 25%">
+                            <td style="width: 30%">
                                 <p></p>
 
                                 <div class="col-sm-12">
@@ -269,17 +289,6 @@ if ($device['type_name'] == 'DALI Controller'): ?>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#addDeviceForm").validate({
-            rules: {
-                selectFloor: {
-                    greaterThan: 0
-                }
-            },
-            messages: {
-                selectFloor: "Please choose college"
-            }
-        });
-
         $("#selectFloor").change(function () {
             var floorID = $(this).val();
             if (!floorID)
@@ -317,25 +326,45 @@ if ($device['type_name'] == 'DALI Controller'): ?>
         $(this).tab('show')
     });
 
+    <?php if($device_setpoints[0]['value']) { ?>
+    $("#amount").val('<?php echo $device_setpoints[0]['value'] , ' ' , $device['unit_name']; ?>');
+    <?php } ?>
     $("#range-slider").slider({
         tooltip: 'hide',
-        min: <?php echo $device['min_value']; ?>,
-        max: <?php echo $device['max_value']; ?>,
+        <?php if($device['min_value']): ?>min: <?php echo $device['min_value']; ?>, <?php endif; ?>
+        <?php if($device['max_value']): ?>max: <?php echo $device['max_value']; ?>, <?php endif; ?>
         step: 1,
-        value: <?php echo $device['min_value']; ?>
+        <?php if($device_setpoints[0]['value']) { ?>
+        value: <?php echo $device_setpoints[0]['value']; ?>
+        <?php } ?>
     });
     $("#range-slider").on('slide', function (slideEvt) {
         $("#amount").val(slideEvt.value + ' <?php echo $device['unit_name']; ?>');
+        $('#hiddenSetpoint1').val(slideEvt.value);
     });
 
+    <?php if(count($device_setpoints) > 1 and $device_setpoints[1]['value']) : ?>
+    $("#amount2").val('<?php echo $device_setpoints[1]['value'] , ' ' , $device['unit_name']; ?>');
+    <?php endif; ?>
     $("#range-slider2").slider({
         tooltip: 'hide',
-        min: <?php echo $device['min_value']; ?>,
-        max: <?php echo $device['max_value']; ?>,
+        <?php if($device['min_value']): ?>min: <?php echo $device['min_value']; ?>, <?php endif; ?>
+        <?php if($device['max_value']): ?>max: <?php echo $device['max_value']; ?>, <?php endif; ?>
         step: 1,
-        value: <?php echo $device['min_value']; ?>
+        <?php if(count($device_setpoints) > 1 and $device_setpoints[1]['value']) : ?>
+        value: <?php echo $device_setpoints[1]['value']; ?>
+        <?php endif; ?>
     });
     $("#range-slider2").on('slide', function (slideEvt) {
         $("#amount2").val(slideEvt.value + ' <?php echo $device['unit_name']; ?>');
+        $('#hiddenSetpoint2').val(slideEvt.value);
+    });
+
+    $('.btn-toggle').click(function () {
+        $(this).find('.btn').toggleClass('active');
+        if ($(this).find('.btn-primary').size() > 0) {
+            $(this).find('.btn').toggleClass('btn-primary');
+        }
+        $(this).find('.btn').toggleClass('btn-default');
     });
 </script>

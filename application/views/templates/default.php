@@ -18,14 +18,15 @@
         echo link_tag('css/dashboard.css');
         echo link_tag('css/range-slider.css');
         echo link_tag('css/bootstrap-datetimepicker.min.css');
+        echo link_tag('css/bootstrapValidator.min.css');
     ?>
 
     <script src="<?php echo base_url('js/jquery-1.8.3.js') ?>" type="text/javascript"></script>
-    <script src="<?php echo base_url('js/jquery.validate.js') ?>" type="text/javascript"></script>
     <script src="<?php echo base_url('js/bootstrap.min.js') ?>" type="text/javascript"></script>
     <script src="<?php echo base_url('js/bootstrap-slider.js') ?>" type="text/javascript"></script>
     <script src="<?php echo base_url('js/bootstrap-datetimepicker.js') ?>" type="text/javascript"></script>
     <script src="<?php echo base_url('js/geh.core.js') ?>" type="text/javascript"></script>
+    <script src="<?php echo base_url('js/bootstrapValidator.js') ?>" type="text/javascript"></script>
 
     <script type="text/javascript">
         /*

@@ -27,12 +27,28 @@ class Api extends GEH_Controller {
                     $devices_list = $this->device_model->get_list_by_device_type_id($item['type_id']);
                     foreach($devices_list as $item2) {
                         $device_setpoins = $this->device_setpoint_model->get_by_device_row_id($item2['row_device_id']);
-                        $output .= '?' . $item2['device_id'] . '&' . $item2['eep'];
+                        $setpoints_output = '';
+                        foreach($device_setpoins as $item3) {
+                            if($item3['value'] == NULL)
+                                $setpoints_output .= 'FF';
+                            else
+                                $setpoints_output .= $item3['value'];
+                        }
+                        if(count($device_setpoins) == 1)
+                            $setpoints_output .= 'FF';
+                        else if(count($device_setpoins) == 0)
+                            $setpoints_output .= 'FFFF';
+
+                        $output .= '?' . $item2['device_id'] . $item2['eep'] . $setpoints_output;
                     }
                 }
                 echo $output;
             }
+            else
+                redirect(home_url());
         }
+        else
+            redirect(home_url());
     }
 
     public function get_status()

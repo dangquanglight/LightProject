@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
+-- version 4.0.4.1
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2014 at 10:51 AM
--- Server version: 5.6.16
--- PHP Version: 5.5.9
+-- Generation Time: Apr 15, 2014 at 08:51 PM
+-- Server version: 5.5.32
+-- PHP Version: 5.4.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `gehouse`
 --
+CREATE DATABASE IF NOT EXISTS `gehouse` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `gehouse`;
 
 -- --------------------------------------------------------
 
@@ -126,15 +128,15 @@ CREATE TABLE IF NOT EXISTS `devices` (
 INSERT INTO `devices` (`id`, `device_id`, `eep`, `room_id`, `device_type_id`, `device_name`, `description`, `created_date`, `created_by`, `status`, `layout_top_position`, `layout_left_position`) VALUES
 (1, '0186CCCD', 'A52001', 1, 1, 'VALVE1.1.1.1', 'This is device 1', 1, 1, 1, NULL, NULL),
 (2, '008BD382', 'F60302', 1, 2, 'SWITCH1.1.1.1', NULL, 1, 1, 0, NULL, NULL),
-(4, '00000000', '', 1, 4, 'DLHUB1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(6, '0086A88D', '', 1, 6, 'EOHUB1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(7, '00000000', '', 1, 7, 'WIFIAP1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(4, '00000000', '111111', 1, 4, 'DLHUB1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(6, '0086A88D', '111111', 1, 6, 'EOHUB1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(7, '00000000', '111111', 1, 7, 'WIFIAP1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (8, '018211CF', 'A51005', 1, 8, 'TEMP1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (9, '0005F0EB', 'A50701', 1, 9, 'PIR1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(10, '00000000', '', 1, 10, 'W2DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(11, '00000000', '', 1, 11, 'W1DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(10, '00000000', '111111', 1, 10, 'W2DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(11, '00000000', '111111', 1, 11, 'W1DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (12, '0183B036', 'D20101', 1, 12, 'W1R10NT1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(13, '00000000', '', 1, 13, 'TEMPVALVE1.1.1.1', NULL, 1, 1, 1, NULL, NULL);
+(13, '00000000', '111111', 1, 13, 'TEMPVALVE1.1.1.1', NULL, 1, 1, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -208,15 +210,11 @@ CREATE TABLE IF NOT EXISTS `device_setpoints` (
 --
 
 INSERT INTO `device_setpoints` (`id`, `row_device_id`, `value`) VALUES
-(1, 1, NULL),
-(2, 2, NULL),
-(3, 4, NULL),
-(4, 8, NULL),
-(5, 9, NULL),
-(6, 10, NULL),
-(7, 10, NULL),
-(8, 11, NULL),
-(9, 12, NULL);
+(1, 1, 20),
+(6, 10, 2),
+(7, 10, 8),
+(8, 11, 6),
+(9, 12, 18);
 
 -- --------------------------------------------------------
 
@@ -296,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `device_type_properties` (
 --
 
 INSERT INTO `device_type_properties` (`id`, `device_type_id`, `property_id`) VALUES
-(1, 1, 1),
+(1, 1, 3),
 (2, 2, 1),
 (3, 3, 3),
 (4, 3, 4),

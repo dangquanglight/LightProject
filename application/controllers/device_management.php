@@ -33,8 +33,7 @@ class Device_management extends GEH_Controller
                     if ($_GET['floor'] == 0) {
                         // Get devices list
                         $data['list_devices'] = $this->prepare_device_info($this->device_model->get_list());
-                    }
-                    // List device of all zones
+                    } // List device of all zones
                     else if ($_GET['zone'] == 0) {
                         $list_devices = array();
                         $zones_list = $this->zone_model->get_by_floor_id($_GET['floor']);
@@ -48,8 +47,7 @@ class Device_management extends GEH_Controller
                             }
                         }
                         $data['list_devices'] = $list_devices[0];
-                    }
-                    // List device of all rooms
+                    } // List device of all rooms
                     else if ($_GET['room'] == 0) {
                         $list_devices = array();
                         $zone = $this->zone_model->get_by_id($_GET['zone']);
@@ -85,7 +83,6 @@ class Device_management extends GEH_Controller
         }
 
 
-
         $this->load_frontend_template($extend_data, 'DEVICE MANAGEMENT');
     }
 
@@ -103,9 +100,10 @@ class Device_management extends GEH_Controller
         return $data;
     }
 
-    private function remove_tempvalve_from_list(&$data) {
-        foreach($data as $key => &$value) {
-            if($value['type_short_name'] == 'TEMPVALVE')
+    private function remove_tempvalve_from_list(&$data)
+    {
+        foreach ($data as $key => &$value) {
+            if ($value['type_short_name'] == 'TEMPVALVE')
                 unset($data[$key]);
         }
     }
@@ -118,11 +116,11 @@ class Device_management extends GEH_Controller
             'room_model',
             'device_type_model',
             'device_state_model',
-            'device_type_model'
+            'device_type_model',
+            'device_setpoint_model'
         ));
 
         $data['floor_list'] = $this->floor_model->get_list();
-        $data['device_type_list'] = $this->device_type_model->get_list();
 
         // List temperature devices
         $type = $this->device_type_model->get_by_short_name('TEMP');
@@ -138,12 +136,44 @@ class Device_management extends GEH_Controller
 
         // Case: edit device
         if (isset($_GET['id'])) {
-            $data['device'] = $this->device_model->get_by_row_id($_GET['id']);
+            $device = $this->device_model->get_by_row_id($_GET['id']);
+            $data['device'] = $device;
+            $data['device_setpoints'] = $this->device_setpoint_model->get_by_device_row_id($device['id']);
+
+            // Have post to update to database
+            if ($this->input->post()) {
+                $setpoint_info = $this->device_setpoint_model->get_by_device_row_id($device['id']);
+
+                if (count($setpoint_info) > 1) {
+                    $count = 1;
+                    foreach ($setpoint_info as $item) {
+                        if($this->input->post('hiddenSetpoint' . $count)) {
+                            $update_array = array(
+                                'value' => $this->input->post('hiddenSetpoint' . $count)
+                            );
+                            $this->device_setpoint_model->update($item['id'], $update_array);
+                            $count++;
+                        }
+                    }
+                }
+                else {
+                    if($this->input->post('hiddenSetpoint1')) {
+                        $update_array = array(
+                            'value' => $this->input->post('hiddenSetpoint1')
+                        );
+                        $this->device_setpoint_model->update($setpoint_info[0]['id'], $update_array);
+                    }
+                }
+
+                redirect(device_management_controller_url());
+            }
 
             $extend_data['content_view'] = $this->load->view($this->device_management_view . 'edit_device', $data, TRUE);
             $this->load_frontend_template($extend_data, 'EDIT DEVICE INFORMATION');
         } // Case: add new device
         else {
+            $data['device_type_list'] = $this->device_type_model->get_list();
+
             $extend_data['content_view'] = $this->load->view($this->device_management_view . 'add_device', $data, TRUE);
             $this->load_frontend_template($extend_data, 'ADD NEW DEVICE');
         }

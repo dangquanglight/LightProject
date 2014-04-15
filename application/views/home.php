@@ -19,7 +19,7 @@
     <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
-<img src="images/floorplan.png" width="35%">
+<img src="images/floorplan.png" width="40%">
 
 <script type="text/javascript">
     $(document).ready(function () {

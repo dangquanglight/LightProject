@@ -34,7 +34,7 @@ class Device_setpoint_model extends CI_Model{
 
     public function get_by_device_row_id($id)
     {
-        $this->db->select('value');
+        $this->db->select('id, value');
         $this->db->where("row_device_id", $id);
         $query = $this->db->get($this->_table_name);
 
