@@ -27,7 +27,7 @@ class Device_model extends CI_Model{
     public function get_list($order_by = "dv.device_id", $condition = "ASC")
     {
         $this->db->select('dv.id AS row_device_id, dv.status AS device_status, dv.device_id, dv.room_id, dv.device_type_id, dv.device_name, dv.status, ro.room_name, zo.zone_name,
-        fo.floor_name, dt.type_name, ds.state_name');
+        fo.floor_name, dt.type_name, dt.type_short_name, ds.state_name');
         $this->db->from($this->_table_name . ' dv');
         $this->db->join('rooms ro', 'ro.id = dv.room_id');
         $this->db->join('zones zo', 'zo.id = ro.zone_id');
@@ -43,7 +43,7 @@ class Device_model extends CI_Model{
     public function get_list_by_room_id($room_id, $order_by = "dv.device_id", $condition = "ASC")
     {
         $this->db->select('dv.id AS row_device_id, dv.status AS device_status, dv.device_id, dv.room_id, dv.device_type_id, dv.device_name, dv.status, ro.room_name, zo.zone_name,
-        fo.floor_name, dt.type_name, ds.state_name');
+        fo.floor_name, dt.type_name, dt.type_short_name, ds.state_name');
         $this->db->from($this->_table_name . ' dv');
         $this->db->where("room_id", $room_id);
         $this->db->join('rooms ro', 'ro.id = dv.room_id');

@@ -33,8 +33,6 @@ class Device_management extends GEH_Controller
                     if ($_GET['floor'] == 0) {
                         // Get devices list
                         $data['list_devices'] = $this->prepare_device_info($this->device_model->get_list());
-                        $extend_data['content_view'] = $this->load->view(
-                            $this->device_management_view . 'index', $data, TRUE);
                     }
                     // List device of all zones
                     else if ($_GET['zone'] == 0) {
@@ -50,8 +48,6 @@ class Device_management extends GEH_Controller
                             }
                         }
                         $data['list_devices'] = $list_devices[0];
-                        $extend_data['content_view'] = $this->load->view(
-                            $this->device_management_view . 'index_filter', $data, TRUE);
                     }
                     // List device of all rooms
                     else if ($_GET['room'] == 0) {
@@ -65,22 +61,30 @@ class Device_management extends GEH_Controller
                             );
                         }
                         $data['list_devices'] = $list_devices[0];
-                        $extend_data['content_view'] = $this->load->view(
-                            $this->device_management_view . 'index_filter', $data, TRUE);
                     }
                 }
                 else {
                     // Get devices list
                     $data['list_devices'] = $this->prepare_device_info($this->device_model->get_list_by_room_id($_GET['room']));
-                    $extend_data['content_view'] = $this->load->view($this->device_management_view . 'index_filter', $data, TRUE);
                 }
+
+                // Remove TEMPVALVE device from list
+                $this->remove_tempvalve_from_list($data['list_devices']);
+
+                $extend_data['content_view'] = $this->load->view($this->device_management_view . 'index_filter', $data, TRUE);
             }
         }
         else {
             // Get devices list
             $data['list_devices'] = $this->prepare_device_info($this->device_model->get_list());
+
+            // Remove TEMPVALVE device from list
+            $this->remove_tempvalve_from_list($data['list_devices']);
+
             $extend_data['content_view'] = $this->load->view($this->device_management_view . 'index', $data, TRUE);
         }
+
+
 
         $this->load_frontend_template($extend_data, 'DEVICE MANAGEMENT');
     }
@@ -97,6 +101,13 @@ class Device_management extends GEH_Controller
         }
 
         return $data;
+    }
+
+    private function remove_tempvalve_from_list(&$data) {
+        foreach($data as $key => &$value) {
+            if($value['type_short_name'] == 'TEMPVALVE')
+                unset($data[$key]);
+        }
     }
 
     public function modify()
@@ -118,7 +129,7 @@ class Device_management extends GEH_Controller
         $data['temp_devices_list'] = $this->device_model->get_list_by_device_type_id($type['id']);
 
         // List internal temperature sensor devices
-        $type = $this->device_type_model->get_by_short_name('INTERNAL');
+        $type = $this->device_type_model->get_by_short_name('TEMPVALVE');
         $data['internal_devices_list'] = $this->device_model->get_list_by_device_type_id($type['id']);
 
         // Get list input devices

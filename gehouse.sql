@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
+-- version 4.0.4.1
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2014 at 04:03 PM
--- Server version: 5.6.16
--- PHP Version: 5.5.9
+-- Generation Time: Apr 15, 2014 at 03:25 AM
+-- Server version: 5.5.32
+-- PHP Version: 5.4.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `gehouse`
 --
+CREATE DATABASE IF NOT EXISTS `gehouse` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `gehouse`;
 
 -- --------------------------------------------------------
 
@@ -49,8 +51,8 @@ CREATE TABLE IF NOT EXISTS `actions` (
 --
 
 INSERT INTO `actions` (`id`, `device_id`, `action_type`, `value`, `schedule_days`, `schedule_start`, `schedule_end`, `exception_from`, `exception_to`, `exception_value`, `status`, `description`, `created_by`, `created_date`) VALUES
-(1, '0186CCCD', 0, 0, '0, 1, 2', '08:00:00', '10:36:00', NULL, NULL, NULL, 1, NULL, 1, 1),
-(2, '008BD382', 1, 70, NULL, '00:00:00', '00:00:00', NULL, NULL, NULL, 1, NULL, 1, 1);
+(1, '0183B036', 0, 0, '0, 1, 2', '08:00:00', '10:36:00', NULL, NULL, NULL, 1, NULL, 1, 1),
+(2, '0186CCCD', 1, 70, NULL, '00:00:00', '00:00:00', NULL, NULL, NULL, 1, NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -247,7 +249,7 @@ INSERT INTO `device_types` (`id`, `state_id`, `controller_device`, `type_name`, 
 (10, '1', 0, 'EnOcean Wireless Receiver with 2 analog Outputs', 'W2DAC', NULL, 1, 1, 1),
 (11, '1', 0, 'EnOcean Wireless Receiver with 1 / 2 analog Outputs', 'W1DAC', NULL, 1, 1, 1),
 (12, '1', 0, 'One channel wireless actuator 10A in temperature management mode', 'W1R10NT', NULL, 1, 1, 1),
-(13, '3', 0, 'Internal temperature sensor', 'INTERNAL', NULL, 1, 1, 1);
+(13, '3', 0, 'Internal temperature sensor', 'TEMPVALVE', NULL, 1, 1, 1);
 
 -- --------------------------------------------------------
 

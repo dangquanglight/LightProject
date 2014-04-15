@@ -41,7 +41,7 @@
                 return false;
 
             $.ajax({
-                url: "<?php echo base_url("ajax/get_zones?format=json") ?>",
+                url: "<?php echo base_url("ajax/get_zones?format=json&option=all") ?>",
                 data: {
                     floorID: floorID
                 },
@@ -60,7 +60,7 @@
                 return false;
 
             $.ajax({
-                url: "<?php echo base_url("ajax/get_rooms?format=json") ?>",
+                url: "<?php echo base_url("ajax/get_rooms?format=json&option=all") ?>",
                 data: {
                     zoneID: zoneID
                 },
