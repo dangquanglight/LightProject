@@ -90,7 +90,7 @@ class Device_model extends CI_Model{
 
     public function get_list_by_device_type_id($type_id, $order_by = "device_id", $condition = "ASC")
     {
-        $this->db->select('id AS row_device_id, device_name');
+        $this->db->select('id AS row_device_id, device_name, device_id, eep');
         $this->db->from($this->_table_name);
         $this->db->where("device_type_id", $type_id);
         $this->db->order_by($order_by, $condition);

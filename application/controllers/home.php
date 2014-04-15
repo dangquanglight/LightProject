@@ -20,12 +20,8 @@ class Home extends GEH_Controller {
 
     public function test()
     {
-        if($this->input->post()) {
-            var_dump($this->input->post()); die();
-        }
+        print_r('?12345678&123456?87654321&654321');
 
-        /*$extend_data['content_view'] = $this->load->view('test', "", TRUE);
-        $this->load_frontend_template($extend_data, 'TEST POST');*/
     }
 }
 

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4.1
+-- version 4.1.6
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2014 at 03:25 AM
--- Server version: 5.5.32
--- PHP Version: 5.4.19
+-- Generation Time: Apr 15, 2014 at 10:51 AM
+-- Server version: 5.6.16
+-- PHP Version: 5.5.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `gehouse`
 --
-CREATE DATABASE IF NOT EXISTS `gehouse` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `gehouse`;
 
 -- --------------------------------------------------------
 
@@ -107,7 +105,8 @@ INSERT INTO `buildings` (`id`, `building_name`, `description`, `status`, `create
 
 CREATE TABLE IF NOT EXISTS `devices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `device_id` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `device_id` varchar(8) COLLATE utf8_unicode_ci NOT NULL,
+  `eep` varchar(6) COLLATE utf8_unicode_ci NOT NULL,
   `room_id` int(11) NOT NULL,
   `device_type_id` int(11) NOT NULL,
   `device_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
@@ -124,18 +123,18 @@ CREATE TABLE IF NOT EXISTS `devices` (
 -- Dumping data for table `devices`
 --
 
-INSERT INTO `devices` (`id`, `device_id`, `room_id`, `device_type_id`, `device_name`, `description`, `created_date`, `created_by`, `status`, `layout_top_position`, `layout_left_position`) VALUES
-(1, '0186CCCD', 1, 1, 'VALVE1.1.1.1', 'This is device 1', 1, 1, 1, NULL, NULL),
-(2, '008BD382', 1, 2, 'SWITCH1.1.1.1', NULL, 1, 1, 0, NULL, NULL),
-(4, '00000000', 1, 4, 'DLHUB1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(6, '00000000', 1, 6, 'EOHUB1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(7, '00000000', 1, 7, 'WIFIAP1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(8, '018211CF', 1, 8, 'TEMP1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(9, '0005F0EB', 1, 9, 'PIR1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(10, '00000000', 1, 10, 'W2DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(11, '00000000', 1, 11, 'W1DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(12, '0183B036', 1, 12, 'W1R10NT1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(13, '00000000', 1, 13, 'TEMPVALVE1.1.1.1', NULL, 1, 1, 1, NULL, NULL);
+INSERT INTO `devices` (`id`, `device_id`, `eep`, `room_id`, `device_type_id`, `device_name`, `description`, `created_date`, `created_by`, `status`, `layout_top_position`, `layout_left_position`) VALUES
+(1, '0186CCCD', 'A52001', 1, 1, 'VALVE1.1.1.1', 'This is device 1', 1, 1, 1, NULL, NULL),
+(2, '008BD382', 'F60302', 1, 2, 'SWITCH1.1.1.1', NULL, 1, 1, 0, NULL, NULL),
+(4, '00000000', '', 1, 4, 'DLHUB1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(6, '0086A88D', '', 1, 6, 'EOHUB1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(7, '00000000', '', 1, 7, 'WIFIAP1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(8, '018211CF', 'A51005', 1, 8, 'TEMP1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(9, '0005F0EB', 'A50701', 1, 9, 'PIR1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(10, '00000000', '', 1, 10, 'W2DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(11, '00000000', '', 1, 11, 'W1DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(12, '0183B036', 'D20101', 1, 12, 'W1R10NT1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(13, '00000000', '', 1, 13, 'TEMPVALVE1.1.1.1', NULL, 1, 1, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -194,6 +193,34 @@ INSERT INTO `device_property_values` (`id`, `property_id`, `value_name`, `min_va
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `device_setpoints`
+--
+
+CREATE TABLE IF NOT EXISTS `device_setpoints` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `row_device_id` int(11) DEFAULT NULL,
+  `value` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `device_setpoints`
+--
+
+INSERT INTO `device_setpoints` (`id`, `row_device_id`, `value`) VALUES
+(1, 1, NULL),
+(2, 2, NULL),
+(3, 4, NULL),
+(4, 8, NULL),
+(5, 9, NULL),
+(6, 10, NULL),
+(7, 10, NULL),
+(8, 11, NULL),
+(9, 12, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `device_states`
 --
 
@@ -238,17 +265,17 @@ CREATE TABLE IF NOT EXISTS `device_types` (
 --
 
 INSERT INTO `device_types` (`id`, `state_id`, `controller_device`, `type_name`, `type_short_name`, `description`, `created_date`, `created_by`, `status`) VALUES
-(1, '1', 0, 'Wireless valve actuator', 'VALVE', NULL, 1, 1, 1),
-(2, '3', 0, 'Button switch', 'SWITCH', NULL, 1, 1, 1),
-(4, '2', 0, 'DALI Controller', 'DLHUB', NULL, 1, 1, 1),
+(1, '1', 6, 'Wireless valve actuator', 'VALVE', NULL, 1, 1, 1),
+(2, '3', 6, 'Button switch', 'SWITCH', NULL, 1, 1, 1),
+(4, '2', 6, 'DALI Controller', 'DLHUB', NULL, 1, 1, 1),
 (5, '1', 4, 'LED fixture', 'LIGHT', NULL, 1, 1, 1),
 (6, '2', 0, 'EnOceanHub ', 'EOHUB', 'The hub of EnOcean device', 1, 1, 1),
 (7, '2', 0, 'Wi-Fi router', 'WIFIAP', 'The router/access point to provide the connection between many HUB and server.', 1, 1, 1),
-(8, '3', 0, 'Wireless temperature sensor', 'TEMP', NULL, 1, 1, 1),
-(9, '3', 0, 'Multilux Sensor PIR', 'PIR', NULL, 1, 1, 1),
-(10, '1', 0, 'EnOcean Wireless Receiver with 2 analog Outputs', 'W2DAC', NULL, 1, 1, 1),
-(11, '1', 0, 'EnOcean Wireless Receiver with 1 / 2 analog Outputs', 'W1DAC', NULL, 1, 1, 1),
-(12, '1', 0, 'One channel wireless actuator 10A in temperature management mode', 'W1R10NT', NULL, 1, 1, 1),
+(8, '3', 6, 'Wireless temperature sensor', 'TEMP', NULL, 1, 1, 1),
+(9, '3', 6, 'Multilux Sensor PIR', 'PIR', NULL, 1, 1, 1),
+(10, '1', 6, 'EnOcean Wireless Receiver with 2 analog Outputs', 'W2DAC', NULL, 1, 1, 1),
+(11, '1', 6, 'EnOcean Wireless Receiver with 1 / 2 analog Outputs', 'W1DAC', NULL, 1, 1, 1),
+(12, '1', 6, 'One channel wireless actuator 10A in temperature management mode', 'W1R10NT', NULL, 1, 1, 1),
 (13, '3', 0, 'Internal temperature sensor', 'TEMPVALVE', NULL, 1, 1, 1);
 
 -- --------------------------------------------------------

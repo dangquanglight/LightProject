@@ -12,10 +12,12 @@
     <select class='form-control' name="floor" id="selectFloor">
         <?php foreach ($floor_list as $item): ?>
             <option value="<?php echo $item['floor_id']; ?>"
-                <?php if(isset($_GET['floor']) and $item['floor_id'] == $_GET['floor']) echo "selected"; ?>>
+                <?php if(isset($_GET['floor']) and $item['floor_id'] === $_GET['floor']) echo "selected"; ?>>
                 <?php echo $item['floor_name']; ?>
             </option>
         <?php endforeach; ?>
+            <option value="0"
+                <?php if(isset($_GET['floor']) and $_GET['floor'] == 0) echo "selected"; ?>>All</option>
     </select>
 
     <select class='form-control' name="zone" id="selectZone"></select>
@@ -78,7 +80,7 @@
             if (!floorID)
                 return false;
             $.ajax({
-                url: "<?php echo base_url("ajax/get_zones?format=json") ?>",
+                url: "<?php echo base_url("ajax/get_zones?format=json&option=all") ?>",
                 data: {
                     floorID: floorID
                 },
@@ -93,7 +95,7 @@
         $("#selectZone").change(function () {
             var zoneID = $(this).val();
             $.ajax({
-                url: "<?php echo base_url("ajax/get_rooms?format=json") ?>",
+                url: "<?php echo base_url("ajax/get_rooms?format=json&option=all") ?>",
                 data: {
                     zoneID: zoneID
                 },

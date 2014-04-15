@@ -59,4 +59,14 @@ class Device_type_model extends CI_Model{
         return $query->result_array();
     }
 
+    public function get_controller_type($id)
+    {
+        $this->db->select('id as type_id, state_id');
+        $this->db->from($this->_table_name);
+        $this->db->where("controller_device", $id);
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
 }
