@@ -5,7 +5,7 @@
         <?php foreach ($floor_list as $item): ?>
             <option value="<?php echo $item['floor_id']; ?>"><?php echo $item['floor_name']; ?></option>
         <?php endforeach; ?>
-            <option value="0">All</option>
+        <option value="0">All</option>
     </select>
 
     <select class='form-control' name="zone" id="selectZone"></select>
@@ -23,17 +23,6 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#addDeviceForm").validate({
-            rules: {
-                selectFloor: {
-                    greaterThan: 0
-                }
-            },
-            messages: {
-                selectFloor: "Please choose college"
-            }
-        });
-
         $("#selectFloor").change(function () {
             var floorID = $(this).val();
 

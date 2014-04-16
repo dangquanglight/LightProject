@@ -101,17 +101,6 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#addDeviceForm").validate({
-            rules: {
-                selectFloor: {
-                    greaterThan: 0
-                }
-            },
-            messages: {
-                selectFloor: "Please choose college"
-            }
-        });
-
         $("#selectFloor").change(function () {
             var floorID = $(this).val();
             if (!floorID)

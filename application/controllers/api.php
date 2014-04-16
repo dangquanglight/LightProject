@@ -28,12 +28,15 @@ class Api extends GEH_Controller {
                     foreach($devices_list as $item2) {
                         $device_setpoins = $this->device_setpoint_model->get_by_device_row_id($item2['row_device_id']);
                         $setpoints_output = '';
+
+                        // Assign setpoint string
                         foreach($device_setpoins as $item3) {
                             if($item3['value'] == NULL)
                                 $setpoints_output .= 'FF';
                             else
                                 $setpoints_output .= $item3['value'];
                         }
+                        // if device not have any setpoint, assign FFFF to it
                         if(count($device_setpoins) == 1)
                             $setpoints_output .= 'FF';
                         else if(count($device_setpoins) == 0)
