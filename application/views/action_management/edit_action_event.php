@@ -133,28 +133,38 @@
 </table>
 
 <script type="text/javascript">
-    $("#amount").val('25 %');
+    <?php if($device_setpoints[0]['value']) { ?>
+    $("#amount").val('<?php echo $device_setpoints[0]['value'] , ' ' , $device['unit_name']; ?>');
+    <?php } ?>
     $("#range-slider").slider({
         tooltip: 'hide',
-        min: 17,
-        max: 35,
+        <?php if($device['min_value']): ?>min: <?php echo $device['min_value']; ?>, <?php endif; ?>
+        <?php if($device['max_value']): ?>max: <?php echo $device['max_value']; ?>, <?php endif; ?>
         step: 1,
-        value: 25
+        <?php if($device_setpoints[0]['value']) { ?>
+        value: <?php echo $device_setpoints[0]['value']; ?>
+        <?php } ?>
     });
     $("#range-slider").on('slide', function (slideEvt) {
-        $("#amount").val(slideEvt.value + ' %');
+        $("#amount").val(slideEvt.value + ' <?php echo $device['unit_name']; ?>');
+        $('#hiddenSetpoint1').val(slideEvt.value);
     });
 
-    $("#amount-2").val('25 %');
-    $("#range-slider-2").slider({
+    <?php if($device_setpoints[0]['value']) : ?>
+    $("#amount2").val('<?php echo $device_setpoints[0]['value'] , ' ' , $device['unit_name']; ?>');
+    <?php endif; ?>
+    $("#range-slider2").slider({
         tooltip: 'hide',
-        min: 17,
-        max: 35,
+        <?php if($device['min_value']): ?>min: <?php echo $device['min_value']; ?>, <?php endif; ?>
+        <?php if($device['max_value']): ?>max: <?php echo $device['max_value']; ?>, <?php endif; ?>
         step: 1,
-        value: 25
+        <?php if($device_setpoints[0]['value']) : ?>
+        value: <?php echo $device_setpoints[0]['value']; ?>
+        <?php endif; ?>
     });
-    $("#range-slider-2").on('slide', function (slideEvt) {
-        $("#amount-2").val(slideEvt.value + ' %');
+    $("#range-slider2").on('slide', function (slideEvt) {
+        $("#amount2").val(slideEvt.value + ' <?php echo $device['unit_name']; ?>');
+        $('#hiddenSetpoint2').val(slideEvt.value);
     });
 
     $('#datepicker_day').datetimepicker({

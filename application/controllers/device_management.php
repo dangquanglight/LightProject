@@ -33,7 +33,8 @@ class Device_management extends GEH_Controller
                     if ($_GET['floor'] == 0) {
                         // Get devices list
                         $data['list_devices'] = $this->prepare_device_info($this->device_model->get_list());
-                    } // List device of all zones
+                    }
+                    // List device of all zones
                     else if ($_GET['zone'] == 0) {
                         $list_devices = array();
                         $zones_list = $this->zone_model->get_by_floor_id($_GET['floor']);
@@ -47,7 +48,8 @@ class Device_management extends GEH_Controller
                             }
                         }
                         $data['list_devices'] = $list_devices[0];
-                    } // List device of all rooms
+                    }
+                    // List device of all rooms
                     else if ($_GET['room'] == 0) {
                         $list_devices = array();
                         $zone = $this->zone_model->get_by_id($_GET['zone']);
@@ -170,7 +172,8 @@ class Device_management extends GEH_Controller
 
             $extend_data['content_view'] = $this->load->view($this->device_management_view . 'edit_device', $data, TRUE);
             $this->load_frontend_template($extend_data, 'EDIT DEVICE INFORMATION');
-        } // Case: add new device
+        }
+        // Case: add new device
         else {
             $data['device_type_list'] = $this->device_type_model->get_list();
 

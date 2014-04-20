@@ -28,7 +28,7 @@ class Actions_model extends CI_Model{
     {
         $this->db->select('d.device_name, a.id AS action_id, a.action_type, a.status');
         $this->db->from($this->_table_name . ' a');
-        $this->db->join('devices d', 'd.device_id = a.device_id');
+        $this->db->join('devices d', 'd.id = a.device_id');
         $this->db->order_by($order_by, $condition);
         $query = $this->db->get();
 
@@ -40,7 +40,7 @@ class Actions_model extends CI_Model{
         $this->db->select('a.*, d.device_name');
         $this->db->from($this->_table_name . ' a');
         $this->db->where("a.id", $id);
-        $this->db->join('devices d', 'd.device_id = a.device_id');
+        $this->db->join('devices d', 'd.id = a.device_id');
         $query = $this->db->get($this->_table_name);
 
         return $query->row_array();

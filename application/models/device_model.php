@@ -117,7 +117,15 @@ class Device_model extends CI_Model{
 
     public function get_by_device_id($id)
     {
-        $this->db->where("device_id", $id);
+        $this->db->select('d.*, t.type_name, t.type_short_name, s.state_name, ps.property_name, v.min_value, v.max_value, u.unit_name');
+        $this->db->from($this->_table_name . ' d');
+        $this->db->where("d.id", $id);
+        $this->db->join('device_types t', 'd.device_type_id = t.id');
+        $this->db->join('device_states s', 's.id = t.state_id');
+        $this->db->join('device_type_properties p', 'p.device_type_id = t.id', 'left');
+        $this->db->join('device_properties ps', 'p.property_id = ps.id', 'left');
+        $this->db->join('device_property_values v', 'v.property_id = p.property_id', 'left');
+        $this->db->join('units u', 'u.id = v.unit', 'left');
         $query = $this->db->get($this->_table_name);
 
         return $query->row_array();

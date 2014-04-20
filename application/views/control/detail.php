@@ -3,73 +3,30 @@
     <li class="active">Mode detail</li>
 </ol>
 
-<!--<h1 class="page-header">Mode Detail</h1>-->
-
-<label class="checkbox-inline">
-    <input type="checkbox" id="inlineCheckbox1" value="option1">
-    Enable
-</label>
-<label class="checkbox-inline">
-    <input type="checkbox" id="inlineCheckbox2" value="option2">
-    Disable
-</label>
+<div class="btn-group">
+    <label class="btn btn-primary">
+        <input type="radio" name="actionStatus" value="1"> Enable
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="actionStatus" value="0"> Disable
+    </label>
+</div>
 
 <table border="0" style="width: 100%">
     <tr>
         <td style="width: 50%; vertical-align: top">
-            <h3>Condition</h3>
+            <p></p>
 
             <div class="row">
-                <label class="control-label col-sm-12" for="controlled_device">Button text</label>
+                <label class="control-label col-sm-12" for="controlled_device">Control name</label>
 
                 <div class="col-md-4">
-                    <input type="text" class="form-control" value="Vacation mode">
+                    <input type="text" class="form-control" placeholder="Ex: Vacation mode">
                 </div>
             </div>
 
-            <div class="row">
-                <label class="control-label col-sm-12" for="controlled_device">Type</label>
+            <p>&nbsp;</p>
 
-                <div class="col-sm-5">
-                    <select class="form-control" id="controlled_device">
-                        <option value="floor_1">Toogle 1</option>
-                        <option value="floor_2">Toogle 2</option>
-                        <option value="floor_3">Toogle 3</option>
-                        <option value="floor_4">Toogle 4</option>
-                        <option value="floor_5">Toogle 5</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="well col-sm-8" style="padding: 2; margin-top: 10px;">
-                <h4>Wireless acutor</h4>
-
-                <div class="col-sm-5">
-                    <select class="form-control" id="controlled_device">
-                        <option value="floor_1">SW 54</option>
-                        <option value="floor_2">SW 541</option>
-                        <option value="floor_3">SW 542</option>
-                        <option value="floor_4">SW 543</option>
-                        <option value="floor_5">SW 544</option>
-                    </select>
-                </div>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                    Enable
-                </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="inlineCheckbox2" value="option2">
-                    Disable
-                </label>
-            </div>
-
-            <p>&nbsp;</p> <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <p>&nbsp;</p>
-
-            <button type="submit" class="btn btn-primary">Save</button>
-            &nbsp;&nbsp;
-            <button type="button" class="btn btn-primary">Copy</button>
-        </td>
-        <td style="vertical-align: text-top">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs nav-justified">
                 <li class="active"><a href="#tab_1" data-toggle="tab">Action 1-3</a></li>
@@ -79,10 +36,8 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
-                    <h3>
-                        Action &nbsp;&nbsp;&nbsp;
-                        <button type="button" class="btn btn-primary">Add new action</button>
-                    </h3>
+                    <p>&nbsp;</p>
+                    <button type="button" class="btn btn-primary">Add new action</button>
                     <p>&nbsp;</p>
 
                     <div class="form-group">
@@ -90,11 +45,10 @@
 
                         <div class="col-sm-5">
                             <select class="form-control" id="controlled_device">
-                                <option value="floor_1">Room temperature 1</option>
-                                <option value="floor_2">Room temperature 2</option>
-                                <option value="floor_3">Room temperature 3</option>
-                                <option value="floor_4">Room temperature 4</option>
-                                <option value="floor_5">Room temperature 5</option>
+                                <?php foreach ($list_controlled_devices as $item): ?>
+                                    <option
+                                        value="<?php echo $item['device_row_id']; ?>"><?php echo $item['device_name']; ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <p>&nbsp;</p>
@@ -115,11 +69,10 @@
 
                         <div class="col-sm-5">
                             <select class="form-control" id="controlled_device">
-                                <option value="floor_1">Light 1</option>
-                                <option value="floor_2">Light 2</option>
-                                <option value="floor_3">Light 3</option>
-                                <option value="floor_4">Light 4</option>
-                                <option value="floor_5">Light 5</option>
+                                <?php foreach ($list_controlled_devices as $item): ?>
+                                    <option
+                                        value="<?php echo $item['device_row_id']; ?>"><?php echo $item['device_name']; ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <p>&nbsp;</p>
@@ -139,6 +92,17 @@
                 </div>
             </div>
 
+            <p>&nbsp;</p>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-primary">Copy</button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-default"
+                    onclick="window.location.href = '<?php echo control_controller_url(); ?>'">Cancel
+            </button>
+        </td>
+        <td style="vertical-align: text-top">
         </td>
     </tr>
 </table>
@@ -148,7 +112,6 @@
         e.preventDefault()
         $(this).tab('show')
     })
-
 
     $(function () {
         $('#select-all').click(function (event) {
@@ -189,41 +152,6 @@
     });
     $("#range-slider-2").on('slide', function (slideEvt) {
         $("#amount-2").val(slideEvt.value + ' lx');
-    });
-
-    $('#datepicker').datetimepicker({
-        language: 'en',
-        format: 'dd/mm/yyyy',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    });
-
-    $('#timepicker1').datetimepicker({
-        language: 'en',
-        format: 'hh:ii',
-        autoclose: 1,
-        weekStart: 1,
-        todayHighlight: 1,
-        startView: 0,
-        minView: 0,
-        maxView: 1,
-        forceParse: 0
-    });
-    $('#timepicker2').datetimepicker({
-        language: 'en',
-        format: 'hh:ii',
-        autoclose: 1,
-        weekStart: 1,
-        todayHighlight: 1,
-        startView: 0,
-        minView: 0,
-        maxView: 1,
-        forceParse: 0
     });
 
 </script>

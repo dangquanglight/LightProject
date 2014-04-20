@@ -11,7 +11,8 @@ class Action_management extends GEH_Controller
         parent::__construct();
         $this->load->model(array(
             'actions_model',
-            'device_model'
+            'device_model',
+            'device_setpoint_model'
         ));
     }
 
@@ -49,6 +50,10 @@ class Action_management extends GEH_Controller
         if ( isset($_GET['id']) and (is_numeric($_GET['id']) and intval($_GET['id'] > 0)) ) {
             $action = $this->actions_model->get_by_id($_GET['id']);
             $data['action'] = $this->prepare_action_info($action);
+
+            $device = $this->device_model->get_by_row_id($action['id']);
+            $data['device'] = $device;
+            $data['device_setpoints'] = $this->device_setpoint_model->get_by_device_row_id($device['id']);
 
             // Action type: schedule
             if ($action['action_type'] == ACTION_TYPE_SCHEDULE) {
