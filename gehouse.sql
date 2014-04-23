@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4.1
+-- version 4.1.6
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2014 at 08:51 PM
--- Server version: 5.5.32
--- PHP Version: 5.4.19
+-- Generation Time: Apr 23, 2014 at 09:57 AM
+-- Server version: 5.6.16
+-- PHP Version: 5.5.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `gehouse`
 --
-CREATE DATABASE IF NOT EXISTS `gehouse` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `gehouse`;
 
 -- --------------------------------------------------------
 
@@ -30,7 +28,7 @@ USE `gehouse`;
 
 CREATE TABLE IF NOT EXISTS `actions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `device_id` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `device_id` int(11) NOT NULL,
   `action_type` tinyint(1) NOT NULL,
   `value` float NOT NULL,
   `schedule_days` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -51,8 +49,8 @@ CREATE TABLE IF NOT EXISTS `actions` (
 --
 
 INSERT INTO `actions` (`id`, `device_id`, `action_type`, `value`, `schedule_days`, `schedule_start`, `schedule_end`, `exception_from`, `exception_to`, `exception_value`, `status`, `description`, `created_by`, `created_date`) VALUES
-(1, '0183B036', 0, 0, '0, 1, 2', '08:00:00', '10:36:00', NULL, NULL, NULL, 1, NULL, 1, 1),
-(2, '0186CCCD', 1, 70, NULL, '00:00:00', '00:00:00', NULL, NULL, NULL, 1, NULL, 1, 1);
+(1, 12, 0, 0, '0, 1, 2', '08:00:00', '10:36:00', NULL, NULL, NULL, 1, NULL, 1, 1),
+(2, 1, 1, 70, NULL, '00:00:00', '00:00:00', NULL, NULL, NULL, 1, NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -203,18 +201,20 @@ CREATE TABLE IF NOT EXISTS `device_setpoints` (
   `row_device_id` int(11) DEFAULT NULL,
   `value` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `device_setpoints`
 --
 
 INSERT INTO `device_setpoints` (`id`, `row_device_id`, `value`) VALUES
-(1, 1, 20),
+(1, 1, 22),
 (6, 10, 2),
 (7, 10, 8),
 (8, 11, 6),
-(9, 12, 18);
+(9, 12, 17),
+(12, 9, 10),
+(13, 8, 10);
 
 -- --------------------------------------------------------
 

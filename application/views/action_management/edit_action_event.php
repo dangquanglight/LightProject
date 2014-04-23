@@ -26,10 +26,11 @@
     <tr>
         <td style="width: 55%; vertical-align: top;">
             <p></p>
-            <label class="control-label col-sm-3" for="amount">Setpoint</label>
+            <label class="control-label col-sm-2" for="amount">Setpoint</label>
 
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <input type="text" class="form-control" id="amount" disabled>
+                <input type="hidden" name="hiddenSetpoint1" id="hiddenSetpoint1">
             </div>
             <input id="range-slider" type="text"/>
 
@@ -113,12 +114,13 @@
             </table>
 
             <p>&nbsp;</p>
-            <label class="control-label col-sm-3" for="amount-2">Setpoint</label>
+            <label class="control-label col-sm-2" for="amount2">Setpoint</label>
 
             <div class="col-sm-3">
-                <input type="text" class="form-control" id="amount-2" disabled>
+                <input type="text" class="form-control" id="amount2" disabled>
+                <input type="hidden" name="hiddenSetpoint2" id="hiddenSetpoint2">
             </div>
-            <input id="range-slider-2" type="text"/>
+            <input id="range-slider2" type="text"/>
 
             <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
 

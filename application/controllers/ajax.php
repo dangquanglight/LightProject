@@ -38,4 +38,9 @@ class Ajax extends REST_Controller {
     public function get_controlled_device_by_room_get() {
         $this->response($this->get_controlled_devices_list($this->input->get('roomID')));
     }
+
+    public function get_setpoint_info_get() {
+        $this->response($this->get_setpoint_info($this->input->get('deviceRowId')));
+    }
+
 }

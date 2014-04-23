@@ -33,9 +33,11 @@ class Control extends GEH_Controller {
 
     public function modify()
     {
-        $data = new ArrayObject();
+        $this->load->model('device_model');
 
+        $data['list_controlled_devices'] = $this->device_model->get_by_device_state(DEVICE_STATE_CONTROLLED);
         $extend_data['content_view'] = $this->load->view($this->control_view . 'detail', $data, TRUE);
+
         $this->load_frontend_template($extend_data, 'CONTROL MODE DETAIL');
     }
 }

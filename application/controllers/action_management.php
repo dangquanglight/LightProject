@@ -51,7 +51,7 @@ class Action_management extends GEH_Controller
             $action = $this->actions_model->get_by_id($_GET['id']);
             $data['action'] = $this->prepare_action_info($action);
 
-            $device = $this->device_model->get_by_row_id($action['id']);
+            $device = $this->device_model->get_by_row_id($action['device_id']);
             $data['device'] = $device;
             $data['device_setpoints'] = $this->device_setpoint_model->get_by_device_row_id($device['id']);
 

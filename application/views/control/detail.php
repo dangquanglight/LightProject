@@ -3,109 +3,103 @@
     <li class="active">Mode detail</li>
 </ol>
 
-<div class="btn-group">
-    <label class="btn btn-primary">
-        <input type="radio" name="actionStatus" value="1"> Enable
-    </label>
-    <label class="btn btn-primary">
-        <input type="radio" name="actionStatus" value="0"> Disable
-    </label>
+<div class="form-inline col-sm-12">
+    <label class="control-label col-sm-1">Status</label>
+
+    <div class="btn-group col-sm-3">
+        <label class="btn btn-primary">
+            <input type="radio" name="actionStatus" value="1"> Enable
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="actionStatus" value="0"> Disable
+        </label>
+    </div>
 </div>
 
-<table border="0" style="width: 100%">
-    <tr>
-        <td style="width: 50%; vertical-align: top">
-            <p></p>
+<div class="form-inline col-sm-12" style="padding-top: 12px;">
+    <label class="control-label col-sm-1">Mode</label>
 
-            <div class="row">
-                <label class="control-label col-sm-12" for="controlled_device">Control name</label>
+    <div class="col-sm-3">
+        <input type="text" class="form-control" placeholder="Ex: Vacation mode">
+    </div>
+</div>
 
-                <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="Ex: Vacation mode">
-                </div>
+<p>&nbsp;</p>
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs nav-justified">
+    <li class="active"><a href="#tab_1" data-toggle="tab">Action 1-3</a></li>
+    <li><a href="#tab_2" data-toggle="tab">Action 4-6</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane active" id="tab_1">
+        <p>&nbsp;</p>
+        <button type="button" class="btn btn-primary">Add new action</button>
+        <p>&nbsp;</p>
+
+        <div class="form-group">
+            <label class="control-label col-sm-4" for="controlled_device">Controlled device</label>
+
+            <div class="col-sm-5">
+                <select class="form-control" id="controlled_device">
+                    <?php foreach ($list_controlled_devices as $item): ?>
+                        <option
+                            value="<?php echo $item['device_row_id']; ?>"><?php echo $item['device_name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
+            <p>&nbsp;</p>
 
             <p>&nbsp;</p>
 
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs nav-justified">
-                <li class="active"><a href="#tab_1" data-toggle="tab">Action 1-3</a></li>
-                <li><a href="#tab_2" data-toggle="tab">Action 4-6</a></li>
-            </ul>
+            <label class="control-label col-sm-4" for="amount">Setpoint</label>
 
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div class="tab-pane active" id="tab_1">
-                    <p>&nbsp;</p>
-                    <button type="button" class="btn btn-primary">Add new action</button>
-                    <p>&nbsp;</p>
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-4" for="controlled_device">Controlled device</label>
-
-                        <div class="col-sm-5">
-                            <select class="form-control" id="controlled_device">
-                                <?php foreach ($list_controlled_devices as $item): ?>
-                                    <option
-                                        value="<?php echo $item['device_row_id']; ?>"><?php echo $item['device_name']; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <p>&nbsp;</p>
-
-                        <p>&nbsp;</p>
-
-                        <label class="control-label col-sm-4" for="amount">Setpoint</label>
-
-                        <div class="col-sm-2">
-                            <input type="text" class="form-control" id="amount" disabled>
-                        </div>
-                        <input id="range-slider" type="text"/>
-                    </div>
-                    <p>&nbsp;</p>
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-4" for="controlled_device">Controlled device</label>
-
-                        <div class="col-sm-5">
-                            <select class="form-control" id="controlled_device">
-                                <?php foreach ($list_controlled_devices as $item): ?>
-                                    <option
-                                        value="<?php echo $item['device_row_id']; ?>"><?php echo $item['device_name']; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <p>&nbsp;</p>
-
-                        <p>&nbsp;</p>
-
-                        <label class="control-label col-sm-4" for="amount-2">Setpoint</label>
-
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="amount-2" disabled>
-                        </div>
-                        <input id="range-slider-2" type="text"/>
-                    </div>
-                </div>
-                <div class="tab-pane" id="tab_2">
-                    <h3>Action 4-6</h3>
-                </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="amount" disabled>
             </div>
+            <input id="range-slider" type="text"/>
+        </div>
+        <p>&nbsp;</p>
+
+        <div class="form-group">
+            <label class="control-label col-sm-4" for="controlled_device">Controlled device</label>
+
+            <div class="col-sm-5">
+                <select class="form-control" id="controlled_device">
+                    <?php foreach ($list_controlled_devices as $item): ?>
+                        <option
+                            value="<?php echo $item['device_row_id']; ?>"><?php echo $item['device_name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <p>&nbsp;</p>
 
             <p>&nbsp;</p>
 
-            <button type="submit" class="btn btn-primary">Save</button>
-            &nbsp;&nbsp;
-            <button type="button" class="btn btn-primary">Copy</button>
-            &nbsp;&nbsp;
-            <button type="button" class="btn btn-default"
-                    onclick="window.location.href = '<?php echo control_controller_url(); ?>'">Cancel
-            </button>
-        </td>
-        <td style="vertical-align: text-top">
-        </td>
-    </tr>
-</table>
+            <label class="control-label col-sm-4" for="amount-2">Setpoint</label>
+
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="amount-2" disabled>
+            </div>
+            <input id="range-slider-2" type="text"/>
+        </div>
+    </div>
+    <div class="tab-pane" id="tab_2">
+        <h3>Action 4-6</h3>
+    </div>
+</div>
+
+<p>&nbsp;</p>
+
+<button type="submit" class="btn btn-primary">Save</button>
+&nbsp;&nbsp;
+<button type="button" class="btn btn-primary">Copy</button>
+&nbsp;&nbsp;
+<button type="button" class="btn btn-default"
+        onclick="window.location.href = '<?php echo control_controller_url(); ?>'">Cancel
+</button>
 
 <script type="text/javascript">
     $('#myTab a').click(function (e) {

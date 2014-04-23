@@ -158,4 +158,18 @@ class GEH_Controller extends CI_Controller {
         return $data;
     }
 
+    public function get_setpoint_info($device_row_id) {
+        $this->load->model(array('device_model', 'device_setpoint_model'));
+
+        // Get device info
+        $device = $this->device_model->get_by_row_id($device_row_id);
+        $data['device'] = $device;
+
+        // Get device setpoint value
+        $setpoint_info = $this->device_setpoint_model->get_by_device_row_id($device['id']);
+        $data['setpoint_info'] = $setpoint_info;
+
+        return $data;
+    }
+
 }

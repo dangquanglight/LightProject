@@ -115,6 +115,8 @@ class Api extends GEH_Controller {
 
                         $device = $this->device_model->get_by_device_id($device_id);
                         $device_setpoint = $this->device_setpoint_model->get_by_device_row_id($device['id']);
+
+                        // If device has value in DB, just update it
                         if($device_setpoint) {
                             foreach($device_setpoint as $item2) {
                                 if(count($device_setpoint) == 1) {
@@ -144,9 +146,11 @@ class Api extends GEH_Controller {
                                 }
                             }
                         }
+                        // Else create new setpoint for it
                         else {
                             if($setpoint1 != 'FF') {
                                 $insert_data = array(
+                                    'row_device_id' => $device['id'],
                                     'value' => hexdec($setpoint1)
                                 );
                                 if($this->device_setpoint_model->insert($insert_data))
@@ -154,6 +158,7 @@ class Api extends GEH_Controller {
                             }
                             if($setponit2 != 'FF') {
                                 $insert_data = array(
+                                    'row_device_id' => $device['id'],
                                     'value' => hexdec($setponit2)
                                 );
                                 if($this->device_setpoint_model->insert($insert_data))

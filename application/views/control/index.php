@@ -145,17 +145,34 @@
                 }
             });
         });
+
+        $("#selectDevice").change(function () {
+            var deviceRowId = $(this).val();
+            $.ajax({
+                url: "<?php echo base_url("ajax/get_setpoint_info?format=json") ?>",
+                data: {
+                    deviceRowId: deviceRowId
+                },
+                success: function (json) { alert(json.length);
+                    for (var i = 0; i < json.length; i++) {
+                        var item = json[i]; alert(item);
+
+                        $("#amount").val(item[setpoint_info][value] + item[device][unit_name]);
+                        $("#range-slider").slider({
+                            tooltip: 'hide',
+                            min: item[device][min_value],
+                            max: item[device][max_value],
+                            step: 1,
+                            value: item[setpoint_info][value]
+                        });
+                        $("#range-slider").on('slide', function (slideEvt) {
+                            $("#amount").val(slideEvt.value + item[device][unit_name]);
+                        });
+                    }
+                }
+            });
+        });
+
     });
 
-    $("#amount").val('25 C');
-    $("#range-slider").slider({
-        tooltip: 'hide',
-        min: 17,
-        max: 35,
-        step: 1,
-        value: 25
-    });
-    $("#range-slider").on('slide', function (slideEvt) {
-        $("#amount").val(slideEvt.value + ' C');
-    });
 </script>

@@ -40,8 +40,8 @@ function echo_checked_day($data, $value)
             </td>
         </tr>
         <tr>
-            <td style="width: 40%">
-                <h4>Setpoint</h4>
+            <td style="width: 40%;padding-top: 12px;">
+                <label class="control-label col-sm-2" for="amount">Setpoint</label>
 
                 <div class="col-sm-3">
                     <input type="text" class="form-control" id="amount" disabled>
@@ -162,13 +162,13 @@ function echo_checked_day($data, $value)
         </tr>
         <tr>
             <td>
-                <label class="control-label col-sm-3" for="amount-2">Setpoint</label>
+                <label class="control-label col-sm-2" for="amount2">Setpoint</label>
 
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" id="amount-2" disabled>
+                    <input type="text" class="form-control" id="amount2" disabled>
                     <input type="hidden" name="hiddenSetpoint2" id="hiddenSetpoint2">
                 </div>
-                <input id="range-slider-2" type="text"/>
+                <input id="range-slider2" type="text"/>
             </td>
             <td style="float: left;">
                 <div class="form-group">

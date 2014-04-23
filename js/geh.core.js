@@ -1401,24 +1401,6 @@ var SearchResult = new function () {
         };
     };
 
-    $.validator.addMethod("greaterThan", function (value, element, param) {
-        value = parseInt(value, 10);
-        return value > param;
-    }, "Please input greater than {0}");
-
-    $.validator.addMethod("requiredOne", function (value, element, param) {
-        value = value.trim();
-        param = $(param).val().trim();
-        return !((!value || value.length === 0) && (!param || param.length === 0));
-    }, "Please input one of them!");
-
-    $.validator.addMethod("phoneUS", function (phone_number, element) {
-        phone_number = phone_number.replace(/\s+/g, "");
-        return this.optional(element) || phone_number.length > 9 &&
-            phone_number.match(/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/);
-    }, "Please enter your phone number as xxx-xxx-xxxx");
-
-
 //override these in your code to change the default behavior and style
     /*$.blockUI.defaults = {
      // message displayed when blocking (use null for no message)
