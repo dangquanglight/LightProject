@@ -95,8 +95,6 @@
 
 <button type="submit" class="btn btn-primary">Save</button>
 &nbsp;&nbsp;
-<button type="button" class="btn btn-primary">Copy</button>
-&nbsp;&nbsp;
 <button type="button" class="btn btn-default"
         onclick="window.location.href = '<?php echo control_controller_url(); ?>'">Cancel
 </button>

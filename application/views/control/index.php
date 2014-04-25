@@ -150,25 +150,23 @@
             var deviceRowId = $(this).val();
             $.ajax({
                 url: "<?php echo base_url("ajax/get_setpoint_info?format=json") ?>",
+                dataType: "json",
                 data: {
                     deviceRowId: deviceRowId
                 },
-                success: function (json) { alert(json.length);
-                    for (var i = 0; i < json.length; i++) {
-                        var item = json[i]; alert(item);
-
-                        $("#amount").val(item[setpoint_info][value] + item[device][unit_name]);
-                        $("#range-slider").slider({
-                            tooltip: 'hide',
-                            min: item[device][min_value],
-                            max: item[device][max_value],
-                            step: 1,
-                            value: item[setpoint_info][value]
-                        });
-                        $("#range-slider").on('slide', function (slideEvt) {
-                            $("#amount").val(slideEvt.value + item[device][unit_name]);
-                        });
-                    }
+                success: function (json) {
+                    alert(parseInt(json.min_value));
+                    $("#amount").val(json.setpoint1 + ' ' + json.unit_name);
+                    $("#range-slider").slider({
+                        tooltip: 'hide',
+                        min: parseInt(json.min_value),
+                        max: parseInt(json.max_value),
+                        step: 1,
+                        value: json.setpoint1
+                    });
+                    $("#range-slider").on('slide', function (slideEvt) {
+                        $("#amount").val(slideEvt.value + ' ' + json.unit_name);
+                    });
                 }
             });
         });
