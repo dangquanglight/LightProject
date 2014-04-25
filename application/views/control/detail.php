@@ -40,9 +40,9 @@
         <p>&nbsp;</p>
 
         <div class="form-group">
-            <label class="control-label col-sm-4" for="controlled_device">Controlled device</label>
+            <label class="control-label col-sm-2" for="controlled_device">Controlled device</label>
 
-            <div class="col-sm-5">
+            <div class="col-sm-3">
                 <select class="form-control" id="controlled_device">
                     <?php foreach ($list_controlled_devices as $item): ?>
                         <option
@@ -54,7 +54,7 @@
 
             <p>&nbsp;</p>
 
-            <label class="control-label col-sm-4" for="amount">Setpoint</label>
+            <label class="control-label col-sm-2" for="amount">Setpoint</label>
 
             <div class="col-sm-2">
                 <input type="text" class="form-control" id="amount" disabled>
@@ -64,9 +64,9 @@
         <p>&nbsp;</p>
 
         <div class="form-group">
-            <label class="control-label col-sm-4" for="controlled_device">Controlled device</label>
+            <label class="control-label col-sm-2" for="controlled_device">Controlled device</label>
 
-            <div class="col-sm-5">
+            <div class="col-sm-3">
                 <select class="form-control" id="controlled_device">
                     <?php foreach ($list_controlled_devices as $item): ?>
                         <option
@@ -78,9 +78,9 @@
 
             <p>&nbsp;</p>
 
-            <label class="control-label col-sm-4" for="amount-2">Setpoint</label>
+            <label class="control-label col-sm-2" for="amount-2">Setpoint</label>
 
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <input type="text" class="form-control" id="amount-2" disabled>
             </div>
             <input id="range-slider-2" type="text"/>
