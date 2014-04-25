@@ -163,11 +163,29 @@ class GEH_Controller extends CI_Controller {
 
         // Get device info
         $device = $this->device_model->get_by_row_id($device_row_id);
-        $data['device'] = $device;
+        $data = array(
+            'min_value' => $device['min_value'],
+            'max_value' => $device['max_value'],
+            'unit_name' => $device['unit_name']
+        );
 
         // Get device setpoint value
         $setpoint_info = $this->device_setpoint_model->get_by_device_row_id($device['id']);
-        $data['setpoint_info'] = $setpoint_info;
+        $flag = 1;
+        foreach($setpoint_info as $item) {
+            if(count($setpoint_info) == 1) {
+                $data['setpoint1'] = $item['value'];
+            }
+            else if(count($setpoint_info) == 2) {
+                if($flag == 1) {
+                    $data['setpoint1'] = $item['value'];
+                    $flag++;
+                }
+                else {
+                    $data['setpoint2'] = $item['value'];
+                }
+            }
+        }
 
         return $data;
     }

@@ -35,7 +35,7 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="amount">Setpoint</label>
 
-                    <div class="col-sm-1">
+                    <div class="col-sm-2">
                         <input type="text" class="form-control" id="amount" disabled>
                     </div>
                     <input id="range-slider" type="text"/>
@@ -98,7 +98,6 @@
     </table>
 </div>
 
-
 <script type="text/javascript">
     $(document).ready(function () {
         $("#selectFloor").change(function () {
@@ -149,30 +148,33 @@
         $("#selectDevice").change(function () {
             var deviceRowId = $(this).val();
             $.ajax({
-                url: "<?php echo base_url("ajax/get_setpoint_info?format=json") ?>",
+                url: "<?php echo base_url("ajax/get_setpoint_info?format=json"); ?>",
                 data: {
                     deviceRowId: deviceRowId
                 },
-                success: function (json) { alert(json.length);
-                    for (var i = 0; i < json.length; i++) {
-                        var item = json[i]; alert(item);
+                beforeSend:function()
+                {
+                    $("#loading").show();
+                },
+                success: function (json) {
+                    $("#loading").hide();
+                    $("#amount").val(json.setpoint1 + ' ' + json.unit_name);
 
-                        $("#amount").val(item[setpoint_info][value] + item[device][unit_name]);
-                        $("#range-slider").slider({
-                            tooltip: 'hide',
-                            min: item[device][min_value],
-                            max: item[device][max_value],
-                            step: 1,
-                            value: item[setpoint_info][value]
-                        });
-                        $("#range-slider").on('slide', function (slideEvt) {
-                            $("#amount").val(slideEvt.value + item[device][unit_name]);
-                        });
-                    }
+                    $slider = $("#range-slider");
+                    $("#range-slider").slider({
+                        tooltip: 'hide'
+                    });
+
+                    $slider.data('slider').min = parseFloat(json.min_value);
+                    $slider.data('slider').max = parseFloat(json.max_value);
+                    $slider.slider('setValue', parseFloat(json.setpoint1));
+
+                    $("#range-slider").on('slide', function (slideEvt) {
+                        $("#amount").val(slideEvt.value + ' ' + json.unit_name);
+                    });
                 }
             });
         });
-
     });
 
 </script>
