@@ -186,14 +186,6 @@ class GEH_Controller extends CI_Controller {
                 }
             }
         }
-            $data = array_merge($data, array(
-                'setpoint1' => $setpoint1
-            ));
-        else if(count($setpoint_info) > 1)
-            $data = array_merge($data, array(
-                'setpoint1' => $setpoint1,
-                'setpoint2' => $setpoint2
-            ));
 
         return $data;
     }

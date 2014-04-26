@@ -118,18 +118,26 @@
         <div class="form-group">
             <label class="control-label col-sm-2" for="amount">Feedback source</label>
 
-            <div class="col-sm-3">
-                <select class='form-control' name="fb_source_1">
-                    <?php foreach ($temp_devices_list as $item): ?>
-                        <option
-                            value="<?php echo $item['row_device_id']; ?>"><?php echo $item['device_name']; ?></option>
-                    <?php endforeach; ?>
-                    <?php if ($device['type_short_name'] == 'VALVE') : foreach ($internal_devices_list as $item2): ?>
-                        <option
-                            value="<?php echo $item2['row_device_id']; ?>"><?php echo $item2['device_name']; ?></option>
-                    <?php endforeach; endif; ?>
-                </select>
-            </div>
+            <?php if ($device['type_short_name'] != 'VALVE') { ?>
+                <div class="col-sm-3">
+                    <select class='form-control' name="fb_source_1">
+                        <?php foreach ($temp_devices_list as $item): ?>
+                            <option
+                                value="<?php echo $item['row_device_id']; ?>"><?php echo $item['device_name']; ?></option>
+                        <?php endforeach; ?>
+                        <?php if ($device['type_short_name'] == 'VALVE') : foreach ($internal_devices_list as $item2): ?>
+                            <option
+                                value="<?php echo $item2['row_device_id']; ?>"><?php echo $item2['device_name']; ?></option>
+                        <?php endforeach; endif; ?>
+                    </select>
+                </div>
+            <?php } else { ?>
+                <div class="col-sm-4">
+                    <select class='form-control' name="fb_source_1" disabled>
+                        <option>Temperature sensor of the Valve</option>
+                    </select>
+                </div>
+            <?php } ?>
         </div>
     <?php } ?>
 <?php endif; ?>
@@ -294,7 +302,8 @@ if ($device['type_name'] == 'DALI Controller'): ?>
             if (!floorID)
                 return false;
             $.ajax({
-                url: "<?php echo base_url("ajax/get_zones?format=json") ?>",
+                url: "<?php echo base_url("ajax/get_zones") ?>",
+                dataType: "json",
                 data: {
                     floorID: floorID
                 },
@@ -309,11 +318,17 @@ if ($device['type_name'] == 'DALI Controller'): ?>
         $("#selectZone").change(function () {
             var zoneID = $(this).val();
             $.ajax({
-                url: "<?php echo base_url("ajax/get_rooms?format=json") ?>",
+                url: "<?php echo base_url("ajax/get_rooms") ?>",
+                dataType: "json",
                 data: {
                     zoneID: zoneID
                 },
+                beforeSend: function () {
+                    $("#loading").show();
+                },
                 success: function (json) {
+                    $("#loading").hide();
+
                     var selectObject = GEH.selectList(json, "id", "name", null);
                     $("#selectRoom").html(selectObject.html()).change();
                 }

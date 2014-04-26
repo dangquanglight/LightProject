@@ -42,6 +42,15 @@
                     &nbsp;&nbsp;
                     <button type="button" class="btn btn-primary">On/Off</button>
                 </div>
+
+                <div class="form-group" id="control_setpoint2">
+                    <label class="control-label col-sm-2" for="amount2">Setpoint 2</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="amount2" disabled>
+                    </div>
+                    <input id="range-slider2" type="text"/>
+                </div>
             </form>
         </td>
     </tr>
@@ -105,7 +114,8 @@
             if (!floorID)
                 return false;
             $.ajax({
-                url: "<?php echo base_url("ajax/get_zones?format=json") ?>",
+                url: "<?php echo base_url("ajax/get_zones") ?>",
+                dataType: "json",
                 data: {
                     floorID: floorID
                 },
@@ -120,7 +130,8 @@
         $("#selectZone").change(function () {
             var zoneID = $(this).val();
             $.ajax({
-                url: "<?php echo base_url("ajax/get_rooms?format=json") ?>",
+                url: "<?php echo base_url("ajax/get_rooms") ?>",
+                dataType: "json",
                 data: {
                     zoneID: zoneID
                 },
@@ -134,7 +145,8 @@
         $("#selectRoom").change(function () {
             var roomID = $(this).val();
             $.ajax({
-                url: "<?php echo base_url("ajax/get_controlled_device_by_room?format=json") ?>",
+                url: "<?php echo base_url("ajax/get_controlled_device_by_room") ?>",
+                dataType: "json",
                 data: {
                     roomID: roomID
                 },
@@ -148,7 +160,7 @@
         $("#selectDevice").change(function () {
             var deviceRowId = $(this).val();
             $.ajax({
-                url: "<?php echo base_url("ajax/get_setpoint_info?format=json"); ?>",
+                url: "<?php echo base_url("ajax/get_setpoint_info"); ?>",
                 dataType: "json",
                 data: {
                     deviceRowId: deviceRowId
@@ -173,6 +185,28 @@
                     $("#range-slider").on('slide', function (slideEvt) {
                         $("#amount").val(slideEvt.value + ' ' + json.unit_name);
                     });
+
+                    if(typeof(json.setpoint2) != "undefined" && json.setpoint2 !== null) {
+                        $('#control_setpoint2').show();
+
+                        $("#amount2").val(json.setpoint2 + ' ' + json.unit_name);
+
+                        $slider2 = $("#range-slider2");
+                        $("#range-slider2").slider({
+                            tooltip: 'hide'
+                        });
+
+                        $slider2.data('slider').min = parseFloat(json.min_value);
+                        $slider2.data('slider').max = parseFloat(json.max_value);
+                        $slider2.slider('setValue', parseFloat(json.setpoint2));
+
+                        $("#range-slider2").on('slide', function (slideEvt) {
+                            $("#amount2").val(slideEvt.value + ' ' + json.unit_name);
+                        });
+                    }
+                    else {
+                        $('#control_setpoint2').hide();
+                    }
                 }
             });
         });

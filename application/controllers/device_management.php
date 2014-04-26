@@ -78,9 +78,6 @@ class Device_management extends GEH_Controller
             // Get devices list
             $data['list_devices'] = $this->prepare_device_info($this->device_model->get_list());
 
-            // Remove TEMPVALVE device from list
-            $this->remove_tempvalve_from_list($data['list_devices']);
-
             $extend_data['content_view'] = $this->load->view($this->device_management_view . 'index', $data, TRUE);
         }
 
@@ -102,14 +99,6 @@ class Device_management extends GEH_Controller
         return $data;
     }
 
-    private function remove_tempvalve_from_list(&$data)
-    {
-        foreach ($data as $key => &$value) {
-            if ($value['type_short_name'] == 'TEMPVALVE')
-                unset($data[$key]);
-        }
-    }
-
     public function modify()
     {
         $this->load->model(array(
@@ -128,11 +117,7 @@ class Device_management extends GEH_Controller
         $type = $this->device_type_model->get_by_short_name('TEMP');
         $data['temp_devices_list'] = $this->device_model->get_list_by_device_type_id($type['id']);
 
-        // List internal temperature sensor devices
-        $type = $this->device_type_model->get_by_short_name('TEMPVALVE');
-        $data['internal_devices_list'] = $this->device_model->get_list_by_device_type_id($type['id']);
-
-        // Get list input devices
+       // Get list input devices
         $state = $this->device_state_model->get_by_name(DEVICE_STATE_INPUT);
         $data['input_devices'] = $this->device_model->get_list_by_state_id($state['id']);
 

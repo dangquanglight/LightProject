@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
+-- version 4.0.4.1
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2014 at 05:58 AM
--- Server version: 5.6.16
--- PHP Version: 5.5.9
+-- Generation Time: Apr 26, 2014 at 04:21 AM
+-- Server version: 5.5.32
+-- PHP Version: 5.4.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `gehouse`
 --
+CREATE DATABASE IF NOT EXISTS `gehouse` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `gehouse`;
 
 -- --------------------------------------------------------
 
@@ -117,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `devices` (
   `layout_top_position` int(3) DEFAULT NULL,
   `layout_left_position` int(3) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `devices`
@@ -133,8 +135,7 @@ INSERT INTO `devices` (`id`, `device_id`, `eep`, `room_id`, `device_type_id`, `d
 (9, '0005F0EB', 'A50701', 1, 9, 'PIR1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (10, '00000000', '111111', 1, 10, 'W2DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (11, '00000000', '111111', 1, 11, 'W1DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(12, '0183B036', 'D20101', 1, 12, 'W1R10NT1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(13, '00000000', '111111', 1, 13, 'TEMPVALVE1.1.1.1', NULL, 1, 1, 1, NULL, NULL);
+(12, '0183B036', 'D20101', 1, 12, 'W1R10NT1.1.1.1', NULL, 1, 1, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -208,11 +209,11 @@ CREATE TABLE IF NOT EXISTS `device_setpoints` (
 --
 
 INSERT INTO `device_setpoints` (`id`, `row_device_id`, `value`) VALUES
-(1, 1, 22),
+(1, 1, 21),
 (6, 10, 2),
 (7, 10, 8),
 (8, 11, 6),
-(9, 12, 17),
+(9, 12, 19),
 (12, 9, 10),
 (13, 8, 10);
 
@@ -256,7 +257,7 @@ CREATE TABLE IF NOT EXISTS `device_types` (
   `created_by` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `device_types`
@@ -273,8 +274,7 @@ INSERT INTO `device_types` (`id`, `state_id`, `controller_device`, `type_name`, 
 (9, '3', 6, 'Multilux Sensor PIR', 'PIR', NULL, 1, 1, 1),
 (10, '1', 6, 'EnOcean Wireless Receiver with 2 analog Outputs', 'W2DAC', NULL, 1, 1, 1),
 (11, '1', 6, 'EnOcean Wireless Receiver with 1 / 2 analog Outputs', 'W1DAC', NULL, 1, 1, 1),
-(12, '1', 6, 'One channel wireless actuator 10A in temperature management mode', 'W1R10NT', NULL, 1, 1, 1),
-(13, '3', 0, 'Internal temperature sensor', 'TEMPVALVE', NULL, 1, 1, 1);
+(12, '1', 6, 'One channel wireless actuator 10A in temperature management mode', 'W1R10NT', NULL, 1, 1, 1);
 
 -- --------------------------------------------------------
 

@@ -68,7 +68,8 @@
             if (!floorID)
                 return false;
             $.ajax({
-                url: "<?php echo base_url("ajax/get_zones?format=json&option=all") ?>",
+                url: "<?php echo base_url("ajax/get_zones?option=all") ?>",
+                dataType: "json",
                 data: {
                     floorID: floorID
                 },
@@ -83,11 +84,18 @@
         $("#selectZone").change(function () {
             var zoneID = $(this).val();
             $.ajax({
-                url: "<?php echo base_url("ajax/get_rooms?format=json&option=all") ?>",
+                url: "<?php echo base_url("ajax/get_rooms?option=all") ?>",
+                dataType: "json",
                 data: {
                     zoneID: zoneID
                 },
+                beforeSend:function()
+                {
+                    $("#loading").show();
+                },
                 success: function (json) {
+                    $("#loading").hide();
+
                     var selectObject = GEH.selectList(json, "id", "name", null);
                     $("#selectRoom").html(selectObject.html()).change();
                 }
