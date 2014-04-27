@@ -75,13 +75,18 @@ class Device_model extends CI_Model{
         return $query->result_array();
     }
 
-    public function get_list_by_state_id($state_id, $order_by = "dv.device_id", $condition = "ASC")
+    public function get_list_by_state_id($state_id, $order_by = "d.device_id", $condition = "ASC")
     {
-        $this->db->select('dv.id AS row_device_id, dv.device_name');
-        $this->db->from($this->_table_name . ' dv');
-        $this->db->join('device_types dt', 'dt.id = dv.device_type_id');
-        $this->db->where("dt.state_id", $state_id);
-        $this->db->join('device_states ds', 'ds.id = dt.state_id');
+        $this->db->select('d.id AS row_device_id, d.device_name, t.type_name, t.type_short_name, s.state_name,
+        ps.property_name, v.min_value, v.max_value, u.unit_name');
+        $this->db->from($this->_table_name . ' d');
+        $this->db->join('device_types t', 'd.device_type_id = t.id');
+        $this->db->join('device_states s', 's.id = t.state_id');
+        $this->db->where("t.state_id", $state_id);
+        $this->db->join('device_type_properties p', 'p.device_type_id = t.id', 'left');
+        $this->db->join('device_properties ps', 'p.property_id = ps.id', 'left');
+        $this->db->join('device_property_values v', 'v.property_id = p.property_id', 'left');
+        $this->db->join('units u', 'u.id = v.unit', 'left');
         $this->db->order_by($order_by, $condition);
         $query = $this->db->get();
 
@@ -101,7 +106,8 @@ class Device_model extends CI_Model{
 
     public function get_by_row_id($id)
     {
-        $this->db->select('d.*, t.type_name, t.type_short_name, s.state_name, ps.property_name, v.min_value, v.max_value, u.unit_name');
+        $this->db->select('d.*, t.type_name, t.type_short_name, s.state_name, ps.property_name,
+        v.min_value, v.max_value, u.unit_name');
         $this->db->from($this->_table_name . ' d');
         $this->db->where("d.id", $id);
         $this->db->join('device_types t', 'd.device_type_id = t.id');

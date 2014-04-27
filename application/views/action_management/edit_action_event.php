@@ -41,7 +41,7 @@
             </h4>
 
             <div id="InputsWrapper">
-                <div class="form-group form-inline col-sm-7">
+                <div class="form-group form-inline col-sm-10">
                     <label class="control-label col-sm-1">If</label>
 
                     <div class="col-sm-4">
@@ -52,7 +52,7 @@
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="col-sm-2" style="margin-right: 4px;">
+                    <div class="col-sm-2" style="margin-right: 3px;">
                         <select class="form-control" name="operator">
                             <option value="<"> &nbsp; < </option>
                             <option value="<="> &nbsp; <= </option>
@@ -63,6 +63,14 @@
                     </div>
                     <div class="col-sm-1">
                         <input type="text" name="condition_value" class="form-control" value="200 ppm">
+                        <!--<div class="btn-group btn-toggle" data-toggle="buttons">
+                            <label class="btn btn-primary active">
+                                <input name="on" value="1" type="radio"> ON
+                            </label>
+                            <label class="btn btn-default">
+                                <input name="off" value="0" checked="" type="radio"> OFF
+                            </label>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -118,11 +126,7 @@
             </div>
             <input id="range-slider2" type="text"/>
 
-            <p>&nbsp;</p>
-
-            <p>&nbsp;</p>
-
-            <p>&nbsp;</p>
+            <p>&nbsp;</p> <p>&nbsp;</p><p>&nbsp;</p>
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Save</button>
@@ -243,8 +247,8 @@
         var AddButton = $("#AddNewCondition"); //Add button ID
 
         var condition_html =
-            '<div class="form-group form-inline col-sm-7">' +
-                '<label class="control-label col-sm-2">And if</label>' +
+            '<div class="form-group form-inline col-sm-10">' +
+                '<label class="control-label col-sm-2">Or if</label>' +
                 '<div class="col-sm-4">' +
                     '<select class="form-control" name="input_device">' +
                     <?php foreach ($input_devices_list as $input_device): ?>
@@ -252,7 +256,7 @@
                     <?php endforeach; ?>
                     '</select>' +
                 '</div>' +
-                '<div class="col-sm-2" style="margin-right: 4px;">' +
+                '<div class="col-sm-2" style="margin-right: 3px;">' +
                     '<select class="form-control" name="operator">' +
                         '<option value="<"> &nbsp; < </option>' +
                         '<option value="<="> &nbsp; <= </option>' +
@@ -289,5 +293,13 @@
             }
             return false;
         })
+    });
+
+    $('.btn-toggle').click(function () {
+        $(this).find('.btn').toggleClass('active');
+        if ($(this).find('.btn-primary').size() > 0) {
+            $(this).find('.btn').toggleClass('btn-primary');
+        }
+        $(this).find('.btn').toggleClass('btn-default');
     });
 </script>
