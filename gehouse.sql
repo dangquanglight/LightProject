@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 26, 2014 at 04:21 AM
+-- Generation Time: Apr 27, 2014 at 11:02 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -287,7 +287,7 @@ CREATE TABLE IF NOT EXISTS `device_type_properties` (
   `device_type_id` int(11) NOT NULL,
   `property_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `device_type_properties`
@@ -296,13 +296,12 @@ CREATE TABLE IF NOT EXISTS `device_type_properties` (
 INSERT INTO `device_type_properties` (`id`, `device_type_id`, `property_id`) VALUES
 (1, 1, 3),
 (2, 2, 1),
-(3, 3, 3),
-(4, 3, 4),
-(5, 3, 5),
 (6, 12, 3),
 (7, 10, 6),
 (8, 11, 6),
-(9, 1, 3);
+(9, 1, 3),
+(10, 9, 1),
+(11, 8, 3);
 
 -- --------------------------------------------------------
 

@@ -22,9 +22,15 @@ class Action_management extends GEH_Controller
 
     public function index()
     {
-        $data['actions_list'] = $this->prepare_action_list_info($this->actions_model->get_list());
+        if($this->input->post()) {
+            // Go to page add new action with controlled device id GET value
+            redirect(add_new_action_url($this->input->post('action_type')) . '&row_device_id=' . $this->input->post('controlled_device'));
+        }
 
+        $data['actions_list'] = $this->prepare_action_list_info($this->actions_model->get_list());
+        $data['controlled_devices_list'] = $this->device_model->get_by_device_state(DEVICE_STATE_CONTROLLED);
         $extend_data['content_view'] = $this->load->view($this->action_management_view . 'index', $data, TRUE);
+
         $this->load_frontend_template($extend_data, 'ACTION MANAGEMENT');
     }
 
@@ -47,7 +53,7 @@ class Action_management extends GEH_Controller
     }
 
     public function modify()
-    {
+    {//var_dump($this->input->post()); die();
         // Get state id by state name: Input
         $state = $this->device_state_model->get_by_name(DEVICE_STATE_INPUT);
         // Get list input devices
@@ -74,10 +80,13 @@ class Action_management extends GEH_Controller
 
             $this->load_frontend_template($extend_data, 'EDIT ACTION');
         }
+
         // Case: add new action
         else if( isset($_GET['action_type']) and ($_GET['action_type'] == 'schedule' or $_GET['action_type'] == 'event') ) {
             $action_type = $_GET['action_type'];
-            $data['list_controlled_devices'] = $this->device_model->get_by_device_state(DEVICE_STATE_CONTROLLED);
+            $device = $this->device_model->get_by_row_id($_GET['row_device_id']);
+            $data['device'] = $device;
+            $data['device_setpoints'] = $this->device_setpoint_model->get_by_device_row_id($device['id']);
 
             // Action type: schedule
             if ($action_type == 'schedule') {
@@ -89,6 +98,9 @@ class Action_management extends GEH_Controller
             }
 
             $this->load_frontend_template($extend_data, 'ADD NEW ACTION');
+        }
+        else if($this->input->post()) {
+            var_dump($this->input->post()); die();
         }
         else
             redirect(action_management_controller_url());
