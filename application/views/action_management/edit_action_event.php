@@ -37,39 +37,35 @@
             <p>&nbsp;</p>
             <h4>
                 Condition &nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-primary">Add new condition</button>
+                <button type="button" class="btn btn-primary" id="AddNewCondition">Add new condition</button>
             </h4>
-            <table border="0" style="width: 100%">
-                <tr>
-                    <td>
-                        <div class="form-group">
-                            <label class="control-label col-sm-1" for="condition">If</label>
 
-                            <div class="col-sm-3">
-                                <select class="form-control" id="condition">
-                                    <option value="co2_1">CO2 1</option>
-                                    <option value="co2_2">CO2 2</option>
-                                    <option value="pir_3">PIR 3</option>
-                                    <option value="sw_34">SW 34</option>
-                                    <option value="co2_5">CO2 5</option>
-                                </select>
-                            </div>
-                            <div class="col-xs-3">
-                                <select class="form-control" id="condition">
-                                    <option value="<"> &nbsp; <</option>
-                                    <option value="<="> &nbsp; <=</option>
-                                    <option value="="> &nbsp; =</option>
-                                    <option value=">"> &nbsp; ></option>
-                                    <option value=">="> &nbsp; >=</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" value="200 ppm">
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+            <div id="InputsWrapper">
+                <div class="form-group form-inline col-sm-7">
+                    <label class="control-label col-sm-1">If</label>
+
+                    <div class="col-sm-4">
+                        <select class="form-control" name="input_device">
+                            <?php foreach ($input_devices_list as $input_device): ?>
+                                <option
+                                    value="<?php echo $input_device['row_device_id']; ?>"><?php echo $input_device['device_name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="col-sm-2" style="margin-right: 4px;">
+                        <select class="form-control" name="operator">
+                            <option value="<"> &nbsp; < </option>
+                            <option value="<="> &nbsp; <= </option>
+                            <option value="="> &nbsp; = </option>
+                            <option value=">"> &nbsp; > </option>
+                            <option value=">="> &nbsp; >= </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <input type="text" name="condition_value" class="form-control" value="200 ppm">
+                    </div>
+                </div>
+            </div>
         </td>
         <td style="vertical-align: top;">
             <h4>Exception &nbsp;
@@ -122,7 +118,11 @@
             </div>
             <input id="range-slider2" type="text"/>
 
-            <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+            <p>&nbsp;</p>
+
+            <p>&nbsp;</p>
+
+            <p>&nbsp;</p>
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Save</button>
@@ -235,5 +235,59 @@
     $("#radio-exception-duration").on("change", function () {
         if ($(this).prop("checked"))
             $('#exception-day').addClass('none').siblings().removeClass('none');
+    });
+
+    $(document).ready(function () {
+        var MaxInputs = <?php echo count($input_devices_list) - 1; ?>; //maximum input boxes allowed
+        var InputsWrapper = $("#InputsWrapper"); //Input boxes wrapper ID
+        var AddButton = $("#AddNewCondition"); //Add button ID
+
+        var condition_html =
+            '<div class="form-group form-inline col-sm-7">' +
+                '<label class="control-label col-sm-2">And if</label>' +
+                '<div class="col-sm-4">' +
+                    '<select class="form-control" name="input_device">' +
+                    <?php foreach ($input_devices_list as $input_device): ?>
+                    '<option value="<?php echo $input_device['row_device_id']; ?>"><?php echo $input_device['device_name']; ?></option>' +
+                    <?php endforeach; ?>
+                    '</select>' +
+                '</div>' +
+                '<div class="col-sm-2" style="margin-right: 4px;">' +
+                    '<select class="form-control" name="operator">' +
+                        '<option value="<"> &nbsp; < </option>' +
+                        '<option value="<="> &nbsp; <= </option>' +
+                        '<option value="="> &nbsp; = </option>' +
+                        '<option value=">"> &nbsp; > </option>' +
+                        '<option value=">="> &nbsp; >= </option>' +
+                    '</select>' +
+                '</div>' +
+                '<div class="col-sm-1">' +
+                    '<input type="text" name="condition_value" class="form-control" value="200 ppm">' +
+                '</div>' +
+            '</div>'
+            ;
+
+        var x = InputsWrapper.length; //initlal text box count
+        var FieldCount = 1; //to keep track of text box added
+
+        $(AddButton).click(function (e)  //on add input button click
+        {
+            if (x <= MaxInputs) //max input box allowed
+            {
+                FieldCount++; //text box added increment
+                //add input box
+                $(InputsWrapper).append(condition_html);
+                x++; //text box increment
+            }
+            return false;
+        });
+
+        $("body").on("click", ".removeclass", function (e) { //user click on remove text
+            if (x > 1) {
+                $(this).parent('div').remove(); //remove text box
+                x--; //decrement textbox
+            }
+            return false;
+        })
     });
 </script>

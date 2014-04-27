@@ -9,9 +9,11 @@ class Action_management extends GEH_Controller
     function __construct()
     {
         parent::__construct();
+
         $this->load->model(array(
             'actions_model',
             'device_model',
+            'device_state_model',
             'device_setpoint_model'
         ));
     }
@@ -46,6 +48,11 @@ class Action_management extends GEH_Controller
 
     public function modify()
     {
+        // Get state id by state name: Input
+        $state = $this->device_state_model->get_by_name(DEVICE_STATE_INPUT);
+        // Get list input devices
+        $data['input_devices_list'] = $this->device_model->get_list_by_state_id($state['id']);
+
         // Case: edit action
         if ( isset($_GET['id']) and (is_numeric($_GET['id']) and intval($_GET['id'] > 0)) ) {
             $action = $this->actions_model->get_by_id($_GET['id']);
