@@ -59,6 +59,10 @@ define('ACTION_TYPE_EVENT', 1);
 define('ACTION_ENABLE', 1);
 define('ACTION_DISABLE', 0);
 
+// Exception type
+define('EXCEPTION_TYPE_DAY', 'day');
+define('EXCEPTION_TYPE_DURATION', 'duration');
+
 // Schedule days
 define('ACTION_SCHEDULE_MONDAY', 0);
 define('ACTION_SCHEDULE_TUESDAY', 1);
