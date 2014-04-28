@@ -12,12 +12,13 @@
 <h3>Device name: <?php echo $device['device_name']; ?></h3>
 
 <form method="post" name="frmAddEvent">
+    <input type="hidden" name="action_device_id" value="<?php echo $device['id']; ?>">
     <div class="btn-group">
         <label class="btn btn-primary">
-            <input type="radio" name="actionStatus" value="0"> Enable
+            <input type="radio" name="action_status" value="1" checked> Enable
         </label>
         <label class="btn btn-primary">
-            <input type="radio" name="actionStatus" value="1"> Disable
+            <input type="radio" name="action_status" value="0"> Disable
         </label>
     </div>
 
@@ -29,7 +30,7 @@
 
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="amount" disabled>
-                    <input type="hidden" name="hiddenSetpoint1" id="hiddenSetpoint1">
+                    <input type="hidden" name="action_setpoint" id="action_setpoint">
                 </div>
                 <input id="range-slider" type="text"/>
 
@@ -46,10 +47,10 @@
             <td style="vertical-align: top;">
                 <h4>Exception &nbsp;
                     <label class="radio-inline">
-                        <input type="radio" name="radio-exception" id="radio-exception-day" value="day"> Day
+                        <input type="radio" name="exception_type" id="radio-exception-day" value="<?php echo EXCEPTION_TYPE_DAY; ?>"> Day
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="radio-exception" id="radio-exception-duration" value="from-to">
+                        <input type="radio" name="exception_type" id="radio-exception-duration" value="<?php echo EXCEPTION_TYPE_DURATION; ?>">
                         Duration
                     </label></h4>
 
@@ -89,9 +90,9 @@
                 <p>&nbsp;</p>
                 <label class="control-label col-sm-2" for="amount2">Setpoint</label>
 
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <input type="text" class="form-control" id="amount2" disabled>
-                    <input type="hidden" name="hiddenSetpoint2" id="hiddenSetpoint2">
+                    <input type="hidden" name="exception_setpoint" id="exception_setpoint">
                 </div>
                 <input id="range-slider2" type="text"/>
 
@@ -110,12 +111,14 @@
             </td>
         </tr>
     </table>
+    <input type="hidden" name="count_condition" id="count_condition" value="">
 </form>
 
 <script type="text/javascript">
 $(document).ready(function () {
     <?php if($device_setpoints[0]['value']) { ?>
     $("#amount").val('<?php echo $device_setpoints[0]['value'] , ' ' , $device['unit_name']; ?>');
+    $("#action_setpoint").val('<?php echo $device_setpoints[0]['value']; ?>');
     <?php } ?>
     $("#range-slider").slider({
         tooltip: 'hide',
@@ -128,7 +131,7 @@ $(document).ready(function () {
     });
     $("#range-slider").on('slide', function (slideEvt) {
         $("#amount").val(slideEvt.value + ' <?php echo $device['unit_name']; ?>');
-        $('#hiddenSetpoint1').val(slideEvt.value);
+        $('#action_setpoint').val(slideEvt.value);
     });
 
     <?php if($device_setpoints[0]['value']) : ?>
@@ -145,12 +148,12 @@ $(document).ready(function () {
     });
     $("#range-slider2").on('slide', function (slideEvt) {
         $("#amount2").val(slideEvt.value + ' <?php echo $device['unit_name']; ?>');
-        $('#hiddenSetpoint2').val(slideEvt.value);
+        $('#exception_setpoint').val(slideEvt.value);
     });
 
     $('#datepicker_day').datetimepicker({
         language: 'en',
-        format: 'dd/mm/yyyy',
+        format: 'mm/dd/yyyy',
         weekStart: 1,
         todayBtn: 1,
         autoclose: 1,
@@ -162,7 +165,7 @@ $(document).ready(function () {
 
     $('#datepicker_from').datetimepicker({
         language: 'en',
-        format: 'dd/mm/yyyy',
+        format: 'mm/dd/yyyy',
         weekStart: 1,
         todayBtn: 1,
         autoclose: 1,
@@ -174,7 +177,7 @@ $(document).ready(function () {
 
     $('#datepicker_to').datetimepicker({
         language: 'en',
-        format: 'dd/mm/yyyy',
+        format: 'mm/dd/yyyy',
         weekStart: 1,
         todayBtn: 1,
         autoclose: 1,
@@ -242,20 +245,20 @@ function btnContinueClick() {
             '<div class="col-sm-8" style="margin-bottom: 10px;">' +
                 '<label class="control-label ' + labelSize + '">' + ifStatement + '</label>' +
                 '<div class="col-sm-4">' +
-                '<input type="text" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
-                '<input type="hidden" value="' + InputDevice[0] + '" name="input_device_' + FieldCount + '">' +
+                    '<input type="text" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
+                    '<input type="hidden" value="' + InputDevice[2] + '" name="input_device_' + FieldCount + '">' +
                 '</div>' +
                 '<div class="col-sm-2">' +
-                '<input type="text" class="form-control text-center" value="=" disabled>' +
-                '<input type="hidden" value="=" name="operator_' + FieldCount + '">' +
+                    '<input type="text" class="form-control text-center" value="=" disabled>' +
+                    '<input type="hidden" value="=" name="operator_' + FieldCount + '">' +
                 '</div>' +
                 '<div class="col-sm-3">' +
-                '<select class="form-control" name="condition_value_' + FieldCount + '">' +
-                '<option value="1">ON</option>' +
-                '<option value="0">OFF</option>' +
-                '</select>' +
+                    '<select class="form-control" name="condition_setpoint_' + FieldCount + '">' +
+                        '<option value="1">ON</option>' +
+                        '<option value="0">OFF</option>' +
+                    '</select>' +
                 '</div>' +
-                '</div>'
+            '</div>'
         ;
     }
     else if (InputDevice[1] == 'Temperature sensor') {
@@ -263,22 +266,22 @@ function btnContinueClick() {
             '<div class="col-sm-8" style="margin-bottom: 10px;">' +
                 '<label class="control-label ' + labelSize + '">' + ifStatement + '</label>' +
                 '<div class="col-sm-4">' +
-                '<input type="text" name="input_device_' + FieldCount + '" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
-                '<input type="hidden" name="input_device_' + FieldCount + '" value="' + InputDevice[0] + '">' +
+                    '<input type="text" name="input_device_' + FieldCount + '" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
+                    '<input type="hidden" name="input_device_' + FieldCount + '" value="' + InputDevice[2] + '">' +
                 '</div>' +
                 '<div class="col-sm-3">' +
-                '<select class="form-control" name="operator_' + FieldCount + '">' +
-                '<option value="<"> &nbsp; < </option>' +
-                '<option value="<="> &nbsp; <= </option>' +
-                '<option value="="> &nbsp; = </option>' +
-                '<option value=">"> &nbsp; > </option>' +
-                '<option value=">="> &nbsp; >= </option>' +
-                '</select>' +
+                    '<select class="form-control" name="operator_' + FieldCount + '">' +
+                        '<option value="<"> &nbsp; < </option>' +
+                        '<option value="<="> &nbsp; <= </option>' +
+                        '<option value="="> &nbsp; = </option>' +
+                        '<option value=">"> &nbsp; > </option>' +
+                        '<option value=">="> &nbsp; >= </option>' +
+                    '</select>' +
                 '</div>' +
-                '<div class="col-sm-3">' +
-                '<input type="text" name="condition_value_' + FieldCount + '" class="form-control" placeholder="Ex: 15 °C" ">' +
+                    '<div class="col-sm-3">' +
+                    '<input type="text" name="condition_setpoint_' + FieldCount + '" class="form-control" placeholder="Ex: 15 °C" ">' +
                 '</div>' +
-                '</div>'
+            '</div>'
         ;
     }
 
@@ -291,6 +294,9 @@ function btnContinueClick() {
         $("#inputDevice option[value='" + SelectedInputDevice + "']").remove();
 
         if ((MaxInputs - count) >= 1) {
+            // Assign number of condition to hidden input count_condition
+            $("#count_condition").val(count);
+
             count++;
         }
         else {
@@ -298,6 +304,9 @@ function btnContinueClick() {
             $("#inputDevice").prop('disabled', true);
             $("#btnContinue").hide();
             $("#btnAddNewCondition").prop('disabled', true);
+
+            // Assign number of condition to hidden input count_condition
+            $("#count_condition").val(count);
         }
     }
 }
@@ -312,12 +321,12 @@ $("body").on("click", ".removeclass", function (e) { //user click on remove text
 var popover_content =
         '<div class="form-inline">' +
             '<select class="form-control" id="inputDevice" style="margin-right: 10px;">' +
-            <?php foreach ($input_devices_list as $input_device): ?>
-            '<option value="<?php echo $input_device['device_name'] , ',' , $input_device['property_name']; ?>"><?php echo $input_device['device_name']; ?></option>' +
-            <?php endforeach; ?>
+                <?php foreach ($input_devices_list as $input_device): ?>
+                '<option value="<?php echo $input_device['device_name'] . ',' . $input_device['property_name'] . ',' . $input_device['row_device_id']; ?>"><?php echo $input_device['device_name']; ?></option>' +
+                <?php endforeach; ?>
             '</select>' +
             '<button class="btn btn-primary" type="button" id="btnContinue" onclick="btnContinueClick()">Continue</button>' +
-            '</div>'
+        '</div>'
     ;
 $('#btnAddNewCondition').popover({
     html: true,

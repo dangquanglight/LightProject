@@ -2,6 +2,13 @@
     <li class="active">Action management</li>
 </ol>
 
+<?php if($this->session->flashdata('add_success')): ?>
+<div class="alert alert-success alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <strong><?php echo $this->session->flashdata('add_success'); ?></strong>
+</div>
+<?php endif; ?>
+
 <!-- Button trigger modal -->
 <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
     Add new action

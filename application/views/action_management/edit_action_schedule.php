@@ -200,16 +200,16 @@ function echo_checked_day($data, $value)
         });
     });
 
-    <?php if($device_setpoints[0]['value']) { ?>
-    $("#amount").val('<?php echo $device_setpoints[0]['value'] , ' ' , $device['unit_name']; ?>');
+    <?php if($action['action_setpoint']) { ?>
+    $("#amount").val('<?php echo $action['action_setpoint'] , ' ' , $device['unit_name']; ?>');
     <?php } ?>
     $("#range-slider").slider({
         tooltip: 'hide',
         <?php if($device['min_value']): ?>min: <?php echo $device['min_value']; ?>, <?php endif; ?>
         <?php if($device['max_value']): ?>max: <?php echo $device['max_value']; ?>, <?php endif; ?>
         step: 1,
-        <?php if($device_setpoints[0]['value']) { ?>
-        value: <?php echo $device_setpoints[0]['value']; ?>
+        <?php if($action['action_setpoint']) { ?>
+        value: <?php echo $action['action_setpoint']; ?>
         <?php } ?>
     });
     $("#range-slider").on('slide', function (slideEvt) {
@@ -217,16 +217,16 @@ function echo_checked_day($data, $value)
         $('#hiddenSetpoint1').val(slideEvt.value);
     });
 
-    <?php if($device_setpoints[0]['value']) : ?>
-    $("#amount2").val('<?php echo $device_setpoints[0]['value'] , ' ' , $device['unit_name']; ?>');
+    <?php if($action['exception_setpoint']) : ?>
+    $("#amount2").val('<?php echo $action['exception_setpoint'] , ' ' , $device['unit_name']; ?>');
     <?php endif; ?>
     $("#range-slider2").slider({
         tooltip: 'hide',
         <?php if($device['min_value']): ?>min: <?php echo $device['min_value']; ?>, <?php endif; ?>
         <?php if($device['max_value']): ?>max: <?php echo $device['max_value']; ?>, <?php endif; ?>
         step: 1,
-        <?php if($device_setpoints[0]['value']) : ?>
-        value: <?php echo $device_setpoints[0]['value']; ?>
+        <?php if($action['exception_setpoint']) : ?>
+        value: <?php echo $action['exception_setpoint']; ?>
         <?php endif; ?>
     });
     $("#range-slider2").on('slide', function (slideEvt) {
@@ -236,7 +236,7 @@ function echo_checked_day($data, $value)
 
     $('#datepicker_day').datetimepicker({
         language: 'en',
-        format: 'dd/mm/yyyy',
+        format: 'mm/dd/yyyy',
         weekStart: 1,
         todayBtn: 1,
         autoclose: 1,
@@ -248,7 +248,7 @@ function echo_checked_day($data, $value)
 
     $('#datepicker_from').datetimepicker({
         language: 'en',
-        format: 'dd/mm/yyyy',
+        format: 'mm/dd/yyyy',
         weekStart: 1,
         todayBtn: 1,
         autoclose: 1,
@@ -260,7 +260,7 @@ function echo_checked_day($data, $value)
 
     $('#datepicker_to').datetimepicker({
         language: 'en',
-        format: 'dd/mm/yyyy',
+        format: 'mm/dd/yyyy',
         weekStart: 1,
         todayBtn: 1,
         autoclose: 1,
