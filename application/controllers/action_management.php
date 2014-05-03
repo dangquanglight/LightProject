@@ -155,7 +155,7 @@ class Action_management extends GEH_Controller
         // Case: edit action
         if ( isset($_GET['id']) and (is_numeric($_GET['id']) and intval($_GET['id'] > 0)) ) {
             $action = $this->actions_model->get_by_id($_GET['id']);
-            $data['action'] = $this->prepare_action_info($action); //var_dump($data['action']); die();
+            $data['action'] = $this->prepare_action_info($action);
 
             $device = $this->device_model->get_by_row_id($action['device_id']);
             $data['device'] = $device;
@@ -200,9 +200,6 @@ class Action_management extends GEH_Controller
             }
 
             $this->load_frontend_template($extend_data, 'ADD NEW ACTION');
-        }
-        else if($this->input->post()) {
-            var_dump($this->input->post()); die();
         }
         else
             redirect(action_management_controller_url());

@@ -68,9 +68,6 @@ class Device_management extends GEH_Controller
                     $data['list_devices'] = $this->prepare_device_info($this->device_model->get_list_by_room_id($_GET['room']));
                 }
 
-                // Remove TEMPVALVE device from list
-                $this->remove_tempvalve_from_list($data['list_devices']);
-
                 $extend_data['content_view'] = $this->load->view($this->device_management_view . 'index_filter', $data, TRUE);
             }
         }
