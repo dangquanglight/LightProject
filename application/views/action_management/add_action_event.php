@@ -24,7 +24,7 @@
 
     <table border="0" style="width: 100%">
         <tr>
-            <td style="width: 55%; vertical-align: top;">
+            <td style="width: 60%; vertical-align: top;">
                 <p></p>
                 <label class="control-label col-sm-2" for="amount">Setpoint</label>
 
@@ -55,7 +55,7 @@
                     </label></h4>
 
                 <div id="exception-day" class="none">
-                    <div class="input-group date col-sm-3" id="datepicker_day">
+                    <div class="input-group date col-sm-4" id="datepicker_day">
                         <input class="form-control" type="text" name="exception_day" value="" readonly>
                                 <span class="input-group-addon"><span
                                         class="glyphicon glyphicon-calendar"></span></span>
@@ -67,8 +67,8 @@
                         <td style="width: 8%">
                             <h4>From</h4>
                         </td>
-                        <td style="width: 30%">
-                            <div class="input-group date col-sm-11" id="datepicker_from">
+                        <td style="width: 35%">
+                            <div class="input-group date" id="datepicker_from">
                                 <input class="form-control" type="text" name="exception_from" value="" readonly>
                                             <span class="input-group-addon"><span
                                                     class="glyphicon glyphicon-calendar"></span></span>
@@ -78,7 +78,7 @@
                             <h4>To</h4>
                         </td>
                         <td style="width: 50%">
-                            <div class="input-group date col-sm-7" id="datepicker_to">
+                            <div class="input-group date col-sm-9" id="datepicker_to">
                                 <input class="form-control" type="text" name="exception_to" value="" readonly>
                                             <span class="input-group-addon"><span
                                                     class="glyphicon glyphicon-calendar"></span></span>
@@ -90,20 +90,16 @@
                 <p>&nbsp;</p>
                 <label class="control-label col-sm-2" for="amount2">Setpoint</label>
 
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <input type="text" class="form-control" id="amount2" disabled>
                     <input type="hidden" name="exception_setpoint" id="exception_setpoint">
                 </div>
                 <input id="range-slider2" type="text"/>
 
-                <p>&nbsp;</p>
-
-                <p>&nbsp;</p>
-
-                <p>&nbsp;</p>
+                <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Add new action</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                     <button type="button" class="btn btn-default"
                             onclick="window.location.href = '<?php echo action_management_controller_url(); ?>'">Cancel
                     </button>
@@ -242,7 +238,7 @@ function btnContinueClick() {
 
     if (InputDevice[1] == 'ON/OFF') {
         ConditionHtml =
-            '<div class="col-sm-8" style="margin-bottom: 10px;">' +
+            '<div class="col-sm-9" style="margin-bottom: 10px;">' +
                 '<label class="control-label ' + labelSize + '">' + ifStatement + '</label>' +
                 '<div class="col-sm-4">' +
                     '<input type="text" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
@@ -257,13 +253,13 @@ function btnContinueClick() {
                         '<option value="1">ON</option>' +
                         '<option value="0">OFF</option>' +
                     '</select>' +
-                '</div>' + '<button type="button" class="close">&times;</button>' +
+                '</div>' +
             '</div>'
         ;
     }
     else if (InputDevice[1] == 'Temperature sensor') {
         ConditionHtml =
-            '<div class="col-sm-8" style="margin-bottom: 10px;">' +
+            '<div class="col-sm-12" style="margin-bottom: 10px;">' +
                 '<label class="control-label ' + labelSize + '">' + ifStatement + '</label>' +
                 '<div class="col-sm-4">' +
                     '<input type="text" name="input_device_' + FieldCount + '" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
@@ -280,7 +276,7 @@ function btnContinueClick() {
                 '</div>' +
                     '<div class="col-sm-3">' +
                     '<input type="text" name="condition_setpoint_' + FieldCount + '" class="form-control" placeholder="Ex: 15 °C" ">' +
-                '</div>'  + '<button type="button" class="close">&times;</button>' +
+                '</div>' +
             '</div>'
         ;
     }

@@ -114,10 +114,12 @@ function echo_checked_day($data, $value)
                 <br>
                 <h4>Exception &nbsp;
                     <label class="radio-inline">
-                        <input type="radio" name="radio-exception" id="radio-exception-day" value="day"> Day
+                        <input type="radio" name="radio-exception" id="radio-exception-day" value="<?php echo EXCEPTION_TYPE_DAY; ?>"
+                            <?php if($action['exception_type'] == EXCEPTION_TYPE_DAY) echo 'checked'; ?>> Day
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="radio-exception" id="radio-exception-duration" value="from-to">
+                        <input type="radio" name="radio-exception" id="radio-exception-duration" value="<?php echo EXCEPTION_TYPE_DURATION; ?>"
+                            <?php if($action['exception_type'] == EXCEPTION_TYPE_DURATION) echo 'checked'; ?>>
                         Duration
                     </label>
                 </h4>
@@ -128,7 +130,10 @@ function echo_checked_day($data, $value)
             <td style="width: 40%">
                 <div id="exception-day" class="none">
                     <div class="input-group date col-sm-4" id="datepicker_day">
-                        <input class="form-control" type="text" name="exception_day" value="" readonly>
+                        <input class="form-control" type="text" name="exception_day"
+                               value="<?php if($action['exception_from']and
+                                   $action['exception_type'] == EXCEPTION_TYPE_DAY) echo $action['exception_from']; ?>"
+                               readonly>
                                 <span class="input-group-addon"><span
                                         class="glyphicon glyphicon-calendar"></span></span>
                     </div>
@@ -140,7 +145,10 @@ function echo_checked_day($data, $value)
                         </td>
                         <td style="width: 35%">
                             <div class="input-group date col-sm-11" id="datepicker_from">
-                                <input class="form-control" type="text" name="exception_from" value="" readonly>
+                                <input class="form-control" type="text" name="exception_from"
+                                       value="<?php if($action['exception_from'] and
+                                           $action['exception_type'] == EXCEPTION_TYPE_DURATION) echo $action['exception_from']; ?>"
+                                       readonly>
                                 <span class="input-group-addon"><span
                                         class="glyphicon glyphicon-calendar"></span></span>
                             </div>
@@ -150,7 +158,10 @@ function echo_checked_day($data, $value)
                         </td>
                         <td style="width: 40%">
                             <div class="input-group date col-sm-10" id="datepicker_to">
-                                <input class="form-control" type="text" name="exception_to" value="" readonly>
+                                <input class="form-control" type="text" name="exception_to"
+                                       value="<?php if($action['exception_to'] and
+                                           $action['exception_type'] == EXCEPTION_TYPE_DURATION) echo $action['exception_to']; ?>"
+                                       readonly>
                                 <span class="input-group-addon"><span
                                         class="glyphicon glyphicon-calendar"></span></span>
                             </div>
@@ -296,8 +307,11 @@ function echo_checked_day($data, $value)
         if ($(this).prop("checked"))
             $('#exception-duration').addClass('none').siblings().removeClass('none');
     });
+    $("#radio-exception-day").change();
+
     $("#radio-exception-duration").on("change", function () {
         if ($(this).prop("checked"))
             $('#exception-day').addClass('none').siblings().removeClass('none');
     });
+    $("#radio-exception-duration").change();
 </script>

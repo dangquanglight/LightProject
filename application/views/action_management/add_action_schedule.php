@@ -32,7 +32,7 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2">Setpoint</label>
 
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <input type="text" class="form-control" id="amount" disabled>
                         <input type="hidden" name="action_setpoint" id="action_setpoint">
                     </div>
@@ -73,7 +73,7 @@
 
                 <p></p>
 
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <label for="start">Start</label>
 
                     <div id="timepickerStart" class="input-group date form_time col-sm-7">
@@ -82,7 +82,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <label for="end">End</label>
 
                     <div id="timepickerEnd" class="input-group date form_time col-sm-7">
@@ -148,7 +148,7 @@
             <td>
                 <label class="control-label col-sm-2" for="amount2">Setpoint</label>
 
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <input type="text" class="form-control" id="amount2" disabled>
                     <input type="hidden" name="exception_setpoint" id="exception_setpoint">
                 </div>
@@ -156,7 +156,7 @@
             </td>
             <td style="float: left;">
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Add new action</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                     <button type="button" class="btn btn-default"
                             onclick="window.location.href = '<?php echo action_management_controller_url(); ?>'">Cancel
                     </button>

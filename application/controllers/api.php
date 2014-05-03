@@ -110,8 +110,8 @@ class Api extends GEH_Controller {
                     if($item) {
                         $device_id = intval(substr($item, 0, 8));
                         $setponit = substr($item, 8);
-                        $setpoint1 = substr($setponit, 0, 2);
-                        $setponit2 = substr($setponit, 2);
+                        $setpoint1 = hexdec(substr($setponit, 0, 2));
+                        $setponit2 = hexdec(substr($setponit, 2));
 
                         $device = $this->device_model->get_by_device_id($device_id);
                         $device_setpoint = $this->device_setpoint_model->get_by_device_row_id($device['id']);
@@ -122,23 +122,25 @@ class Api extends GEH_Controller {
                                 if(count($device_setpoint) == 1) {
                                     if($setpoint1 != 'FF') {
                                         $update_data = array(
-                                            'value' => hexdec($setpoint1)
+                                            'value' => $setpoint1
                                         );
-                                        if($this->device_setpoint_model->update($item2['id'], $update_data))
+                                        if($this->device_setpoint_model->update($item2['id'], $update_data)) {
+                                            $this->device_setponit_log($setpoint1);
                                             $flag_ok = true;
+                                        }
                                     }
                                 }
                                 else if(count($device_setpoint) == 2) {
                                     if($setpoint1 != 'FF') {
                                         $update_data = array(
-                                            'value' => hexdec($setpoint1)
+                                            'value' => $setpoint1
                                         );
                                         if($this->device_setpoint_model->update($item2['id'], $update_data))
                                             $flag_ok = true;
                                     }
                                     if($setponit2 != 'FF') {
                                         $update_data = array(
-                                            'value' => hexdec($setponit2)
+                                            'value' => $setponit2
                                         );
                                         if($this->device_setpoint_model->update($item2['id'], $update_data))
                                             $flag_ok = true;
@@ -151,7 +153,7 @@ class Api extends GEH_Controller {
                             if($setpoint1 != 'FF') {
                                 $insert_data = array(
                                     'row_device_id' => $device['id'],
-                                    'value' => hexdec($setpoint1)
+                                    'value' => $setpoint1
                                 );
                                 if($this->device_setpoint_model->insert($insert_data))
                                     $flag_ok = true;
@@ -159,7 +161,7 @@ class Api extends GEH_Controller {
                             if($setponit2 != 'FF') {
                                 $insert_data = array(
                                     'row_device_id' => $device['id'],
-                                    'value' => hexdec($setponit2)
+                                    'value' => $setponit2
                                 );
                                 if($this->device_setpoint_model->insert($insert_data))
                                     $flag_ok = true;

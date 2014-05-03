@@ -43,20 +43,27 @@
                     <button type="button" id="btnAddNewCondition" class="btn btn-primary">Add new condition</button>
                 </h4>
 
-                <div id="InputsWrapper"></div>
+                <div id="InputsWrapper">
+
+                </div>
             </td>
             <td style="vertical-align: top;">
                 <h4>Exception &nbsp;
                     <label class="radio-inline">
-                        <input type="radio" name="radio-exception" id="radio-exception-day" value="day"> Day
+                        <input type="radio" name="radio-exception" id="radio-exception-day" value="<?php echo EXCEPTION_TYPE_DAY; ?>"
+                            <?php if($action['exception_type'] == EXCEPTION_TYPE_DAY) echo 'checked'; ?>> Day
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="radio-exception" id="radio-exception-duration" value="from-to"> Duration
+                        <input type="radio" name="radio-exception" id="radio-exception-duration" value="<?php echo EXCEPTION_TYPE_DURATION; ?>"
+                            <?php if($action['exception_type'] == EXCEPTION_TYPE_DURATION) echo 'checked'; ?>> Duration
                     </label></h4>
 
                 <div id="exception-day" class="none">
                     <div class="input-group date col-sm-3" id="datepicker_day">
-                        <input class="form-control" type="text" name="exception_day" value="" readonly>
+                        <input class="form-control" type="text" name="exception_day"
+                               value="<?php if($action['exception_from']and
+                                   $action['exception_type'] == EXCEPTION_TYPE_DAY) echo $action['exception_from']; ?>"
+                               readonly>
                                 <span class="input-group-addon"><span
                                         class="glyphicon glyphicon-calendar"></span></span>
                     </div>
@@ -69,7 +76,10 @@
                         </td>
                         <td style="width: 30%">
                             <div class="input-group date col-sm-11" id="datepicker_from">
-                                <input class="form-control" type="text" name="exception_from" value="" readonly>
+                                <input class="form-control" type="text" name="exception_from"
+                                       value="<?php if($action['exception_from'] and
+                                           $action['exception_type'] == EXCEPTION_TYPE_DURATION) echo $action['exception_from']; ?>"
+                                       readonly>
                                             <span class="input-group-addon"><span
                                                     class="glyphicon glyphicon-calendar"></span></span>
                             </div>
@@ -79,7 +89,10 @@
                         </td>
                         <td style="width: 50%">
                             <div class="input-group date col-sm-7" id="datepicker_to">
-                                <input class="form-control" type="text" name="exception_to" value="" readonly>
+                                <input class="form-control" type="text" name="exception_to"
+                                       value="<?php if($action['exception_to'] and
+                                           $action['exception_type'] == EXCEPTION_TYPE_DURATION) echo $action['exception_to']; ?>"
+                                       readonly>
                                             <span class="input-group-addon"><span
                                                     class="glyphicon glyphicon-calendar"></span></span>
                             </div>
@@ -96,11 +109,7 @@
                 </div>
                 <input id="range-slider2" type="text"/>
 
-                <p>&nbsp;</p>
-
-                <p>&nbsp;</p>
-
-                <p>&nbsp;</p>
+                <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Save</button>
@@ -115,16 +124,16 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        <?php if($device_setpoints[0]['value']) { ?>
-        $("#amount").val('<?php echo $device_setpoints[0]['value'] , ' ' , $device['unit_name']; ?>');
+        <?php if($action['action_setpoint']) { ?>
+        $("#amount").val('<?php echo $action['action_setpoint'] , ' ' , $device['unit_name']; ?>');
         <?php } ?>
         $("#range-slider").slider({
             tooltip: 'hide',
             <?php if($device['min_value']): ?>min: <?php echo $device['min_value']; ?>, <?php endif; ?>
             <?php if($device['max_value']): ?>max: <?php echo $device['max_value']; ?>, <?php endif; ?>
             step: 1,
-            <?php if($device_setpoints[0]['value']) { ?>
-            value: <?php echo $device_setpoints[0]['value']; ?>
+            <?php if($action['action_setpoint']) { ?>
+            value: <?php echo $action['action_setpoint']; ?>
             <?php } ?>
         });
         $("#range-slider").on('slide', function (slideEvt) {
@@ -132,16 +141,16 @@
             $('#hiddenSetpoint1').val(slideEvt.value);
         });
 
-        <?php if($device_setpoints[0]['value']) : ?>
-        $("#amount2").val('<?php echo $device_setpoints[0]['value'] , ' ' , $device['unit_name']; ?>');
+        <?php if($action['exception_setpoint']) : ?>
+        $("#amount2").val('<?php echo $action['exception_setpoint'] , ' ' , $device['unit_name']; ?>');
         <?php endif; ?>
         $("#range-slider2").slider({
             tooltip: 'hide',
             <?php if($device['min_value']): ?>min: <?php echo $device['min_value']; ?>, <?php endif; ?>
             <?php if($device['max_value']): ?>max: <?php echo $device['max_value']; ?>, <?php endif; ?>
             step: 1,
-            <?php if($device_setpoints[0]['value']) : ?>
-            value: <?php echo $device_setpoints[0]['value']; ?>
+            <?php if($action['exception_setpoint']) : ?>
+            value: <?php echo $action['exception_setpoint']; ?>
             <?php endif; ?>
         });
         $("#range-slider2").on('slide', function (slideEvt) {
@@ -212,10 +221,13 @@
             if ($(this).prop("checked"))
                 $('#exception-duration').addClass('none').siblings().removeClass('none');
         });
+        $("#radio-exception-day").change();
+
         $("#radio-exception-duration").on("change", function () {
             if ($(this).prop("checked"))
                 $('#exception-day').addClass('none').siblings().removeClass('none');
         });
+        $("#radio-exception-duration").change();
     });
 
     var MaxInputs = <?php echo count($input_devices_list); ?>; //maximum input boxes allowed
@@ -240,7 +252,7 @@
 
         if (InputDevice[1] == 'ON/OFF') {
             ConditionHtml =
-                '<div class="col-sm-8" style="margin-bottom: 10px;">' +
+                '<div class="col-sm-9" style="margin-bottom: 10px;">' +
                     '<label class="control-label ' + labelSize + '">' + ifStatement + '</label>' +
                     '<div class="col-sm-4">' +
                         '<input type="text" name="input_device_' + FieldCount + '" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
@@ -259,7 +271,7 @@
         }
         else if (InputDevice[1] == 'Temperature sensor') {
             ConditionHtml =
-                '<div class="col-sm-8" style="margin-bottom: 10px;">' +
+                '<div class="col-sm-12" style="margin-bottom: 10px;">' +
                     '<label class="control-label ' + labelSize + '">' + ifStatement + '</label>' +
                     '<div class="col-sm-4">' +
                         '<input type="text" name="input_device_' + FieldCount + '" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
