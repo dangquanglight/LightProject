@@ -24,7 +24,7 @@
 
     <table border="0" style="width: 100%">
         <tr>
-            <td style="width: 55%; vertical-align: top;">
+            <td style="width: 60%; vertical-align: top;">
                 <p></p>
                 <label class="control-label col-sm-2" for="amount">Setpoint</label>
 
@@ -67,8 +67,8 @@
                         <td style="width: 8%">
                             <h4>From</h4>
                         </td>
-                        <td style="width: 30%">
-                            <div class="input-group date col-sm-11" id="datepicker_from">
+                        <td style="width: 35%">
+                            <div class="input-group date" id="datepicker_from">
                                 <input class="form-control" type="text" name="exception_from" value="" readonly>
                                             <span class="input-group-addon"><span
                                                     class="glyphicon glyphicon-calendar"></span></span>
@@ -78,7 +78,7 @@
                             <h4>To</h4>
                         </td>
                         <td style="width: 50%">
-                            <div class="input-group date col-sm-7" id="datepicker_to">
+                            <div class="input-group date col-sm-9" id="datepicker_to">
                                 <input class="form-control" type="text" name="exception_to" value="" readonly>
                                             <span class="input-group-addon"><span
                                                     class="glyphicon glyphicon-calendar"></span></span>
@@ -253,7 +253,7 @@ function btnContinueClick() {
                         '<option value="1">ON</option>' +
                         '<option value="0">OFF</option>' +
                     '</select>' +
-                '</div>' + '<button type="button" class="close">&times;</button>' +
+                '</div>' +
             '</div>'
         ;
     }
@@ -276,7 +276,7 @@ function btnContinueClick() {
                 '</div>' +
                     '<div class="col-sm-3">' +
                     '<input type="text" name="condition_setpoint_' + FieldCount + '" class="form-control" placeholder="Ex: 15 °C" ">' +
-                '</div>'  + '<button type="button" class="close">&times;</button>' +
+                '</div>' +
             '</div>'
         ;
     }
