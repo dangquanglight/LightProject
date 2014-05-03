@@ -145,10 +145,12 @@ class Action_management extends GEH_Controller
                 }
             }
         }
+
         // Get state id by state name: Input
         $state = $this->device_state_model->get_by_name(DEVICE_STATE_INPUT);
         // Get list input devices
-        $data['input_devices_list'] = $this->device_model->get_list_by_state_id($state['id']);
+        $input_devices = $this->device_model->get_list_by_state_id($state['id']);
+        $data['input_devices_list'] = $input_devices;
 
         // Case: edit action
         if ( isset($_GET['id']) and (is_numeric($_GET['id']) and intval($_GET['id'] > 0)) ) {
@@ -161,12 +163,19 @@ class Action_management extends GEH_Controller
 
             // Action type: schedule
             if ($action['action_type'] == ACTION_TYPE_SCHEDULE) {
-                $extend_data['content_view'] = $this->load->view($this->action_management_view . 'edit_action_schedule', $data, TRUE);
+                $extend_data['content_view'] = $this->load->view($this->action_management_view . 'edit_action_schedule',
+                    $data, TRUE);
 
             }
             // Action type: event
             else if ($action['action_type'] == ACTION_TYPE_EVENT) {
-                $extend_data['content_view'] = $this->load->view($this->action_management_view . 'edit_action_event', $data, TRUE);
+                $action_conditions = $this->action_condition_model->get_by_action_id($action['id']);
+                $data['action_conditions'] = $action_conditions;
+
+                //
+
+                $extend_data['content_view'] = $this->load->view($this->action_management_view . 'edit_action_event',
+                    $data, TRUE);
             }
 
             $this->load_frontend_template($extend_data, 'EDIT ACTION');
@@ -181,11 +190,13 @@ class Action_management extends GEH_Controller
 
             // Action type: schedule
             if ($action_type == 'schedule') {
-                $extend_data['content_view'] = $this->load->view($this->action_management_view . 'add_action_schedule', $data, TRUE);
+                $extend_data['content_view'] = $this->load->view($this->action_management_view . 'add_action_schedule',
+                    $data, TRUE);
             }
             // Action type: event
             else if ($action_type == 'event') {
-                $extend_data['content_view'] = $this->load->view($this->action_management_view . 'add_action_event', $data, TRUE);
+                $extend_data['content_view'] = $this->load->view($this->action_management_view . 'add_action_event',
+                    $data, TRUE);
             }
 
             $this->load_frontend_template($extend_data, 'ADD NEW ACTION');

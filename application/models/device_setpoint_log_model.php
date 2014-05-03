@@ -1,7 +1,7 @@
 <?php
 
-class Action_condition_model extends CI_Model{
-    private $_table_name = 'action_conditions';
+class Device_setpoint_log_model extends CI_Model{
+    private $_table_name = 'device_setpoint_logs';
 
     public function insert($arr_data)
     {
@@ -24,23 +24,12 @@ class Action_condition_model extends CI_Model{
         return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
     }
 
-    public function get_list($order_by = "c.id", $condition = "DESC")
+    public function get_list($order_by = "a.created_date", $condition = "DESC")
     {
-        $this->db->select('*');
-        $this->db->from($this->_table_name . ' c');
-        $this->db->join('actions a', 'c.action_id = a.id');
+        $this->db->select('d.device_name, a.id AS action_id, a.action_type, a.status');
+        $this->db->from($this->_table_name . ' a');
+        $this->db->join('devices d', 'd.id = a.device_id');
         $this->db->order_by($order_by, $condition);
-        $query = $this->db->get();
-
-        return $query->result_array();
-    }
-
-    public function get_by_action_id($action_id)
-    {
-        $this->db->select('c.*, d.device_name');
-        $this->db->from($this->_table_name . ' c');
-        $this->db->where('c.action_id', $action_id);
-        $this->db->join('devices d', 'c.row_device_id = d.id');
         $query = $this->db->get();
 
         return $query->result_array();
@@ -48,10 +37,7 @@ class Action_condition_model extends CI_Model{
 
     public function get_by_id($id)
     {
-        $this->db->select('*');
-        $this->db->from($this->_table_name . ' c');
-        $this->db->where("c.id", $id);
-        $this->db->join('actions a', 'c.action_id = a.id');
+        $this->db->where('id', $id);
         $query = $this->db->get($this->_table_name);
 
         return $query->row_array();

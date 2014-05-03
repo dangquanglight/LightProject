@@ -190,4 +190,17 @@ class GEH_Controller extends CI_Controller {
         return $data;
     }
 
+    public function device_setponit_log($current_setpoint) {
+        $insert_data = array(
+            'current_setpoint' => $current_setpoint,
+            'log_time' => date('Y-m-d H:i:s')
+        );
+        $this->load->model('device_setpoint_log_model');
+
+        if($this->device_setpoint_log_model->insert($insert_data))
+            return TRUE;
+        else
+            return FALSE;
+    }
+
 }
