@@ -257,7 +257,7 @@ function btnContinueClick() {
                         '<option value="1">ON</option>' +
                         '<option value="0">OFF</option>' +
                     '</select>' +
-                '</div>' +
+                '</div>' + '<button type="button" class="close">&times;</button>' +
             '</div>'
         ;
     }
@@ -280,7 +280,7 @@ function btnContinueClick() {
                 '</div>' +
                     '<div class="col-sm-3">' +
                     '<input type="text" name="condition_setpoint_' + FieldCount + '" class="form-control" placeholder="Ex: 15 °C" ">' +
-                '</div>' +
+                '</div>'  + '<button type="button" class="close">&times;</button>' +
             '</div>'
         ;
     }
