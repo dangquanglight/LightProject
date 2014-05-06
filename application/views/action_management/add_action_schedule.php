@@ -146,13 +146,15 @@
         </tr>
         <tr>
             <td>
-                <label class="control-label col-sm-2" for="amount2">Setpoint</label>
+                <div id="divExceptionSetpoint" class="none">
+                    <label class="control-label col-sm-2" for="amount2">Setpoint</label>
 
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" id="amount2" disabled>
-                    <input type="hidden" name="exception_setpoint" id="exception_setpoint">
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="amount2" disabled>
+                        <input type="hidden" name="exception_setpoint" id="exception_setpoint">
+                    </div>
+                    <input style="width: 100%;" id="range-slider2" type="text">
                 </div>
-                <input id="range-slider2" type="text"/>
             </td>
             <td style="float: left;">
                 <div class="form-group">
@@ -277,12 +279,16 @@
         });
 
         $("#radio-exception-day").on("change", function () {
-            if ($(this).prop("checked"))
+            if ($(this).prop("checked")) {
                 $('#exception-duration').addClass('none').siblings().removeClass('none');
+                $('#divExceptionSetpoint').removeClass('none');
+            }
         });
         $("#radio-exception-duration").on("change", function () {
-            if ($(this).prop("checked"))
+            if ($(this).prop("checked")) {
                 $('#exception-day').addClass('none').siblings().removeClass('none');
+                $('#divExceptionSetpoint').removeClass('none');
+            }
         });
     });
 

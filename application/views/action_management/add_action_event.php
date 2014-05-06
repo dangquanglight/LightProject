@@ -13,6 +13,7 @@
 
 <form method="post" name="frmAddEvent">
     <input type="hidden" name="action_device_id" value="<?php echo $device['id']; ?>">
+
     <div class="btn-group">
         <label class="btn btn-primary">
             <input type="radio" name="action_status" value="1" checked> Enable
@@ -38,7 +39,6 @@
 
                 <h4>
                     Condition &nbsp;&nbsp;&nbsp;
-
                     <button type="button" id="btnAddNewCondition" class="btn btn-primary">Add new condition</button>
                 </h4>
 
@@ -47,15 +47,17 @@
             <td style="vertical-align: top;">
                 <h4>Exception &nbsp;
                     <label class="radio-inline">
-                        <input type="radio" name="exception_type" id="radio-exception-day" value="<?php echo EXCEPTION_TYPE_DAY; ?>"> Day
+                        <input type="radio" name="exception_type" id="radio-exception-day"
+                               value="<?php echo EXCEPTION_TYPE_DAY; ?>"> Day
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="exception_type" id="radio-exception-duration" value="<?php echo EXCEPTION_TYPE_DURATION; ?>">
+                        <input type="radio" name="exception_type" id="radio-exception-duration"
+                               value="<?php echo EXCEPTION_TYPE_DURATION; ?>">
                         Duration
                     </label></h4>
 
                 <div id="exception-day" class="none">
-                    <div class="input-group date col-sm-4" id="datepicker_day">
+                    <div class="input-group date col-sm-5" id="datepicker_day">
                         <input class="form-control" type="text" name="exception_day" value="" readonly>
                                 <span class="input-group-addon"><span
                                         class="glyphicon glyphicon-calendar"></span></span>
@@ -68,7 +70,7 @@
                             <h4>From</h4>
                         </td>
                         <td style="width: 35%">
-                            <div class="input-group date col-sm-5" id="datepicker_from">
+                            <div class="input-group date col-sm-6" id="datepicker_from">
                                 <input class="form-control" type="text" name="exception_from" value="" readonly>
                                             <span class="input-group-addon"><span
                                                     class="glyphicon glyphicon-calendar"></span></span>
@@ -80,7 +82,7 @@
                             <h4>To</h4>
                         </td>
                         <td style="width: 50%">
-                            <div class="input-group date col-sm-5" id="datepicker_to">
+                            <div class="input-group date col-sm-6" id="datepicker_to">
                                 <input class="form-control" type="text" name="exception_to" value="" readonly>
                                             <span class="input-group-addon"><span
                                                     class="glyphicon glyphicon-calendar"></span></span>
@@ -90,15 +92,17 @@
                 </table>
 
                 <p>&nbsp;</p>
-                <label class="control-label col-sm-2" for="amount2">Setpoint</label>
+                <div id="divExceptionSetpoint" class="none">
+                    <label class="control-label col-sm-2" for="amount2">Setpoint</label>
 
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" id="amount2" disabled>
-                    <input type="hidden" name="exception_setpoint" id="exception_setpoint">
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="amount2" disabled>
+                        <input type="hidden" name="exception_setpoint" id="exception_setpoint">
+                    </div>
+                    <input style="width: 100%" id="range-slider2" type="text"/>
                 </div>
-                <input id="range-slider2" type="text"/>
 
-                <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+                <p>&nbsp;</p><p>&nbsp;</p>
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Save</button>
@@ -185,50 +189,83 @@ $(document).ready(function () {
         forceParse: 0
     });
 
-    $('#timepicker1').datetimepicker({
-        language: 'en',
-        format: 'hh:ii',
-        autoclose: 1,
-        weekStart: 1,
-        todayHighlight: 1,
-        startView: 0,
-        minView: 0,
-        maxView: 1,
-        forceParse: 0
-    });
-    $('#timepicker2').datetimepicker({
-        language: 'en',
-        format: 'hh:ii',
-        autoclose: 1,
-        weekStart: 1,
-        todayHighlight: 1,
-        startView: 0,
-        minView: 0,
-        maxView: 1,
-        forceParse: 0
-    });
-
+    // Show hide exception Day/Duration
     $("#radio-exception-day").on("change", function () {
-        if ($(this).prop("checked"))
+        if ($(this).prop("checked")) {
             $('#exception-duration').addClass('none').siblings().removeClass('none');
+        }
     });
     $("#radio-exception-duration").on("change", function () {
-        if ($(this).prop("checked"))
+        if ($(this).prop("checked")) {
             $('#exception-day').addClass('none').siblings().removeClass('none');
+        }
     });
 });
 
+// Global variables
 var MaxInputs = <?php echo count($input_devices_list); ?>; //maximum input boxes allowed
 var InputsWrapper = $("#InputsWrapper"); //Input boxes wrapper ID
 var ConditionHtml;
-var count = InputsWrapper.length; //initlal text box count
-var FieldCount = 1; //to keep track of text box added
+var count = 0; //initial text box count
+var FieldCount = InputsWrapper.length; //to keep track of text box added
+
+// Popover varialbes
+var popover_options_list = [];
+
+// Initial popover option list
+if (count == 0) {
+    <?php $i = 0; foreach ($input_devices_list as $input_device): ?>
+    popover_options_list[<?php echo $i; ?>] = {
+        value: '<?php echo $input_device['device_name'] . ',' . $input_device['property_name'] . ',' . $input_device['row_device_id']; ?>',
+        text: '<?php echo $input_device['device_name']; ?>'
+    };
+    <?php $i++; endforeach; ?>
+}
+
+// Clone array popover options list to new variable
+var clone_popover_options_list = popover_options_list.slice(0);
+
+function createNewPopover(arr, buttonID) {
+    var options = '';
+
+    // Initial options
+    for (var i = 0; i < arr.length; i++) {
+        options += '<option value="' + arr[i].value + '">' + arr[i].text + '</option>';
+    }
+    // Initial popover content
+    var popover_content =
+            '<div class="form-inline">' +
+                '<select class="form-control" id="inputDevice" style="margin-right: 10px;">' +
+                    options +
+                '</select>' +
+                '<button class="btn btn-primary" type="button" id="btnContinue" onclick="btnContinueClick()">Continue</button>' +
+            '</div>'
+        ;
+
+    $(buttonID).popover("destroy").popover({
+        html: true,
+        title: 'Input Device List <button type="button" class="close" id="' + buttonID + '">&times;</button>',
+        content: popover_content,
+        container: 'body'
+    });
+}
+
+function getArrayIndexForKey(arr, key, val) {
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i][key] == val)
+            return i;
+    }
+    return -1;
+}
 
 function btnContinueClick() {
-    var SelectedInputDevice = $("#inputDevice").val();
+    var SelectedInputDevice = $("#inputDevice").val()
+    // Assign selected value to varialbe removeButtonID
+    var removeButtonID = getArrayIndexForKey(clone_popover_options_list, 'value', SelectedInputDevice);
     var InputDevice = SelectedInputDevice.split(',');
     var ifStatement;
     var labelSize;
+
     if (FieldCount == 1) {
         ifStatement = 'If';
         labelSize = 'col-sm-1';
@@ -240,13 +277,13 @@ function btnContinueClick() {
 
     if (InputDevice[1] == 'ON/OFF') {
         ConditionHtml =
-            '<div class="col-sm-19" style="margin-bottom: 10px;">' +
+            '<div class="col-sm-9" id="divCondition_' + removeButtonID + '" style="margin-bottom: 10px;">' +
                 '<label class="control-label ' + labelSize + '">' + ifStatement + '</label>' +
                 '<div class="col-sm-4">' +
                     '<input type="text" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
                     '<input type="hidden" value="' + InputDevice[2] + '" name="input_device_' + FieldCount + '">' +
                 '</div>' +
-                '<div class="col-sm-3">' +
+                '<div class="col-sm-2">' +
                     '<input type="text" class="form-control text-center" value="=" disabled>' +
                     '<input type="hidden" value="=" name="operator_' + FieldCount + '">' +
                 '</div>' +
@@ -255,19 +292,20 @@ function btnContinueClick() {
                         '<option value="1">ON</option>' +
                         '<option value="0">OFF</option>' +
                     '</select>' +
-                '</div>' + '<button type="button">&times;</button>' +
+                '</div>' +
+                '<button type="button" id="removeCondition" onclick="btnRemoveCondition(' + removeButtonID + ')" title="Remove">&times;</button>' +
             '</div>'
         ;
     }
     else if (InputDevice[1] == 'Temperature sensor') {
         ConditionHtml =
-            '<div class="col-sm-12" style="margin-bottom: 10px;">' +
+            '<div class="col-sm-12" id="divCondition_' + removeButtonID + '" style="margin-bottom: 10px;">' +
                 '<label class="control-label ' + labelSize + '">' + ifStatement + '</label>' +
-                '<div class="col-sm-4">' +
-                    '<input type="text" name="input_device_' + FieldCount + '" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
+                '<div class="col-sm-3">' +
+                    '<input type="text" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
                     '<input type="hidden" name="input_device_' + FieldCount + '" value="' + InputDevice[2] + '">' +
                 '</div>' +
-                '<div class="col-sm-3">' +
+                '<div class="col-sm-2">' +
                     '<select class="form-control" name="operator_' + FieldCount + '">' +
                         '<option value="<"> &nbsp; < </option>' +
                         '<option value="<="> &nbsp; <= </option>' +
@@ -276,30 +314,36 @@ function btnContinueClick() {
                         '<option value=">="> &nbsp; >= </option>' +
                     '</select>' +
                 '</div>' +
-                    '<div class="col-sm-3">' +
+                '<div class="col-sm-3">' +
                     '<input type="text" name="condition_setpoint_' + FieldCount + '" class="form-control" placeholder="Ex: 15 °C" ">' +
-                '</div>' + '<button type="button">&times;</button>' +
+                '</div>' +
+                '<button type="button" id="removeCondition" onclick="btnRemoveCondition(' + removeButtonID + ')" title="Remove">&times;</button>' +
             '</div>'
         ;
     }
 
-    if (count <= MaxInputs) {
+    if (count < MaxInputs) {
         FieldCount++;
-        // add input box
+        count++;
+        // Add input box
         $(InputsWrapper).append(ConditionHtml);
 
         // Remove device selected from Input Device List
-        $("#inputDevice option[value='" + SelectedInputDevice + "']").remove();
+        //$("#inputDevice option[value='" + SelectedInputDevice + "']").remove();
+        popover_options_list.splice(getArrayIndexForKey(popover_options_list, 'value', SelectedInputDevice), 1);
+
+        // Destroy popover and re-initial it
+        createNewPopover(popover_options_list, '#btnAddNewCondition');
 
         if ((MaxInputs - count) >= 1) {
-            // Assign number of condition to hidden input count_condition
-            $("#count_condition").val(count);
+            $("#count_condition").val(count); // Assign number of condition to hidden input count_condition
 
-            count++;
         }
         else {
             $("#inputDevice").append(new Option("No more input device", "no_more"));
             $("#inputDevice").prop('disabled', true);
+
+            // Hide popover and disable button Add new condition
             $("#btnContinue").hide();
             $("#btnAddNewCondition").prop('disabled', true);
 
@@ -308,30 +352,22 @@ function btnContinueClick() {
         }
     }
 }
-$("body").on("click", ".removeclass", function (e) { //user click on remove text
-    if (count > 1) {
-        $(this).parent('div').remove(); //remove text box
-        count--; //decrement textbox
-    }
-    return false;
-});
 
-var popover_content =
-        '<div class="form-inline">' +
-            '<select class="form-control" id="inputDevice" style="margin-right: 10px;">' +
-                <?php foreach ($input_devices_list as $input_device): ?>
-                '<option value="<?php echo $input_device['device_name'] . ',' . $input_device['property_name'] . ',' . $input_device['row_device_id']; ?>"><?php echo $input_device['device_name']; ?></option>' +
-                <?php endforeach; ?>
-            '</select>' +
-            '<button class="btn btn-primary" type="button" id="btnContinue" onclick="btnContinueClick()">Continue</button>' +
-        '</div>'
-    ;
-$('#btnAddNewCondition').popover({
-    html: true,
-    title: 'Input Device List <button type="button" class="close" id="btnAddNewCondition">&times;</button>',
-    content: popover_content,
-    container: 'body'
-});
+// Remove condition from list
+function btnRemoveCondition(removeButtonID) {
+    // Add element back to original array
+    popover_options_list[popover_options_list.length] = clone_popover_options_list[removeButtonID];
+    createNewPopover(popover_options_list, '#btnAddNewCondition');
+
+    $("#divCondition_" + removeButtonID).remove(); // Remove text box
+    $("#btnAddNewCondition").prop('disabled', false); // Re-active button Add new condition
+
+    count--; //decrement textbox count
+    FieldCount--;
+}
+
+// Initial popover
+createNewPopover(popover_options_list, '#btnAddNewCondition');
 
 // Some stuff to close popover
 $('#btnAddNewCondition').click(function (e) {

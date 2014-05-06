@@ -157,4 +157,13 @@ class Device_model extends CI_Model{
 
         return $query->result_array();
     }
+
+    public function get_count_by_device_type($device_type_id) {
+        $this->db->select('id');
+        $this->db->where('device_type_id', $device_type_id);
+        $query = $this->db->get($this->_table_name);
+
+        return $query->num_rows();
+    }
+
 }

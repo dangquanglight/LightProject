@@ -37,10 +37,15 @@ class Action_condition_model extends CI_Model{
 
     public function get_by_action_id($action_id)
     {
-        $this->db->select('c.*, d.device_name');
+        $this->db->select('c.*, d.device_name, ps.property_name, v.min_value, v.max_value, u.unit_name');
         $this->db->from($this->_table_name . ' c');
         $this->db->where('c.action_id', $action_id);
         $this->db->join('devices d', 'c.row_device_id = d.id');
+        $this->db->join('device_types t', 'd.device_type_id = t.id');
+        $this->db->join('device_type_properties p', 'p.device_type_id = t.id', 'left');
+        $this->db->join('device_properties ps', 'p.property_id = ps.id', 'left');
+        $this->db->join('device_property_values v', 'v.property_id = p.property_id', 'left');
+        $this->db->join('units u', 'u.id = v.unit', 'left');
         $query = $this->db->get();
 
         return $query->result_array();

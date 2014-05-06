@@ -21,8 +21,8 @@
 
 <img src="images/floorplan.png" width="40%">
 
-<div class="well col-sm-2 text-center pull-right" style="margin-top:50px; margin-right: 600px; padding: 2px;">
-    <h3>Temperature: <?php echo $temp_value[0]['value'] , ' °C'; ?></h3>
+<div class="well col-sm-3 text-center pull-right" style="margin-top:50px; margin-right: 300px; padding: 5px;">
+    <h3>Temperature: <?php echo $temp_value , ' °C'; ?></h3>
 </div>
 
 <script type="text/javascript">

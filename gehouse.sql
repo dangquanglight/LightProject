@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4.1
+-- version 4.1.6
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2014 at 04:34 PM
--- Server version: 5.5.32
--- PHP Version: 5.4.19
+-- Generation Time: May 06, 2014 at 04:16 AM
+-- Server version: 5.6.16
+-- PHP Version: 5.5.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `gehouse`
 --
-CREATE DATABASE IF NOT EXISTS `gehouse` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `gehouse`;
 
 -- --------------------------------------------------------
 
@@ -52,8 +50,8 @@ CREATE TABLE IF NOT EXISTS `actions` (
 --
 
 INSERT INTO `actions` (`id`, `device_id`, `action_type`, `action_setpoint`, `schedule_days`, `schedule_start`, `schedule_end`, `exception_type`, `exception_from`, `exception_to`, `exception_setpoint`, `status`, `description`, `created_by`, `created_date`) VALUES
-(1, 1, 0, 19, '0,1,3', '17:05:00', '20:55:00', 'duration', '2014-04-23', '2014-05-08', 17, 1, NULL, NULL, 1398681092),
-(2, 10, 1, 5, NULL, NULL, NULL, 'duration', '2014-04-23', '2014-05-09', 10, 1, NULL, NULL, 1398681298);
+(1, 1, 1, 17, NULL, NULL, NULL, 'duration', '2014-05-04', '2014-05-16', 22, 1, NULL, NULL, 1399221616),
+(2, 1, 0, 18, '1,2,4,6', '00:45:00', '23:55:00', 'duration', '2014-05-05', '2014-05-17', 17, 1, NULL, NULL, 1399225769);
 
 -- --------------------------------------------------------
 
@@ -68,16 +66,15 @@ CREATE TABLE IF NOT EXISTS `action_conditions` (
   `operator` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `condition_setpoint` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `action_conditions`
 --
 
 INSERT INTO `action_conditions` (`id`, `action_id`, `row_device_id`, `operator`, `condition_setpoint`) VALUES
-(1, 2, 9, '=', 1),
-(2, 2, 2, '=', 0),
-(3, 2, 8, '<', 123);
+(1, 1, 9, '=', 1),
+(2, 1, 8, '<', 16);
 
 -- --------------------------------------------------------
 
@@ -111,7 +108,7 @@ INSERT INTO `buildings` (`id`, `building_name`, `description`, `status`, `create
 CREATE TABLE IF NOT EXISTS `devices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `device_id` varchar(8) COLLATE utf8_unicode_ci NOT NULL,
-  `eep` varchar(6) COLLATE utf8_unicode_ci NOT NULL,
+  `eep` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
   `room_id` int(11) NOT NULL,
   `device_type_id` int(11) NOT NULL,
   `device_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,

@@ -19,7 +19,9 @@ class Home extends GEH_Controller {
 
         $data['floor_list'] = $this->floor_model->get_list();
         $device = $this->device_model->get_by_device_id('018211CF');
-        $data['temp_value'] = $this->device_setpoint_model->get_by_device_row_id($device['id']);
+        $setpoint = $this->device_setpoint_model->get_by_device_row_id($device['id']);
+        $setpoint = 40 * (1 - $setpoint[0]['value'] / 255);
+        $data['temp_value'] = round($setpoint);
 
         $extend_data['content_view'] = $this->load->view('home', $data, TRUE);
         $this->load_frontend_template($extend_data, 'HOMEPAGE');

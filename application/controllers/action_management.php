@@ -56,7 +56,7 @@ class Action_management extends GEH_Controller
     public function modify()
     {
         // Insert / Update data into database
-        if($this->input->post()) {
+        if($this->input->post()) { //var_dump($this->input->post()); die();
             // Edit action
             if( isset($_GET['id']) and (is_numeric($_GET['id']) and intval($_GET['id'] > 0)) ) {
 
@@ -81,7 +81,7 @@ class Action_management extends GEH_Controller
                 $insert_success_message = 'Add new action successful!';
 
                 // Action type Schedule
-                if($_GET['action_type'] == 'schedule') { //var_dump($this->input->post()); die();
+                if($_GET['action_type'] == 'schedule') {
                     if($this->input->post('schedule_day')) {
                         // Create string schedule days
                         $schedule_days = implode(',', $this->input->post('schedule_day'));
@@ -98,11 +98,13 @@ class Action_management extends GEH_Controller
                         'schedule_days' => $schedule_days,
                         'schedule_start' => $this->input->post('time_start'),
                         'schedule_end' => $this->input->post('time_end'),
+                        'exception_type' => $this->input->post('exception_type'),
                         'exception_from' => $exception_from,
                         'exception_to' => $exception_to,
                         'exception_setpoint' => floatval($this->input->post('exception_setpoint')),
                         'created_date' => time()
-                    ); //var_dump($insert_data); die();
+                    );
+
                     // If insert data successful, go to action management page
                     if($action_id = $this->actions_model->insert($insert_data)) {
                         $this->session->set_flashdata($insert_success_session, $insert_success_message);
@@ -116,12 +118,14 @@ class Action_management extends GEH_Controller
                         'status' => intval($this->input->post('action_status')),
                         'action_type' => ACTION_TYPE_EVENT,
                         'action_setpoint' => floatval($this->input->post('action_setpoint')),
+                        'exception_type' => $this->input->post('exception_type'),
                         'exception_from' => $exception_from,
                         'exception_to' => $exception_to,
                         'exception_setpoint' => floatval($this->input->post('exception_setpoint')),
                         'created_date' => time()
                     );
                 }
+
                 // If insert data successful, go to action management page
                 if($action_id = $this->actions_model->insert($insert_data)) {
                     $flag = FALSE;
@@ -136,6 +140,7 @@ class Action_management extends GEH_Controller
                         if($this->action_condition_model->insert($insert_data))
                             $flag = TRUE;
                     }
+
                     // Go to action management page if has no insertion fail
                     if($flag) {
                         $this->session->set_flashdata($insert_success_session, $insert_success_message);
@@ -154,12 +159,13 @@ class Action_management extends GEH_Controller
 
         // Case: edit action
         if ( isset($_GET['id']) and (is_numeric($_GET['id']) and intval($_GET['id'] > 0)) ) {
+            // Get action detail information
             $action = $this->actions_model->get_by_id($_GET['id']);
             $data['action'] = $this->prepare_action_info($action);
 
+            // Get device detail information
             $device = $this->device_model->get_by_row_id($action['device_id']);
             $data['device'] = $device;
-            //$data['device_setpoints'] = $this->device_setpoint_model->get_by_device_row_id($device['id']);
 
             // Action type: schedule
             if ($action['action_type'] == ACTION_TYPE_SCHEDULE) {
@@ -170,9 +176,18 @@ class Action_management extends GEH_Controller
             // Action type: event
             else if ($action['action_type'] == ACTION_TYPE_EVENT) {
                 $action_conditions = $this->action_condition_model->get_by_action_id($action['id']);
-                $data['action_conditions'] = $action_conditions;
+                $data['action_conditions'] = $action_conditions; //var_dump($action_conditions); die();
 
-                //
+                //Remove input device of conditions from list input device
+                $temp_input_device = $input_devices;
+                foreach($temp_input_device as $key => &$value) {
+                    foreach($action_conditions as $item) {
+                        if($item['row_device_id'] == $value['row_device_id']) {
+                            unset($temp_input_device[$key]);
+                        }
+                    }
+                }
+                $data['new_input_devices'] = $temp_input_device;
 
                 $extend_data['content_view'] = $this->load->view($this->action_management_view . 'edit_action_event',
                     $data, TRUE);

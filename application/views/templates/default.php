@@ -29,9 +29,6 @@
     <script src="<?php echo base_url('js/bootstrapValidator.js') ?>" type="text/javascript"></script>
 
     <script type="text/javascript">
-        /*
-         All global varian put here
-         */
         var Global = {
             siteUrl: "<?php echo base_url();?>"
         };

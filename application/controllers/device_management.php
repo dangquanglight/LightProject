@@ -108,6 +108,39 @@ class Device_management extends GEH_Controller
             'device_setpoint_model'
         ));
 
+        if($this->input->post()) {
+            // Add new device
+            if(!isset($_GET['id'])) {
+                $device_type_id = $this->input->post('device_type');
+                $device_type = $this->device_type_model->get_by_id($device_type_id);
+                $device_type_count = $this->device_model->get_count_by_device_type($device_type_id);
+
+                // Device name format: [device_type_short_name][device_count_by_type].[floor_id].[zone_id].[room_id]
+                $device_name = $device_type['type_short_name'] . ($device_type_count + 1) . '.' .
+                    $this->input->post('floor_id') . '.' .
+                    $this->input->post('zone_id') . '.' .
+                    $this->input->post('room_id')
+                ;
+
+                $insert_data = array(
+                    'device_id' => $this->input->post('device_id'),
+                    'room_id' => $this->input->post('room_id'),
+                    'device_type_id' => $device_type_id,
+                    'device_name' => $device_name,
+                    'created_date' => time(),
+                    'status' => STATUS_PENDING_TEACH_IN
+                ); var_dump($insert_data); die();
+
+                if($this->device_model->insert($insert_data)) {
+                    $this->session->set_flashdata('add_success', 'Add new device successful!');
+                    redirect(device_management_controller_url());
+                }
+            }
+            else {
+
+            }
+        }
+
         $data['floor_list'] = $this->floor_model->get_list();
 
         // List temperature devices
