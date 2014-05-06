@@ -28,6 +28,12 @@ if (!function_exists('add_new_action_url')) {
     }
 }
 
+if (!function_exists('delete_action_url')) {
+    function delete_action_url($id) {
+        return base_url('action_management/delete?id=' . $id);
+    }
+}
+
 // endregion ACTION MANAGEMENT CONTROLLER
 
 // region CONTROL CONTROLLER

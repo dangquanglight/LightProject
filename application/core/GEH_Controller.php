@@ -3,13 +3,19 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class GEH_Controller extends CI_Controller {
+class GEH_Controller extends CI_Controller
+{
 
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
     }
 
-    function get_common_view() {
+    // Flash data successful
+    public $flash_success_session = 'flash_success';
+
+    function get_common_view()
+    {
         $data = new ArrayObject();
 
         $header = $this->load->view('templates/header', $data, TRUE);
@@ -25,7 +31,8 @@ class GEH_Controller extends CI_Controller {
         return $data;
     }
 
-    function load_frontend_template($extend_data, $page_title = '') {
+    function load_frontend_template($extend_data, $page_title = '')
+    {
         $common_views = $this->get_common_view();
         $common_views['content_view'] = '';
         if (isset($extend_data['content_view'])) {
@@ -39,11 +46,13 @@ class GEH_Controller extends CI_Controller {
         $this->load->view('templates/default', $data);
     }
 
-    function load_view_error($data) {
+    function load_view_error($data)
+    {
         $this->load->view("error_page", $data);
     }
 
-    public function send_email($to, $subject, $content, $debug = false) {
+    public function send_email($to, $subject, $content, $debug = false)
+    {
         require_once APPPATH . 'libraries/phpmailer521/class.phpmailer.php';
         $mail = new PHPMailer(true);
         $mail->IsSMTP();
@@ -76,7 +85,8 @@ class GEH_Controller extends CI_Controller {
         }
     }
 
-    public function get_email_template($type) {
+    public function get_email_template($type)
+    {
         /*$base_path = FCPATH . "application/views/emails_template/";
         $file = $base_path . $name . ".txt";
         if (file_exists($file)) {
@@ -100,7 +110,8 @@ class GEH_Controller extends CI_Controller {
             return FALSE;
     }
 
-    public function get_main_email_template($main_template) {
+    public function get_main_email_template($main_template)
+    {
         $this->load->model('email_template_model');
         $main = $this->email_template_model->get_main_template($main_template);
         if ($main)
@@ -109,7 +120,8 @@ class GEH_Controller extends CI_Controller {
             return FALSE;
     }
 
-    public function fill_email_content($type, $data) {
+    public function fill_email_content($type, $data)
+    {
         $template_content = $this->get_email_template($type);
         foreach ($data as $key => $aData) {
             $template_content = str_replace("{" . $key . "}", $aData, $template_content);
@@ -117,7 +129,8 @@ class GEH_Controller extends CI_Controller {
         return $template_content;
     }
 
-    public function get_zones_list($floor_id) {
+    public function get_zones_list($floor_id)
+    {
         $this->load->model('zone_model');
         $zones = $this->zone_model->get_by_floor_id($floor_id);
         $data = array();
@@ -129,7 +142,8 @@ class GEH_Controller extends CI_Controller {
         return $data;
     }
 
-    public function get_rooms_list($zone_id) {
+    public function get_rooms_list($zone_id)
+    {
         $this->load->model('room_model');
         $rooms = $this->room_model->get_by_zone_id($zone_id);
         $data = array();
@@ -143,7 +157,8 @@ class GEH_Controller extends CI_Controller {
         return $data;
     }
 
-    public function get_controlled_devices_list($room_id) {
+    public function get_controlled_devices_list($room_id)
+    {
         $this->load->model(array('device_model', 'device_state_model'));
         $state = $this->device_state_model->get_by_name(DEVICE_STATE_CONTROLLED);
         $devices = $this->device_model->get_list_by_state_id_and_room_id($state['id'], $room_id);
@@ -158,7 +173,8 @@ class GEH_Controller extends CI_Controller {
         return $data;
     }
 
-    public function get_setpoint_info($device_row_id) {
+    public function get_setpoint_info($device_row_id)
+    {
         $this->load->model(array('device_model', 'device_setpoint_model'));
 
         // Get device info
@@ -190,7 +206,8 @@ class GEH_Controller extends CI_Controller {
         return $data;
     }
 
-    public function device_setponit_log($current_setpoint) {
+    public function device_setponit_log($current_setpoint)
+    {
         $insert_data = array(
             'current_setpoint' => $current_setpoint,
             'log_time' => date('Y-m-d H:i:s')

@@ -8,7 +8,6 @@ function getIndexElement($array, $search_value)
         }
     }
 }
-
 ?>
 
 <style>
@@ -24,15 +23,18 @@ function getIndexElement($array, $search_value)
 
 <h3>Device name: <?php echo $action['device_name']; ?></h3>
 
-<form method="post" action="<?php echo action_management_controller_url(); ?>" name="frmEditEvent">
+<form method="post" name="frmEditEvent">
+    <input type="hidden" name="action_device_id" value="<?php echo $device['id']; ?>">
+    <input type="hidden" name="action_type" value="<?php echo $action_type; ?>">
+
     <div class="btn-group">
         <label class="btn btn-primary">
-            <input type="radio" name="actionStatus"
-                   value="0" <?php if ($action['status'] == ACTION_ENABLE) echo 'checked'; ?>> Enable
+            <input type="radio" name="action_status"
+                   value="<?php echo ACTION_ENABLE; ?>" <?php if ($action['status'] == ACTION_ENABLE) echo 'checked'; ?>> Enable
         </label>
         <label class="btn btn-primary">
-            <input type="radio" name="actionStatus"
-                   value="1" <?php if ($action['status'] == ACTION_DISABLE) echo 'checked'; ?>> Disable
+            <input type="radio" name="action_status"
+                   value="<?php echo ACTION_DISABLE; ?>" <?php if ($action['status'] == ACTION_DISABLE) echo 'checked'; ?>> Disable
         </label>
     </div>
 
@@ -44,7 +46,7 @@ function getIndexElement($array, $search_value)
 
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="amount" disabled>
-                    <input type="hidden" name="hiddenSetpoint1" id="hiddenSetpoint1">
+                    <input type="hidden" name="action_setpoint" id="action_setpoint">
                 </div>
                 <input id="range-slider" type="text"/>
 
@@ -87,8 +89,8 @@ function getIndexElement($array, $search_value)
                                 </div>
                                 <div class="col-sm-3">
                                     <select class="form-control" name="condition_setpoint_<?php echo $field_count; ?>">
-                                        <option value="1">ON</option>
-                                        <option value="0">OFF</option>
+                                        <option value="1" <?php if($conditions['condition_setpoint'] == 1) echo 'selected'; ?>>ON</option>
+                                        <option value="0" <?php if($conditions['condition_setpoint'] == 0) echo 'selected'; ?>>OFF</option>
                                     </select>
                                 </div>
                                 <button type="button" id="removeCondition"
@@ -131,12 +133,12 @@ function getIndexElement($array, $search_value)
             <td style="vertical-align: top;">
                 <h4>Exception &nbsp;
                     <label class="radio-inline">
-                        <input type="radio" name="radio-exception" id="radio-exception-day"
+                        <input type="radio" name="exception_type" id="radio-exception-day"
                                value="<?php echo EXCEPTION_TYPE_DAY; ?>"
                             <?php if ($action['exception_type'] == EXCEPTION_TYPE_DAY) echo 'checked'; ?>> Day
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="radio-exception" id="radio-exception-duration"
+                        <input type="radio" name="exception_type" id="radio-exception-duration"
                                value="<?php echo EXCEPTION_TYPE_DURATION; ?>"
                             <?php if ($action['exception_type'] == EXCEPTION_TYPE_DURATION) echo 'checked'; ?>> Duration
                     </label></h4>
@@ -198,9 +200,7 @@ function getIndexElement($array, $search_value)
                     <input style="width: 100%" id="range-slider2" type="text"/>
                 </div>
 
-                <p>&nbsp;</p>
-
-                <p>&nbsp;</p>
+                <p>&nbsp;</p><p>&nbsp;</p>
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Save</button>
@@ -211,6 +211,7 @@ function getIndexElement($array, $search_value)
             </td>
         </tr>
     </table>
+    <input type="hidden" name="count_condition" id="count_condition" value="">
 </form>
 
 <script type="text/javascript">
@@ -235,6 +236,7 @@ $(document).ready(function () {
 
     <?php if($action['exception_setpoint']) : ?>
     $("#amount2").val('<?php echo $action['exception_setpoint'] , ' ' , $device['unit_name']; ?>');
+    $("#exception_setpoint").val('<?php echo $action['exception_setpoint']; ?>');
     <?php endif; ?>
     $("#range-slider2").slider({
         tooltip: 'hide',
@@ -330,9 +332,12 @@ clone_popover_options_list[<?php echo $i; ?>] = {
 };
 <?php $i++; endforeach; ?>
 
-if(popover_options_list.length == MaxInputs) {
+<?php if(count($action_conditions) == count($input_devices_list)) : ?>
     $("#btnAddNewCondition").prop('disabled', true);
-}
+<?php endif; ?>
+
+// Assign number of condition to hidden input count_condition
+$("#count_condition").val(count);
 
 function createNewPopover(arr, buttonID) {
     var options = '';
@@ -473,6 +478,9 @@ function btnRemoveCondition(removeButtonID) {
 
     count--; //decrement textbox count
     FieldCount--;
+
+    // Assign number of condition to hidden input count_condition
+    $("#count_condition").val(count);
 }
 
 // Initial popover

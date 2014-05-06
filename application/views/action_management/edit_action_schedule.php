@@ -19,22 +19,23 @@ function echo_checked_day($data, $value)
     <li class="active">Edit action</li>
 </ol>
 
-<!--<h1 class="page-header">Action management</h1>-->
-
 <h3>Device name: <?php echo $action['device_name']; ?></h3>
 
-<form method="post" action="">
+<form method="post" name="frmEditSchedule">
+    <input type="hidden" name="action_device_id" value="<?php echo $device['id']; ?>">
+    <input type="hidden" name="action_type" value="<?php echo $action_type; ?>">
+
     <table border="0" style="width: 100%;">
         <tr>
             <td colspan="2">
                 <div class="btn-group">
                     <label class="btn btn-primary">
-                        <input type="radio" name="actionStatus"
-                               value="0" <?php if ($action['status'] == ACTION_ENABLE) echo 'checked'; ?>> Enable
+                        <input type="radio" name="action_status"
+                               value="<?php echo ACTION_ENABLE; ?>" <?php if ($action['status'] == ACTION_ENABLE) echo 'checked'; ?>> Enable
                     </label>
                     <label class="btn btn-primary">
-                        <input type="radio" name="actionStatus"
-                               value="1" <?php if ($action['status'] == ACTION_DISABLE) echo 'checked'; ?>> Disable
+                        <input type="radio" name="action_status"
+                               value="<?php echo ACTION_DISABLE; ?>" <?php if ($action['status'] == ACTION_DISABLE) echo 'checked'; ?>> Disable
                     </label>
                 </div>
             </td>
@@ -45,7 +46,7 @@ function echo_checked_day($data, $value)
 
                 <div class="col-sm-3">
                     <input type="text" class="form-control" id="amount" disabled>
-                    <input type="hidden" name="hiddenSetpoint1" id="hiddenSetpoint1">
+                    <input type="hidden" name="action_setpoint" id="action_setpoint">
                 </div>
                 <input id="range-slider" type="text"/>
             </td>
@@ -56,35 +57,35 @@ function echo_checked_day($data, $value)
                 <h4>Schedule</h4>
 
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="day_group" value="0"
+                    <input type="checkbox" id="day_group" name="schedule_day[]" value="<?php echo ACTION_SCHEDULE_MONDAY; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_MONDAY); ?>> Monday
                 </label>
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="day_group" value="1"
+                    <input type="checkbox" id="day_group" name="schedule_day[]" value="<?php echo ACTION_SCHEDULE_TUESDAY; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_TUESDAY); ?>> Tuesday
                 </label>
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="day_group" value="2"
+                    <input type="checkbox" id="day_group" name="schedule_day[]" value="<?php echo ACTION_SCHEDULE_WEDNESDAY; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_WEDNESDAY); ?>> Wednesday
                 </label>
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="day_group" value="3"
+                    <input type="checkbox" id="day_group" name="schedule_day[]" value="<?php echo ACTION_SCHEDULE_THURSDAY; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_THURSDAY); ?>> Thursday
                 </label>
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="day_group" value="4"
+                    <input type="checkbox" id="day_group" name="schedule_day[]" value="<?php echo ACTION_SCHEDULE_FRIDAY; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_FRIDAY); ?>> Friday
                 </label>
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="day_group" value="5"
+                    <input type="checkbox" id="day_group" name="schedule_day[]" value="<?php echo ACTION_SCHEDULE_SARTUDAY; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_SARTUDAY); ?>> Sartuday
                 </label>
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="day_group" value="6"
+                    <input type="checkbox" id="day_group" name="schedule_day[]" value="<?php echo ACTION_SCHEDULE_SUNDAY; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_SUNDAY); ?>> Sunday
                 </label>
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="select-all" value="7"
+                    <input type="checkbox" id="select-all" value="<?php echo ACTION_SCHEDULE_ALL_DAYS; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_ALL_DAYS); ?>> All
                 </label>
 
@@ -94,7 +95,7 @@ function echo_checked_day($data, $value)
                     <label for="start">Start</label>
 
                     <div id="timepickerStart" class="input-group date form_time">
-                        <input class="form-control" type="text" value="<?php echo $action['schedule_start']; ?>">
+                        <input class="form-control" type="text" name="time_start" value="<?php echo $action['schedule_start']; ?>">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                     </div>
                 </div>
@@ -103,7 +104,7 @@ function echo_checked_day($data, $value)
                     <label for="end">End</label>
 
                     <div id="timepickerEnd" class="input-group date form_time">
-                        <input class="form-control" type="text" value="<?php echo $action['schedule_end']; ?>">
+                        <input class="form-control" type="text" name="time_end" value="<?php echo $action['schedule_end']; ?>">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                     </div>
                 </div>
@@ -114,11 +115,11 @@ function echo_checked_day($data, $value)
                 <br>
                 <h4>Exception &nbsp;
                     <label class="radio-inline">
-                        <input type="radio" name="radio-exception" id="radio-exception-day" value="<?php echo EXCEPTION_TYPE_DAY; ?>"
+                        <input type="radio" name="exception_type" id="radio-exception-day" value="<?php echo EXCEPTION_TYPE_DAY; ?>"
                             <?php if($action['exception_type'] == EXCEPTION_TYPE_DAY) echo 'checked'; ?>> Day
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="radio-exception" id="radio-exception-duration" value="<?php echo EXCEPTION_TYPE_DURATION; ?>"
+                        <input type="radio" name="exception_type" id="radio-exception-duration" value="<?php echo EXCEPTION_TYPE_DURATION; ?>"
                             <?php if($action['exception_type'] == EXCEPTION_TYPE_DURATION) echo 'checked'; ?>>
                         Duration
                     </label>
@@ -177,7 +178,7 @@ function echo_checked_day($data, $value)
 
                 <div class="col-sm-3">
                     <input type="text" class="form-control" id="amount2" disabled>
-                    <input type="hidden" name="hiddenSetpoint2" id="hiddenSetpoint2">
+                    <input type="hidden" name="exception_setpoint" id="exception_setpoint">
                 </div>
                 <input id="range-slider2" type="text"/>
             </td>
@@ -213,6 +214,7 @@ function echo_checked_day($data, $value)
 
     <?php if($action['action_setpoint']) { ?>
     $("#amount").val('<?php echo $action['action_setpoint'] , ' ' , $device['unit_name']; ?>');
+    $("#action_setpoint").val('<?php echo $action['action_setpoint']; ?>');
     <?php } ?>
     $("#range-slider").slider({
         tooltip: 'hide',
@@ -225,11 +227,12 @@ function echo_checked_day($data, $value)
     });
     $("#range-slider").on('slide', function (slideEvt) {
         $("#amount").val(slideEvt.value + ' <?php echo $device['unit_name']; ?>');
-        $('#hiddenSetpoint1').val(slideEvt.value);
+        $('#action_setpoint').val(slideEvt.value);
     });
 
     <?php if($action['exception_setpoint']) : ?>
     $("#amount2").val('<?php echo $action['exception_setpoint'] , ' ' , $device['unit_name']; ?>');
+    $("#exception_setpoint").val('<?php echo $action['exception_setpoint']; ?>');
     <?php endif; ?>
     $("#range-slider2").slider({
         tooltip: 'hide',
@@ -242,7 +245,7 @@ function echo_checked_day($data, $value)
     });
     $("#range-slider2").on('slide', function (slideEvt) {
         $("#amount2").val(slideEvt.value + ' <?php echo $device['unit_name']; ?>');
-        $('#hiddenSetpoint2').val(slideEvt.value);
+        $('#exception_setpoint').val(slideEvt.value);
     });
 
     $('#datepicker_day').datetimepicker({

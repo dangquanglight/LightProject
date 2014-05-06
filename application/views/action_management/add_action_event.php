@@ -16,10 +16,10 @@
 
     <div class="btn-group">
         <label class="btn btn-primary">
-            <input type="radio" name="action_status" value="1" checked> Enable
+            <input type="radio" name="action_status" value="<?php echo ACTION_ENABLE; ?>" checked> Enable
         </label>
         <label class="btn btn-primary">
-            <input type="radio" name="action_status" value="0"> Disable
+            <input type="radio" name="action_status" value="<?php echo ACTION_DISABLE; ?>"> Disable
         </label>
     </div>
 

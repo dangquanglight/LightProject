@@ -1,12 +1,19 @@
+<script>
+    function confirm_delete(url) {
+        if (confirm("Do you want to remove this action?"))
+            window.location = url;
+    }
+</script>
+
 <ol class="breadcrumb">
     <li class="active">Action management</li>
 </ol>
 
-<?php if($this->session->flashdata('add_success')): ?>
-<div class="alert alert-success alert-dismissable">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <strong><?php echo $this->session->flashdata('add_success'); ?></strong>
-</div>
+<?php if ($this->session->flashdata('flash_success')): ?>
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong><?php echo $this->session->flashdata('flash_success'); ?></strong>
+    </div>
 <?php endif; ?>
 
 <!-- Button trigger modal -->
@@ -30,7 +37,8 @@
                         <div class="col-sm-4">
                             <select class="form-control" name="controlled_device">
                                 <?php foreach ($controlled_devices_list as $item): ?>
-                                    <option value="<?php echo $item['device_row_id']; ?>"><?php echo $item['device_name']; ?></option>
+                                    <option
+                                        value="<?php echo $item['device_row_id']; ?>"><?php echo $item['device_name']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -38,7 +46,8 @@
 
                     <div class="col-sm-12" style="margin-top: 10px;">
                         <label class="checkbox-inline">
-                            <input type="radio" name="action_type" value="schedule" checked> Add action based on schedule
+                            <input type="radio" name="action_type" value="schedule" checked> Add action based on
+                            schedule
                         </label>
                         <label class="checkbox-inline">
                             <input type="radio" name="action_type" value="event"> Add action based on event
@@ -75,7 +84,7 @@
                             <span class="glyphicon glyphicon-wrench"></span> View detail / Edit
                         </button>
                     </a>
-                    <button type="button" class="btn btn-default btn-sm">
+                    <button type="button" class="btn btn-default btn-sm" onclick="confirm_delete('<?php echo delete_action_url($item['action_id']); ?>')">
                         <span class="glyphicon glyphicon-trash"></span> Remove
                     </button>
                 </td>
