@@ -45,101 +45,52 @@
         </div>
     </div>-->
 
-    <?php if ($device['type_short_name'] == 'W2DAC') { ?>
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="amount">Setpoint 1</label>
-
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="amount">Setpoint</label>
+        <?php if ($device['property_name'] != 'ON/OFF') { ?>
             <div class="col-sm-2">
-                <input type="text" class="form-control" name="setpoint1" id="amount" disabled>
-                <input type="hidden" name="hiddenSetpoint1" id="hiddenSetpoint1">
+                <input type="text" class="form-control" id="amount" disabled>
             </div>
             <input id="range-slider" type="text"/>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="amount2">Setpoint 2</label>
-
+            <input type="hidden" name="hiddenSetpoint1" id="hiddenSetpoint1">
+        <?php } else { ?>
             <div class="col-sm-2">
-                <input type="text" class="form-control" name="setpoint2" id="amount2" disabled>
-                <input type="hidden" name="hiddenSetpoint2" id="hiddenSetpoint2">
+                <div class="btn-group btn-toggle" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                        <input name="on" value="1" type="radio"> ON
+                    </label>
+                    <label class="btn btn-default">
+                        <input name="off" value="0" checked="" type="radio"> OFF
+                    </label>
+                </div>
             </div>
-            <input id="range-slider2" type="text"/>
-        </div>
+        <?php } ?>
+    </div>
 
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="amount">Feedback source 1</label>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="amount">Feedback source</label>
 
+        <?php if ($device['type_short_name'] != 'VALVE') { ?>
             <div class="col-sm-3">
                 <select class='form-control' name="fb_source_1">
                     <?php foreach ($temp_devices_list as $item): ?>
                         <option
                             value="<?php echo $item['row_device_id']; ?>"><?php echo $item['device_name']; ?></option>
                     <?php endforeach; ?>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="amount">Feedback source 2</label>
-
-            <div class="col-sm-3">
-                <select class='form-control' name="fb_source_2">
-                    <?php foreach ($temp_devices_list as $item): ?>
+                    <?php if ($device['type_short_name'] == 'VALVE') : foreach ($internal_devices_list as $item2): ?>
                         <option
-                            value="<?php echo $item['row_device_id']; ?>"><?php echo $item['device_name']; ?></option>
-                    <?php endforeach; ?>
+                            value="<?php echo $item2['row_device_id']; ?>"><?php echo $item2['device_name']; ?></option>
+                    <?php endforeach; endif; ?>
                 </select>
             </div>
-        </div>
-    <?php } else { ?>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="amount">Setpoint</label>
-            <?php if ($device['property_name'] != 'ON/OFF') { ?>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" id="amount" disabled>
-                </div>
-                <input id="range-slider" type="text"/>
-                <input type="hidden" name="hiddenSetpoint1" id="hiddenSetpoint1">
-            <?php } else { ?>
-                <div class="col-sm-2">
-                    <div class="btn-group btn-toggle" data-toggle="buttons">
-                        <label class="btn btn-primary active">
-                            <input name="on" value="1" type="radio"> ON
-                        </label>
-                        <label class="btn btn-default">
-                            <input name="off" value="0" checked="" type="radio"> OFF
-                        </label>
-                    </div>
-                </div>
-            <?php } ?>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="amount">Feedback source</label>
-
-            <?php if ($device['type_short_name'] != 'VALVE') { ?>
-                <div class="col-sm-3">
-                    <select class='form-control' name="fb_source_1">
-                        <?php foreach ($temp_devices_list as $item): ?>
-                            <option
-                                value="<?php echo $item['row_device_id']; ?>"><?php echo $item['device_name']; ?></option>
-                        <?php endforeach; ?>
-                        <?php if ($device['type_short_name'] == 'VALVE') : foreach ($internal_devices_list as $item2): ?>
-                            <option
-                                value="<?php echo $item2['row_device_id']; ?>"><?php echo $item2['device_name']; ?></option>
-                        <?php endforeach; endif; ?>
-                    </select>
-                </div>
-            <?php } else { ?>
-                <div class="col-sm-4">
-                    <select class='form-control' name="fb_source_1" disabled>
-                        <option>Temperature sensor of the Valve</option>
-                    </select>
-                </div>
-            <?php } ?>
-        </div>
-    <?php } ?>
+        <?php } else { ?>
+            <div class="col-sm-4">
+                <select class='form-control' name="fb_source_1" disabled>
+                    <option>Temperature sensor of the Valve</option>
+                </select>
+            </div>
+        <?php } ?>
+    </div>
 <?php endif; ?>
 <?php if ($device['type_name'] != 'DALI Controller'): ?>
     <!--    <div class="form-group">

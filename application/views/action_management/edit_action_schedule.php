@@ -173,14 +173,14 @@ function echo_checked_day($data, $value)
             <td></td>
         </tr>
         <tr>
-            <td>
+            <td class="none" id="divExceptionSetpoint">
                 <label class="control-label col-sm-2" for="amount2">Setpoint</label>
 
                 <div class="col-sm-3">
                     <input type="text" class="form-control" id="amount2" disabled>
                     <input type="hidden" name="exception_setpoint" id="exception_setpoint">
                 </div>
-                <input id="range-slider2" type="text"/>
+                <input style="width: 100%" id="range-slider2" type="text"/>
             </td>
             <td style="float: left;">
                 <div class="form-group">
@@ -306,15 +306,20 @@ function echo_checked_day($data, $value)
         maxView: 1
     });
 
+    // Show hide exception Day/Duration
     $("#radio-exception-day").on("change", function () {
-        if ($(this).prop("checked"))
+        if ($(this).prop("checked")) {
             $('#exception-duration').addClass('none').siblings().removeClass('none');
+            $('#divExceptionSetpoint').removeClass('none');
+        }
     });
     $("#radio-exception-day").change();
 
     $("#radio-exception-duration").on("change", function () {
-        if ($(this).prop("checked"))
+        if ($(this).prop("checked")) {
             $('#exception-day').addClass('none').siblings().removeClass('none');
+            $('#divExceptionSetpoint').removeClass('none');
+        }
     });
     $("#radio-exception-duration").change();
 </script>

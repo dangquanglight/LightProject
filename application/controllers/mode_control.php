@@ -3,7 +3,7 @@
 if ( ! defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Control extends GEH_Controller {
+class Mode_control extends GEH_Controller {
 
     function __construct() {
         parent::__construct();

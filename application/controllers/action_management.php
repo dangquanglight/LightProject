@@ -43,11 +43,12 @@ class Action_management extends GEH_Controller
                 $item['action_type'] = 'Schedule';
             else
                 $item['action_type'] = 'Event';
+
             // Action status
             if ($item['status'] == ACTION_ENABLE)
                 $item['status'] = 'Enable';
             else
-                $item['status'] = 'Disalbe';
+                $item['status'] = 'Disable';
         }
 
         return $data;
@@ -131,26 +132,31 @@ class Action_management extends GEH_Controller
                 // Edit action
                 if (isset($_GET['id']) and (is_numeric($_GET['id']) and intval($_GET['id'] > 0))) {
                     if ($this->actions_model->update($_GET['id'], $data)) {
-                        $flag = FALSE;
+                        if($this->input->post('count_condition')) {
+                            $flag = FALSE;
 
-                        // Remove all action condition and insert the new one to database
-                        // Find all condions of this action and delete it first
-                        $conditions = $this->action_condition_model->get_by_action_id($_GET['id']);
-                        if ($conditions) {
-                            foreach ($conditions as $condition) {
-                                $this->action_condition_model->delete($condition['id']);
+                            // Remove all action condition and insert the new one to database
+                            // Find all condions of this action and delete it first
+                            $conditions = $this->action_condition_model->get_by_action_id($_GET['id']);
+                            if ($conditions) {
+                                foreach ($conditions as $condition) {
+                                    $this->action_condition_model->delete($condition['id']);
+                                }
+                            }
+
+                            for ($i = 1; $i <= $this->input->post('count_condition'); $i++) {
+                                $data = array(
+                                    'action_id' => $_GET['id'],
+                                    'row_device_id' => $this->input->post('input_device_' . $i),
+                                    'operator' => $this->input->post('operator_' . $i),
+                                    'condition_setpoint' => $this->input->post('condition_setpoint_' . $i)
+                                );
+                                if ($this->action_condition_model->insert($data))
+                                    $flag = TRUE;
                             }
                         }
-
-                        for ($i = 1; $i <= $this->input->post('count_condition'); $i++) {
-                            $data = array(
-                                'action_id' => $_GET['id'],
-                                'row_device_id' => $this->input->post('input_device_' . $i),
-                                'operator' => $this->input->post('operator_' . $i),
-                                'condition_setpoint' => $this->input->post('condition_setpoint_' . $i)
-                            );
-                            if ($this->action_condition_model->insert($data))
-                                $flag = TRUE;
+                        else {
+                            $flag = TRUE;
                         }
 
                         // Go to action management page if has no insertion fail
@@ -164,17 +170,22 @@ class Action_management extends GEH_Controller
                 // Add new action
                 else if (isset($_GET['action_type']) and ($_GET['action_type'] == 'schedule' or $_GET['action_type'] == 'event')) {
                     if ($action_id = $this->actions_model->insert($data)) {
-                        $flag = FALSE;
+                        if($this->input->post('count_condition')) {
+                            $flag = FALSE;
 
-                        for ($i = 1; $i <= $this->input->post('count_condition'); $i++) {
-                            $data = array(
-                                'action_id' => $action_id,
-                                'row_device_id' => $this->input->post('input_device_' . $i),
-                                'operator' => $this->input->post('operator_' . $i),
-                                'condition_setpoint' => $this->input->post('condition_setpoint_' . $i)
-                            );
-                            if ($this->action_condition_model->insert($data))
-                                $flag = TRUE;
+                            for ($i = 1; $i <= $this->input->post('count_condition'); $i++) {
+                                $data = array(
+                                    'action_id' => $action_id,
+                                    'row_device_id' => $this->input->post('input_device_' . $i),
+                                    'operator' => $this->input->post('operator_' . $i),
+                                    'condition_setpoint' => $this->input->post('condition_setpoint_' . $i)
+                                );
+                                if ($this->action_condition_model->insert($data))
+                                    $flag = TRUE;
+                            }
+                        }
+                        else {
+                            $flag = TRUE;
                         }
 
                         // Go to action management page if has no insertion fail

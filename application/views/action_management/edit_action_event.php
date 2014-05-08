@@ -72,7 +72,7 @@ function getIndexElement($array, $search_value)
 
                             if ($conditions['property_name'] == 'ON/OFF') {
                        ?>
-                            <div class="col-sm-9" id="divCondition_<?php echo $remove_button_id; ?>"
+                            <div class="col-sm-11" id="divCondition_<?php echo $remove_button_id; ?>"
                                  style="margin-bottom: 10px;">
                                 <label
                                     class="control-label <?php echo $label_size; ?>"><?php echo $if_statement; ?></label>
@@ -103,7 +103,7 @@ function getIndexElement($array, $search_value)
                                 <label
                                     class="control-label <?php echo $label_size; ?>"><?php echo $if_statement; ?></label>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <input type="text" class="form-control text-center"
                                            value="<?php echo $conditions['device_name']; ?>" disabled>
                                     <input type="hidden" name="input_device_<?php echo $field_count; ?>"
@@ -419,7 +419,7 @@ function btnContinueClick() {
                 '<input type="text" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
                 '<input type="hidden" name="input_device_' + FieldCount + '" value="' + InputDevice[2] + '">' +
                 '</div>' +
-                '<div class="col-sm-2">' +
+                '<div class="col-sm-3">' +
                 '<select class="form-control" name="operator_' + FieldCount + '">' +
                 '<option value="<"> &nbsp; < </option>' +
                 '<option value="<="> &nbsp; <= </option>' +

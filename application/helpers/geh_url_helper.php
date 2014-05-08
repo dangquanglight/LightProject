@@ -39,19 +39,19 @@ if (!function_exists('delete_action_url')) {
 // region CONTROL CONTROLLER
 if (!function_exists('control_controller_url')) {
     function control_controller_url() {
-        return base_url('control');
+        return base_url('mode_control');
     }
 }
 
 if (!function_exists('mode_detail_url')) {
     function mode_detail_url() {
-        return base_url('control/detail');
+        return base_url('mode_control/detail');
     }
 }
 
 if (!function_exists('add_mode_url')) {
     function add_mode_url() {
-        return base_url('control/modify');
+        return base_url('mode_control/modify');
     }
 }
 // endregion CONTROL CONTROLLER

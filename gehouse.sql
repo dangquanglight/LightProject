@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2014 at 04:16 AM
+-- Generation Time: May 08, 2014 at 12:08 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -43,15 +43,15 @@ CREATE TABLE IF NOT EXISTS `actions` (
   `created_by` int(11) DEFAULT NULL,
   `created_date` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `actions`
 --
 
 INSERT INTO `actions` (`id`, `device_id`, `action_type`, `action_setpoint`, `schedule_days`, `schedule_start`, `schedule_end`, `exception_type`, `exception_from`, `exception_to`, `exception_setpoint`, `status`, `description`, `created_by`, `created_date`) VALUES
-(1, 1, 1, 17, NULL, NULL, NULL, 'duration', '2014-05-04', '2014-05-16', 22, 1, NULL, NULL, 1399221616),
-(2, 1, 0, 18, '1,2,4,6', '00:45:00', '23:55:00', 'duration', '2014-05-05', '2014-05-17', 17, 1, NULL, NULL, 1399225769);
+(8, 1, 0, 18, '2,3,6', '04:00:00', '12:55:00', '0', NULL, NULL, 0, 1, NULL, NULL, 1399499622),
+(9, 10, 1, 71, NULL, NULL, NULL, 'day', '2014-05-22', NULL, 20, 0, NULL, NULL, 1399500273);
 
 -- --------------------------------------------------------
 
@@ -66,15 +66,15 @@ CREATE TABLE IF NOT EXISTS `action_conditions` (
   `operator` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `condition_setpoint` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `action_conditions`
 --
 
 INSERT INTO `action_conditions` (`id`, `action_id`, `row_device_id`, `operator`, `condition_setpoint`) VALUES
-(1, 1, 9, '=', 1),
-(2, 1, 8, '<', 16);
+(6, 9, 0, '0', 0),
+(10, 9, 0, '0', 0);
 
 -- --------------------------------------------------------
 
@@ -202,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `device_setpoints` (
   `row_device_id` int(11) DEFAULT NULL,
   `value` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `device_setpoints`
@@ -210,12 +210,12 @@ CREATE TABLE IF NOT EXISTS `device_setpoints` (
 
 INSERT INTO `device_setpoints` (`id`, `row_device_id`, `value`) VALUES
 (1, 1, 21),
-(6, 10, 2),
-(7, 10, 8),
-(8, 11, 6),
+(6, 10, 45),
+(8, 11, 18),
 (9, 12, 19),
 (12, 9, 10),
-(13, 8, 10);
+(13, 8, 10),
+(14, 8, 10);
 
 -- --------------------------------------------------------
 
@@ -272,8 +272,8 @@ INSERT INTO `device_types` (`id`, `state_id`, `controller_device`, `type_name`, 
 (7, '2', 0, 'Wi-Fi router', 'WIFIAP', 'The router/access point to provide the connection between many HUB and server.', 1, 1, 1),
 (8, '3', 6, 'Wireless temperature sensor', 'TEMP', NULL, 1, 1, 1),
 (9, '3', 6, 'Multilux Sensor PIR', 'PIR', NULL, 1, 1, 1),
-(10, '1', 6, 'EnOcean Wireless Receiver with 2 analog Outputs', 'W2DAC', NULL, 1, 1, 1),
-(11, '1', 6, 'EnOcean Wireless Receiver with 1 / 2 analog Outputs', 'W1DAC', NULL, 1, 1, 1),
+(10, '1', 6, 'EnOcean Wireless Receiver with 1 Analog Output Channel', 'W2DAC', NULL, 1, 1, 1),
+(11, '1', 6, 'Thermostat Receiver SRC-AO CLIMATE V', 'W1DAC', NULL, 1, 1, 1),
 (12, '1', 6, 'One channel wireless actuator 10A in temperature management mode', 'W1R10NT', NULL, 1, 1, 1);
 
 -- --------------------------------------------------------
@@ -297,8 +297,8 @@ INSERT INTO `device_type_properties` (`id`, `device_type_id`, `property_id`) VAL
 (1, 1, 3),
 (2, 2, 1),
 (6, 12, 3),
-(7, 10, 6),
-(8, 11, 6),
+(7, 10, 2),
+(8, 11, 3),
 (9, 1, 3),
 (10, 9, 1),
 (11, 8, 3);
@@ -328,6 +328,34 @@ INSERT INTO `floors` (`id`, `building_id`, `floor_name`, `description`, `status`
 (1, 1, 'Floor 1', NULL, 1, 1, 1),
 (2, 1, 'Floor 2', NULL, 1, 1, 1),
 (3, 1, 'Floor 3', NULL, 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `model_control_details`
+--
+
+CREATE TABLE IF NOT EXISTS `model_control_details` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mode_id` int(11) NOT NULL,
+  `action_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mode_control`
+--
+
+CREATE TABLE IF NOT EXISTS `mode_control` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mode_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_date` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
