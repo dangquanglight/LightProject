@@ -15,7 +15,8 @@ class Action_management extends GEH_Controller
             'action_condition_model',
             'device_model',
             'device_state_model',
-            'device_setpoint_model'
+            'device_setpoint_model',
+            'mode_control_detail_model'
         ));
     }
 
@@ -36,7 +37,16 @@ class Action_management extends GEH_Controller
             }
         }
 
-        $data['actions_list'] = $this->prepare_action_list_info($this->actions_model->get_list());
+        // List actions of all modes
+        $mode_actions = $this->mode_control_detail_model->get_list();
+        $mode_actions_id_list = array();
+        $i = 0;
+        foreach($mode_actions as $item) {
+            $mode_actions_id_list[$i] = $item['action_id'];
+            $i++;
+        }
+
+        $data['actions_list'] = $this->prepare_action_list_info($this->actions_model->get_list_index($mode_actions_id_list));
         $data['controlled_devices_list'] = $this->device_model->get_by_device_state(DEVICE_STATE_CONTROLLED);
         $extend_data['content_view'] = $this->load->view($this->action_management_view . 'index', $data, TRUE);
 
@@ -159,7 +169,7 @@ class Action_management extends GEH_Controller
                     'exception_setpoint' => floatval($this->input->post('exception_setpoint')),
                     'created_date' => time()
                 );
-
+                //TODO: Find new way to edit action event
                 // Edit action
                 if (isset($_GET['id']) and (is_numeric($_GET['id']) and intval($_GET['id'] > 0))) {
                     if ($this->actions_model->update($_GET['id'], $data)) {
@@ -176,11 +186,15 @@ class Action_management extends GEH_Controller
 
                             // Remove all action condition and insert the new one to database
                             for ($i = 0; $i < count($this->input->post('input_device')); $i++) {
+                                $row_device_id = $this->input->post('input_device');
+                                $operator = $this->input->post('operator');
+                                $condition_setpoint = $this->input->post('condition_setpoint');
+
                                 $data = array(
                                     'action_id' => $_GET['id'],
-                                    'row_device_id' => $this->input->post('input_device')[$i],
-                                    'operator' => $this->input->post('operator')[$i],
-                                    'condition_setpoint' => $this->input->post('condition_setpoint')[$i]
+                                    'row_device_id' => $row_device_id[$i],
+                                    'operator' => $operator[$i],
+                                    'condition_setpoint' => $condition_setpoint[$i]
                                 );
                                 if ($this->action_condition_model->insert($data))
                                     $flag = TRUE;
@@ -208,11 +222,15 @@ class Action_management extends GEH_Controller
                             $flag = FALSE;
 
                             for ($i = 0; $i < count($this->input->post('input_device')); $i++) {
+                                $row_device_id = $this->input->post('input_device');
+                                $operator = $this->input->post('operator');
+                                $condition_setpoint = $this->input->post('condition_setpoint');
+
                                 $data = array(
                                     'action_id' => $action_id,
-                                    'row_device_id' => $this->input->post('input_device')[$i],
-                                    'operator' => $this->input->post('operator')[$i],
-                                    'condition_setpoint' => $this->input->post('condition_setpoint')[$i]
+                                    'row_device_id' => $row_device_id[$i],
+                                    'operator' => $operator[$i],
+                                    'condition_setpoint' => $condition_setpoint[$i]
                                 );
                                 if ($this->action_condition_model->insert($data))
                                     $flag = TRUE;

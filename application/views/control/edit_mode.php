@@ -43,7 +43,9 @@
 
     <div class="form-group">
         <div class="col-sm-offset-1 col-sm-10">
-            <button type="button" class="btn btn-primary">Add an existing action</button>
+            <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#actionList"
+                <?php /*if(count($actions_list) == 0) echo 'disabled'; */?>>Add an existing action
+            </button>-->
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                 Add new action
@@ -140,8 +142,62 @@
     </div>
 </div>
 
+<div class="modal fade" id="actionList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Exsting actions list</h4>
+            </div>
+
+            <form method="post">
+                <table class="table table-hover">
+                    <thead>
+                    <th style="width: 10%"><input type="checkbox" id="selectAllActions"></th>
+                    <th style="width: 20%">Name</th>
+                    <th style="width: 20%">Type</th>
+                    <th style="width: 20%">State</th>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($actions_list as $item): ?>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="action_group" name="existing_actions_list[]" value="<?php echo $item['action_id']; ?>">
+                            </td>
+                            <td>
+                                <?php echo $item['device_name']; ?>
+                            </td>
+                            <td><?php echo $item['action_type']; ?></td>
+                            <td><?php echo $item['status']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function () {
-
+        $('#selectAllActions').click(function (event) {
+            if (this.checked) {
+                // Iterate each checkbox
+                $(':checkbox').filter('#action_group').each(function () {
+                    this.checked = true;
+                });
+            }
+            else {
+                // Iterate each checkbox
+                $(':checkbox').filter('#action_group').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
     });
 </script>

@@ -206,9 +206,10 @@ class GEH_Controller extends CI_Controller
         return $data;
     }
 
-    public function device_setponit_log($current_setpoint)
+    public function device_setponit_log($row_device_id, $current_setpoint)
     {
         $insert_data = array(
+            'row_device_id' => $row_device_id,
             'current_setpoint' => $current_setpoint,
             'log_time' => date('Y-m-d H:i:s')
         );

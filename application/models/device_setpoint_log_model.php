@@ -35,6 +35,16 @@ class Device_setpoint_log_model extends CI_Model{
         return $query->result_array();
     }
 
+    public function get_latest_setpoint($row_device_id)
+    {
+        $this->db->where('row_device_id', $row_device_id);
+        $this->db->order_by('log_time', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get($this->_table_name);
+
+        return $query->row_array();
+    }
+
     public function get_by_id($id)
     {
         $this->db->where('id', $id);

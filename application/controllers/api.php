@@ -75,16 +75,31 @@ class Api extends GEH_Controller {
     {
         if(isset($_GET['ID']) and strlen($_GET['ID']) == 8) {
             $device_id = $_GET['ID'];
-            $output = '';
             $this->load->model(array(
                 'device_model',
                 'device_type_model',
-                'device_setpoint_model'
+                'device_setpoint_model',
+                'device_setpoint_log_model'
             ));
 
-            $eohub = $this->device_model->get_by_device_id($device_id);
-            if($eohub) {
+            $device = $this->device_model->get_by_device_id($device_id);
+            if($device) {
+                $device_setpoint = $this->device_setpoint_model->get_by_device_row_id($device['id']);
+                $setpoint_log = $this->device_setpoint_log_model->get_latest_setpoint($device['id']);
+                $flag_none = TRUE;
 
+                foreach($device_setpoint as $setpoint) {
+                    if($setpoint['value'] != $setpoint_log['current_setpoint']) {
+                        $flag_none = FALSE;
+                    }
+                }
+
+                if($flag_none) {
+                    echo 'UPD_NONE';
+                }
+                else {
+                    echo 'UPD_CMMD?' . $device_id . $device_setpoint[0]['value'];
+                }
             }
             else
                 redirect(home_url());
@@ -125,7 +140,7 @@ class Api extends GEH_Controller {
                                             'value' => $setpoint1
                                         );
                                         if($this->device_setpoint_model->update($item2['id'], $update_data)) {
-                                            $this->device_setponit_log($setpoint1);
+                                            $this->device_setponit_log($device['id'], $setpoint1);
                                             $flag_ok = true;
                                         }
                                     }
@@ -135,15 +150,21 @@ class Api extends GEH_Controller {
                                         $update_data = array(
                                             'value' => $setpoint1
                                         );
-                                        if($this->device_setpoint_model->update($item2['id'], $update_data))
+                                        if($this->device_setpoint_model->update($item2['id'], $update_data)) {
+                                            $this->device_setponit_log($device['id'], $setpoint1);
                                             $flag_ok = true;
+                                        }
+
                                     }
                                     if($setponit2 != 'FF') {
                                         $update_data = array(
                                             'value' => $setponit2
                                         );
-                                        if($this->device_setpoint_model->update($item2['id'], $update_data))
+                                        if($this->device_setpoint_model->update($item2['id'], $update_data)) {
+                                            $this->device_setponit_log($device['id'], $setponit2);
                                             $flag_ok = true;
+                                        }
+
                                     }
                                 }
                             }
@@ -155,16 +176,21 @@ class Api extends GEH_Controller {
                                     'row_device_id' => $device['id'],
                                     'value' => $setpoint1
                                 );
-                                if($this->device_setpoint_model->insert($insert_data))
+                                if($this->device_setpoint_model->insert($insert_data)) {
+                                    $this->device_setponit_log($device['id'], $setpoint1);
                                     $flag_ok = true;
+                                }
+
                             }
                             if($setponit2 != 'FF') {
                                 $insert_data = array(
                                     'row_device_id' => $device['id'],
                                     'value' => $setponit2
                                 );
-                                if($this->device_setpoint_model->insert($insert_data))
+                                if($this->device_setpoint_model->insert($insert_data)) {
+                                    $this->device_setponit_log($device['id'], $setponit2);
                                     $flag_ok = true;
+                                }
                             }
                         }
                     }

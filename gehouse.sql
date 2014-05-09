@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 09, 2014 at 10:08 AM
+-- Generation Time: May 09, 2014 at 08:19 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -45,14 +45,18 @@ CREATE TABLE IF NOT EXISTS `actions` (
   `created_by` int(11) DEFAULT NULL,
   `created_date` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `actions`
 --
 
 INSERT INTO `actions` (`id`, `device_id`, `action_type`, `action_setpoint`, `schedule_days`, `schedule_start`, `schedule_end`, `exception_type`, `exception_from`, `exception_to`, `exception_setpoint`, `status`, `description`, `created_by`, `created_date`) VALUES
-(1, 1, 1, 21, NULL, NULL, NULL, '0', NULL, NULL, 0, 1, NULL, NULL, 1399619826);
+(12, 1, 0, 21, NULL, '00:00:00', '00:00:00', '0', NULL, NULL, 0, 1, NULL, NULL, 1399646101),
+(14, 11, 0, 18, NULL, '00:00:00', '00:00:00', '0', NULL, NULL, 0, 1, NULL, NULL, 1399646113),
+(15, 1, 1, 21, NULL, NULL, NULL, '0', NULL, NULL, 0, 1, NULL, NULL, 1399646146),
+(16, 11, 1, 18, NULL, NULL, NULL, '0', NULL, NULL, 0, 1, NULL, NULL, 1399646180),
+(17, 13, 0, 17, NULL, '00:00:00', '00:00:00', '0', NULL, NULL, 0, 1, NULL, NULL, 1399654791);
 
 -- --------------------------------------------------------
 
@@ -67,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `action_conditions` (
   `operator` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `condition_setpoint` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -210,7 +214,30 @@ INSERT INTO `device_setpoints` (`id`, `row_device_id`, `value`) VALUES
 (12, 9, 10),
 (13, 8, 10),
 (14, 8, 10),
-(15, 13, 19);
+(15, 13, 26);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `device_setpoint_logs`
+--
+
+CREATE TABLE IF NOT EXISTS `device_setpoint_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `row_device_id` int(11) NOT NULL,
+  `current_setpoint` int(11) NOT NULL,
+  `log_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `device_setpoint_logs`
+--
+
+INSERT INTO `device_setpoint_logs` (`id`, `row_device_id`, `current_setpoint`, `log_time`) VALUES
+(1, 13, 26, '2014-05-09 20:03:10'),
+(2, 13, 26, '2014-05-09 20:07:03'),
+(3, 13, 26, '2014-05-09 20:07:05');
 
 -- --------------------------------------------------------
 
@@ -337,15 +364,15 @@ CREATE TABLE IF NOT EXISTS `mode_control` (
   `created_date` int(11) NOT NULL,
   `created_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `mode_control`
 --
 
 INSERT INTO `mode_control` (`id`, `mode_name`, `status`, `created_date`, `created_by`) VALUES
-(1, 'Spring mode', 1, 1399499622, NULL),
-(2, 'vacation mode', 1, 1399608713, NULL);
+(2, 'Vacation mode', 1, 1399641332, NULL),
+(3, 'Spring mode', 1, 1399646027, NULL);
 
 -- --------------------------------------------------------
 
@@ -358,14 +385,15 @@ CREATE TABLE IF NOT EXISTS `mode_control_details` (
   `mode_id` int(11) NOT NULL,
   `action_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `mode_control_details`
 --
 
 INSERT INTO `mode_control_details` (`id`, `mode_id`, `action_id`) VALUES
-(1, 2, 1);
+(14, 3, 16),
+(15, 3, 14);
 
 -- --------------------------------------------------------
 

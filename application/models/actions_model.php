@@ -24,6 +24,18 @@ class Actions_model extends CI_Model{
         return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
     }
 
+    public function get_list_index($array, $order_by = "a.created_date", $condition = "DESC")
+    {
+        $this->db->select('d.device_name, a.id AS action_id, a.action_type, a.status');
+        $this->db->from($this->_table_name . ' a');
+        $this->db->join('devices d', 'd.id = a.device_id');
+        $this->db->where_not_in('a.id', $array);
+        $this->db->order_by($order_by, $condition);
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
     public function get_list($order_by = "a.created_date", $condition = "DESC")
     {
         $this->db->select('d.device_name, a.id AS action_id, a.action_type, a.status');

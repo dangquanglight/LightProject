@@ -24,6 +24,15 @@ class Mode_control_detail_model extends CI_Model{
         return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
     }
 
+    public function get_list($order_by = "action_id", $condition = "DESC")
+    {
+        $this->db->from($this->_table_name);
+        $this->db->order_by($order_by, $condition);
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
     public function get_by_id($id)
     {
         $this->db->where("id", $id);
