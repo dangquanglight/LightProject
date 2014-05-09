@@ -203,7 +203,7 @@ function getIndexElement($array, $search_value)
                 <p>&nbsp;</p><p>&nbsp;</p>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                     <button type="button" class="btn btn-default"
                             onclick="window.location.href = '<?php echo action_management_controller_url(); ?>'">Cancel
                     </button>

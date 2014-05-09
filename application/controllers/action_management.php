@@ -24,14 +24,13 @@ class Action_management extends GEH_Controller
     public function index()
     {
         if ($this->input->post()) {
-            if(isset($_GET['callback'])) {
-                if($_GET['callback'] == CALLBACK_ADD_EDIT_MODE_CONTROL) {
+            if (isset($_GET['callback'])) {
+                if ($_GET['callback'] == CALLBACK_ADD_EDIT_MODE_CONTROL) {
                     redirect(add_new_action_with_callback_url($this->input->post('action_type'),
                         $this->input->post('controlled_device'), CALLBACK_ADD_EDIT_MODE_CONTROL, $_GET['data']
                     ));
                 }
-            }
-            else {
+            } else {
                 // Go to page add new action with controlled device id GET value
                 redirect(add_new_action_url($this->input->post('action_type'), $this->input->post('controlled_device')));
             }
@@ -79,7 +78,8 @@ class Action_management extends GEH_Controller
 
                 $exception_to = $this->input->post('exception_type') == EXCEPTION_TYPE_DURATION ?
                     date('Y-m-d', strtotime($this->input->post('exception_to'))) : NULL;
-            } else {
+            }
+            else {
                 $exception_from = $exception_to = NULL;
             }
 
@@ -88,7 +88,8 @@ class Action_management extends GEH_Controller
                 if ($this->input->post('schedule_day')) {
                     // Create string schedule days
                     $schedule_days = implode(',', $this->input->post('schedule_day'));
-                } else {
+                }
+                else {
                     $schedule_days = NULL;
                 }
 
@@ -111,24 +112,31 @@ class Action_management extends GEH_Controller
                 if (isset($_GET['id']) and (is_numeric($_GET['id']) and intval($_GET['id'] > 0))) {
                     if ($this->actions_model->update($_GET['id'], $data)) {
                         $this->session->set_flashdata($this->flash_success_session, $edit_success_message);
-                        redirect(action_management_controller_url());
+
+                        if (isset($_GET['callback'])) {
+                            if ($_GET['callback'] == CALLBACK_ADD_EDIT_MODE_CONTROL) {
+                                redirect(edit_mode_url($_GET['data']));
+                            }
+                        }
+                        else {
+                            redirect(action_management_controller_url());
+                        }
                     }
                 }
-
                 // Add new action
                 else if (isset($_GET['action_type']) and ($_GET['action_type'] == 'schedule' or $_GET['action_type'] == 'event')) {
                     if ($action_id = $this->actions_model->insert($data)) {
                         $this->session->set_flashdata($this->flash_success_session, $add_new_success_message);
 
-                        if(isset($_GET['callback'])) {
-                            if($_GET['callback'] == CALLBACK_ADD_EDIT_MODE_CONTROL) {
+                        if (isset($_GET['callback'])) {
+                            if ($_GET['callback'] == CALLBACK_ADD_EDIT_MODE_CONTROL) {
                                 $this->load->model('mode_control_detail_model');
                                 $data = array(
                                     'action_id' => $action_id,
                                     'mode_id' => $_GET['data']
                                 );
 
-                                if($this->mode_control_detail_model->insert($data)) {
+                                if ($this->mode_control_detail_model->insert($data)) {
                                     redirect(edit_mode_url($_GET['data']));
                                 }
                             }
@@ -138,9 +146,7 @@ class Action_management extends GEH_Controller
                         }
                     }
                 }
-            }
-
-            // Action type event
+            } // Action type event
             else if ((isset($_GET['action_type']) and $_GET['action_type'] == 'event') or (isset($_POST['action_type']) and $_POST['action_type'] == 'event')) {
                 $data = array(
                     'device_id' => $this->input->post('action_device_id'),
@@ -165,7 +171,7 @@ class Action_management extends GEH_Controller
                             }
                         }
 
-                        if($this->input->post('input_device') and count($this->input->post('input_device')) > 0) {
+                        if ($this->input->post('input_device') and count($this->input->post('input_device')) > 0) {
                             $flag = FALSE;
 
                             // Remove all action condition and insert the new one to database
@@ -184,18 +190,21 @@ class Action_management extends GEH_Controller
                             $flag = TRUE;
                         }
 
-                        // Go to action management page if has no insertion fail
-                        if ($flag) {
-                            $this->session->set_flashdata($this->flash_success_session, $edit_success_message);
+                        $this->session->set_flashdata($this->flash_success_session, $edit_success_message);
+                        if (isset($_GET['callback'])) {
+                            if ($_GET['callback'] == CALLBACK_ADD_EDIT_MODE_CONTROL) {
+                                redirect(edit_mode_url($_GET['data']));
+                            }
+                        }
+                        else if ($flag) {
                             redirect(action_management_controller_url());
                         }
                     }
                 }
-
                 // Add new action
                 else if (isset($_GET['action_type']) and ($_GET['action_type'] == 'schedule' or $_GET['action_type'] == 'event')) {
                     if ($action_id = $this->actions_model->insert($data)) {
-                        if($this->input->post('input_device') and count($this->input->post('input_device')) > 0) {
+                        if ($this->input->post('input_device') and count($this->input->post('input_device')) > 0) {
                             $flag = FALSE;
 
                             for ($i = 0; $i < count($this->input->post('input_device')); $i++) {
@@ -214,20 +223,20 @@ class Action_management extends GEH_Controller
                         }
 
                         $this->session->set_flashdata($this->flash_success_session, $add_new_success_message);
-                        if(isset($_GET['callback'])) {
-                            if($_GET['callback'] == CALLBACK_ADD_EDIT_MODE_CONTROL) {
+                        if (isset($_GET['callback'])) {
+                            if ($_GET['callback'] == CALLBACK_ADD_EDIT_MODE_CONTROL) {
                                 $this->load->model('mode_control_detail_model');
                                 $data = array(
                                     'action_id' => $action_id,
                                     'mode_id' => $_GET['data']
                                 );
 
-                                if($this->mode_control_detail_model->insert($data)) {
+                                if ($this->mode_control_detail_model->insert($data)) {
                                     redirect(edit_mode_url($_GET['data']));
                                 }
                             }
                         }
-                        else if($flag) {
+                        else if ($flag) {
                             redirect(action_management_controller_url());
                         }
                     }
@@ -279,8 +288,7 @@ class Action_management extends GEH_Controller
             }
 
             $this->load_frontend_template($extend_data, 'EDIT ACTION');
-        }
-        // Case: add new action
+        } // Case: add new action
         else if (isset($_GET['action_type']) and ($_GET['action_type'] == 'schedule' or $_GET['action_type'] == 'event')) {
             $action_type = $_GET['action_type'];
             $device = $this->device_model->get_by_row_id($_GET['row_device_id']);
@@ -307,7 +315,7 @@ class Action_management extends GEH_Controller
         if ($this->input->get('id')) {
             $action_id = $this->input->get('id');
             // Find all condions of this action and delete it first
-            $conditions = $this->action_condition_model->get_by_action_id_to_delete($action_id);
+            $conditions = $this->action_condition_model->get_by_action_id($action_id);
             if ($conditions) {
                 foreach ($conditions as $condition) {
                     $this->action_condition_model->delete($condition['id']);

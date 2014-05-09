@@ -1,6 +1,20 @@
+<script>
+    function confirm_delete(url) {
+        if (confirm("Do you want to remove this mode?"))
+            window.location = url;
+    }
+</script>
+
 <ol class="breadcrumb">
     <li class="active">Control</li>
 </ol>
+
+<?php if ($this->session->flashdata('flash_success')): ?>
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong><?php echo $this->session->flashdata('flash_success'); ?></strong>
+    </div>
+<?php endif; ?>
 
 <table border="0" style="width: 100%">
     <tr>
@@ -73,22 +87,23 @@
         <th style="width: 25%">Action</th>
         </thead>
         <tbody>
-        <?php foreach($list_mode as $item): ?>
-        <tr>
-            <td><?php echo $item['mode_name']; ?></td>
-            <td>Type 1</td>
-            <td><?php echo $item['status']; ?></td>
-            <td>
-                <a href="<?php echo edit_mode_url($item['id']); ?>">
-                    <button type="button" onclick="" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-wrench"></span> Edit
+        <?php foreach ($list_mode as $item): ?>
+            <tr>
+                <td><?php echo $item['mode_name']; ?></td>
+                <td>Type 1</td>
+                <td><?php echo $item['status']; ?></td>
+                <td>
+                    <a href="<?php echo edit_mode_url($item['id']); ?>">
+                        <button type="button" onclick="" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-wrench"></span> View detail / Edit
+                        </button>
+                    </a>
+                    <button type="button" class="btn btn-default btn-sm"
+                            onclick="confirm_delete('<?php echo delete_mode_url($item['id']); ?>')">
+                        <span class="glyphicon glyphicon-trash"></span> Remove
                     </button>
-                </a>
-                <button type="button" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-trash"></span> Remove
-                </button>
-            </td>
-        </tr>
+                </td>
+            </tr>
         <?php endforeach; ?>
         </tbody>
     </table>

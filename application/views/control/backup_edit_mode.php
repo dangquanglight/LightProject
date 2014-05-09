@@ -1,10 +1,3 @@
-<script>
-    function confirm_delete(url) {
-        if (confirm("Do you want to remove this action?"))
-            window.location = url;
-    }
-</script>
-
 <ol class="breadcrumb">
     <li><a href="<?php echo control_controller_url(); ?>">Control</a></li>
     <li class="active">Edit mode</li>
@@ -51,40 +44,66 @@
         </div>
     </div>
 
-    <h3>Actions list</h3>
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-            <th style="width: 25%">Name</th>
-            <th style="width: 25%">Type</th>
-            <th style="width: 25%">State</th>
-            <th style="width: 25%">Action</th>
-            </thead>
-            <tbody>
-            <?php foreach ($mode_actions as $item): ?>
-                <tr>
-                    <td>
-                        <?php echo $item['device_name']; ?>
-                        <input type="hidden" name="actions_list[]" value="<?php echo $item['action_id']; ?>">
-                    </td>
-                    <td><?php echo $item['action_type']; ?></td>
-                    <td><?php echo $item['status']; ?></td>
-                    <td>
-                        <a href="<?php echo edit_action_with_callback_url($item['action_id'], CALLBACK_ADD_EDIT_MODE_CONTROL, $_GET['id']); ?>">
-                            <button type="button" onclick="" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-wrench"></span> View detail / Edit
-                            </button>
-                        </a>
-                        <button type="button" class="btn btn-default btn-sm"
-                                onclick="confirm_delete('<?php echo delete_action_mode_url($item['mode_detail_id']); ?>')">
-                            <span class="glyphicon glyphicon-trash"></span> Remove
-                        </button>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs nav-justified">
+        <li class="active"><a href="#tab_1" data-toggle="tab">Action 1-4</a></li>
+        <li><a href="#tab_2" data-toggle="tab">Action 5-8</a></li>
+    </ul>
+
+    <p></p>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_1">
+            <table border="0" style="width: 100%">
+                <?php
+                $count = 0;
+                if(count($mode_actions) == 1)
+                    $column_count = 1;
+                else
+                    $column_count = 2;
+
+                for($i = 0; $i < ceil(count($mode_actions) / 2); $i++):
+                    ?>
+                    <tr>
+                        <?php for($j = 0; $j < $column_count; $j++): if($count <= count($mode_actions)): ?>
+                            <td style="width: 50%">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4" for="controlled_device">Controlled device</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="controlled_device">
+                                            <?php foreach ($list_controlled_devices as $item): ?>
+                                                <option value="<?php echo $item['device_row_id']; ?>"
+                                                    <?php if($mode_actions[$count]['row_device_id'] == $item['device_row_id']) echo 'selected'; ?>>
+                                                    <?php echo $item['device_name']; ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <p>&nbsp;</p><p>&nbsp;</p>
+
+                                    <label class="control-label col-sm-4" for="amount">Setpoint</label>
+
+                                    <div class="col-sm-3">
+                                        <input type="text" name="action_setpoint[]" class="form-control" id="amount" readonly>
+                                    </div>
+                                    <input id="range-slider" type="text"/>
+                                </div>
+                            </td>
+                        <?php endif; if($column_count == 1 or $count > count($mode_actions)): ?>
+                            <td style="width: 50%"></td>
+                        <?php endif; endfor; ?>
+                    </tr>
+                <?php endfor; ?>
+            </table>
+        </div>
+
+        <div class="tab-pane disabled" id="tab_2">
+
+        </div>
     </div>
+
+    <p>&nbsp;</p>
 
     <div class="form-group">
         <div class="col-sm-offset-1 col-sm-10">
@@ -141,7 +160,50 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-
+    $('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
     });
+
+    $(function () {
+        $('#select-all').click(function (event) {
+            if (this.checked) {
+                // Iterate each checkbox
+                $(':checkbox').filter('#day_group').each(function () {
+                    this.checked = true;
+                });
+            }
+            else {
+                // Iterate each checkbox
+                $(':checkbox').filter('#day_group').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+    });
+
+    $("#amount").val('25 C');
+    $("#range-slider").slider({
+        tooltip: 'hide',
+        min: 17,
+        max: 35,
+        step: 1,
+        value: 25
+    });
+    $("#range-slider").on('slide', function (slideEvt) {
+        $("#amount").val(slideEvt.value + ' C');
+    });
+
+    $("#amount-2").val('500 lx');
+    $("#range-slider-2").slider({
+        tooltip: 'hide',
+        min: 10,
+        max: 1000,
+        step: 10,
+        value: 500
+    });
+    $("#range-slider-2").on('slide', function (slideEvt) {
+        $("#amount-2").val(slideEvt.value + ' lx');
+    });
+
 </script>

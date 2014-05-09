@@ -28,6 +28,12 @@ if (!function_exists('edit_action_url')) {
     }
 }
 
+if (!function_exists('edit_action_with_callback_url')) {
+    function edit_action_with_callback_url($id, $callback, $data_callback) {
+        return base_url('action_management/modify?id=' . $id . '&callback=' . $callback . '&data=' . $data_callback);
+    }
+}
+
 if (!function_exists('add_new_action_url')) {
     function add_new_action_url($action_type, $row_device_id) {
         return base_url('action_management/modify?action_type=' . $action_type . '&row_device_id=' . $row_device_id);
@@ -67,6 +73,18 @@ if (!function_exists('edit_mode_url')) {
 if (!function_exists('add_new_mode_url')) {
     function add_new_mode_url() {
         return base_url('mode_control/modify');
+    }
+}
+
+if (!function_exists('delete_mode_url')) {
+    function delete_mode_url($id) {
+        return base_url('mode_control/delete?id=' . $id);
+    }
+}
+
+if (!function_exists('delete_action_mode_url')) {
+    function delete_action_mode_url($id) {
+        return base_url('mode_control/delete_action?id=' . $id);
     }
 }
 

@@ -51,16 +51,6 @@ class Action_condition_model extends CI_Model{
         return $query->result_array();
     }
 
-    public function get_by_action_id_to_delete($action_id)
-    {
-        $this->db->select('id');
-        $this->db->from($this->_table_name);
-        $this->db->where('action_id', $action_id);
-        $query = $this->db->get();
-
-        return $query->result_array();
-    }
-
     public function get_by_id($id)
     {
         $this->db->select('*');

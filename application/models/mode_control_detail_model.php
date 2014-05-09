@@ -34,7 +34,7 @@ class Mode_control_detail_model extends CI_Model{
 
     public function get_by_mode_id($mode_id)
     {
-        $this->db->select('m.id AS mode_detail_id, m.action_id, a.device_id AS row_device_id, d.device_name');
+        $this->db->select('m.id AS mode_detail_id, m.action_id, a.action_type, a.status, a.device_id AS row_device_id, d.device_name');
         $this->db->from($this->_table_name . ' m');
         $this->db->where("mode_id", $mode_id);
         $this->db->join('actions a', 'a.id = m.action_id');

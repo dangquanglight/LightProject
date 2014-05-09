@@ -184,7 +184,7 @@ function echo_checked_day($data, $value)
             </td>
             <td style="float: left;">
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                     <button type="button" class="btn btn-default"
                             onclick="window.location.href = '<?php echo action_management_controller_url(); ?>'">Cancel
                     </button>
