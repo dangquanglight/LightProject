@@ -22,11 +22,13 @@
 <img src="images/floorplan.png" width="40%">
 
 <div class="well col-sm-3 text-center pull-right" style="margin-top:50px; margin-right: 300px; padding: 5px;">
-    <h3>Temperature: <?php echo $temp_value , ' °C'; ?></h3>
+    <h3>Temperature: <span id="temp_value"><?php echo $temp_value , ' °C'; ?></span></h3>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function () {
+        setInterval(function(){getTempHomepage()}, 10000);
+
         $("#selectFloor").change(function () {
             var floorID = $(this).val();
 
@@ -71,5 +73,23 @@
                 }
             });
         });
+
+        function getTempHomepage() {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "<?php echo base_url("ajax/get_temperature_homepage") ?>",
+                beforeSend:function()
+                {
+                    $("#loading").show();
+                },
+                success: function(res){
+                    $("#loading").hide();
+
+                    $("#temp_value").text(res + ' °C');
+                }
+            });
+        }
+        getTempHomepage();
     });
 </script>

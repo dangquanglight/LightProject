@@ -59,10 +59,10 @@ function getIndexElement($array, $search_value)
 
                 <div id="InputsWrapper">
                     <?php
-                        $field_count = 1;
+                        $count = 0;
                         foreach ($action_conditions as $conditions):
                             $remove_button_id = getIndexElement($input_devices_list, $conditions['row_device_id']);
-                            if ($field_count == 1) {
+                            if ($count == 0) {
                                 $if_statement = 'If';
                                 $label_size = 'col-sm-1';
                             } else {
@@ -81,14 +81,14 @@ function getIndexElement($array, $search_value)
                                     <input type="text" class="form-control text-center"
                                            value="<?php echo $conditions['device_name']; ?>" disabled>
                                     <input type="hidden" value="<?php echo $conditions['row_device_id']; ?>"
-                                           name="input_device_<?php echo $field_count; ?>">
+                                           name="input_device[]">
                                 </div>
                                 <div class="col-sm-2">
                                     <input type="text" class="form-control text-center" value="=" disabled>
-                                    <input type="hidden" value="=" name="operator_<?php echo $field_count; ?>">
+                                    <input type="hidden" value="=" name="operator[]">
                                 </div>
                                 <div class="col-sm-3">
-                                    <select class="form-control" name="condition_setpoint_<?php echo $field_count; ?>">
+                                    <select class="form-control" name="condition_setpoint[]">
                                         <option value="1" <?php if($conditions['condition_setpoint'] == 1) echo 'selected'; ?>>ON</option>
                                         <option value="0" <?php if($conditions['condition_setpoint'] == 0) echo 'selected'; ?>>OFF</option>
                                     </select>
@@ -97,7 +97,7 @@ function getIndexElement($array, $search_value)
                                         onclick="btnRemoveCondition(<?php echo $remove_button_id; ?>)"
                                         title="Remove">&times;</button>
                             </div>
-                        <?php $field_count++; } else if ($conditions['property_name'] == 'Temperature sensor') { ?>
+                        <?php $count++; } else if ($conditions['property_name'] == 'Temperature sensor') { ?>
                             <div class="col-sm-12" id="divCondition_<?php echo $remove_button_id; ?>"
                                  style="margin-bottom: 10px;">
                                 <label
@@ -106,11 +106,11 @@ function getIndexElement($array, $search_value)
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control text-center"
                                            value="<?php echo $conditions['device_name']; ?>" disabled>
-                                    <input type="hidden" name="input_device_<?php echo $field_count; ?>"
+                                    <input type="hidden" name="input_device[]"
                                            value="<?php echo $conditions['row_device_id']; ?>">
                                 </div>
                                 <div class="col-sm-3">
-                                    <select class="form-control" name="operator_<?php echo $field_count; ?>">
+                                    <select class="form-control" name="operator[]">
                                         <option value="<"> &nbsp; <</option>
                                         <option value="<="> &nbsp; <=</option>
                                         <option value="="> &nbsp; =</option>
@@ -119,7 +119,7 @@ function getIndexElement($array, $search_value)
                                     </select>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" name="condition_setpoint_<?php echo $field_count; ?>"
+                                    <input type="text" name="condition_setpoint[]"
                                            class="form-control"
                                            value="<?php echo $conditions['condition_setpoint']; ?>">
                                 </div>
@@ -127,7 +127,7 @@ function getIndexElement($array, $search_value)
                                         onclick="btnRemoveCondition(<?php echo $remove_button_id; ?>)"
                                         title="Remove">&times;</button>
                             </div>
-                        <?php $field_count++; } endforeach; ?>
+                        <?php $count++; } endforeach; ?>
                 </div>
             </td>
             <td style="vertical-align: top;">
@@ -211,7 +211,6 @@ function getIndexElement($array, $search_value)
             </td>
         </tr>
     </table>
-    <input type="hidden" name="count_condition" id="count_condition" value="">
 </form>
 
 <script type="text/javascript">
@@ -310,8 +309,7 @@ $(document).ready(function () {
 var MaxInputs = <?php echo count($input_devices_list); ?>; //maximum input boxes allowed
 var InputsWrapper = $("#InputsWrapper"); //Input boxes wrapper ID
 var ConditionHtml;
-var count = <?php echo $field_count - 1; ?>; //initial text box count
-var FieldCount = <?php echo $field_count; ?>; //to keep track of text box added
+var count = <?php echo $count; ?>; //initial text box count
 
 // Popover varialbes
 var popover_options_list = [];
@@ -335,9 +333,6 @@ clone_popover_options_list[<?php echo $i; ?>] = {
 <?php if(count($action_conditions) == count($input_devices_list)) : ?>
     $("#btnAddNewCondition").prop('disabled', true);
 <?php endif; ?>
-
-// Assign number of condition to hidden input count_condition
-$("#count_condition").val(count);
 
 function createNewPopover(arr, buttonID) {
     var options = '';
@@ -380,7 +375,7 @@ function btnContinueClick() {
     var ifStatement;
     var labelSize;
 
-    if (FieldCount == 1) {
+    if (count == 1) {
         ifStatement = 'If';
         labelSize = 'col-sm-1';
     }
@@ -394,21 +389,21 @@ function btnContinueClick() {
             '<div class="col-sm-9" id="divCondition_' + removeButtonID + '" style="margin-bottom: 10px;">' +
                 '<label class="control-label ' + labelSize + '">' + ifStatement + '</label>' +
                 '<div class="col-sm-4">' +
-                '<input type="text" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
-                '<input type="hidden" value="' + InputDevice[2] + '" name="input_device_' + FieldCount + '">' +
+                    '<input type="text" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
+                    '<input type="hidden" value="' + InputDevice[2] + '" name="input_device[]">' +
                 '</div>' +
                 '<div class="col-sm-2">' +
-                '<input type="text" class="form-control text-center" value="=" disabled>' +
-                '<input type="hidden" value="=" name="operator_' + FieldCount + '">' +
+                    '<input type="text" class="form-control text-center" value="=" disabled>' +
+                    '<input type="hidden" value="=" name="operator[]">' +
                 '</div>' +
                 '<div class="col-sm-3">' +
-                '<select class="form-control" name="condition_setpoint_' + FieldCount + '">' +
-                '<option value="1">ON</option>' +
-                '<option value="0">OFF</option>' +
-                '</select>' +
+                    '<select class="form-control" name="condition_setpoint[]">' +
+                        '<option value="1">ON</option>' +
+                        '<option value="0">OFF</option>' +
+                    '</select>' +
                 '</div>' +
                 '<button type="button" id="removeCondition" onclick="btnRemoveCondition(' + removeButtonID + ')" title="Remove">&times;</button>' +
-                '</div>'
+            '</div>'
         ;
     }
     else if (InputDevice[1] == 'Temperature sensor') {
@@ -416,28 +411,27 @@ function btnContinueClick() {
             '<div class="col-sm-12" id="divCondition_' + removeButtonID + '" style="margin-bottom: 10px;">' +
                 '<label class="control-label ' + labelSize + '">' + ifStatement + '</label>' +
                 '<div class="col-sm-3">' +
-                '<input type="text" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
-                '<input type="hidden" name="input_device_' + FieldCount + '" value="' + InputDevice[2] + '">' +
+                    '<input type="text" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
+                    '<input type="hidden" name="input_device[]" value="' + InputDevice[2] + '">' +
+                '</div>' +
+                '<div class="col-sm-2">' +
+                    '<select class="form-control" name="operator[]">' +
+                        '<option value="<"> &nbsp; < </option>' +
+                        '<option value="<="> &nbsp; <= </option>' +
+                        '<option value="="> &nbsp; = </option>' +
+                        '<option value=">"> &nbsp; > </option>' +
+                        '<option value=">="> &nbsp; >= </option>' +
+                    '</select>' +
                 '</div>' +
                 '<div class="col-sm-3">' +
-                '<select class="form-control" name="operator_' + FieldCount + '">' +
-                '<option value="<"> &nbsp; < </option>' +
-                '<option value="<="> &nbsp; <= </option>' +
-                '<option value="="> &nbsp; = </option>' +
-                '<option value=">"> &nbsp; > </option>' +
-                '<option value=">="> &nbsp; >= </option>' +
-                '</select>' +
-                '</div>' +
-                '<div class="col-sm-3">' +
-                '<input type="text" name="condition_setpoint_' + FieldCount + '" class="form-control" placeholder="Ex: 15 °C" ">' +
+                    '<input type="text" name="condition_setpoint[]" class="form-control" placeholder="Ex: 15 °C" ">' +
                 '</div>' +
                 '<button type="button" id="removeCondition" onclick="btnRemoveCondition(' + removeButtonID + ')" title="Remove">&times;</button>' +
-                '</div>'
+            '</div>'
         ;
     }
 
     if (count < MaxInputs) {
-        FieldCount++;
         count++;
         // Add input box
         $(InputsWrapper).append(ConditionHtml);
@@ -449,20 +443,13 @@ function btnContinueClick() {
         // Destroy popover and re-initial it
         createNewPopover(popover_options_list, '#btnAddNewCondition');
 
-        if ((MaxInputs - count) >= 1) {
-            $("#count_condition").val(count); // Assign number of condition to hidden input count_condition
-
-        }
-        else {
+        if ((MaxInputs - count) < 1) {
             $("#inputDevice").append(new Option("No more input device", "no_more"));
             $("#inputDevice").prop('disabled', true);
 
             // Hide popover and disable button Add new condition
             $("#btnContinue").hide();
             $("#btnAddNewCondition").prop('disabled', true);
-
-            // Assign number of condition to hidden input count_condition
-            $("#count_condition").val(count);
         }
     }
 }
@@ -477,10 +464,6 @@ function btnRemoveCondition(removeButtonID) {
     $("#btnAddNewCondition").prop('disabled', false); // Re-active button Add new condition
 
     count--; //decrement textbox count
-    FieldCount--;
-
-    // Assign number of condition to hidden input count_condition
-    $("#count_condition").val(count);
 }
 
 // Initial popover

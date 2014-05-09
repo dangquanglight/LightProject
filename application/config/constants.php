@@ -75,6 +75,20 @@ define('ACTION_SCHEDULE_ALL_DAYS', 8);
 
 //endregion ACTION MANAGEMENT
 
+// region MODE CONTROL
+
+// Mode control status
+define('MODE_CONTROL_ENABLE', 1);
+define('MODE_CONTROL_DISABLE', 0);
+
+// endregion MODE CONTROL
+
+// region CALLBACK CONSTANT
+
+define('CALLBACK_ADD_EDIT_MODE_CONTROL', 'edit_control');
+
+// endregion CALLBACK CONSTANT
+
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

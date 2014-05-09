@@ -43,4 +43,17 @@ class Ajax extends REST_Controller {
         $this->response($this->get_setpoint_info($this->input->get('deviceRowId')));
     }
 
+    public function get_temperature_homepage_post() {
+        $this->load->model(array(
+            'device_model',
+            'device_setpoint_model'
+        ));
+
+        $device = $this->device_model->get_by_device_id('018211CF');
+        $setpoint = $this->device_setpoint_model->get_by_device_row_id($device['id']);
+        $setpoint = 40 * (1 - $setpoint[1]['value'] / 255);
+
+        $this->response(round($setpoint));
+    }
+
 }

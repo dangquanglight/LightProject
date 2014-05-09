@@ -17,6 +17,15 @@ class Mode_control_model extends CI_Model{
         return $this->db->update($this->_table_name , $arr_data) ? TRUE : FALSE;
     }
 
+    public function get_list($order_by = "mode_name", $condition = "ASC")
+    {
+        $this->db->select('*');
+        $this->db->order_by($order_by, $condition);
+        $query = $this->db->get($this->_table_name);
+
+        return $query->result_array();
+    }
+
     public function delete($id)
     {
         $this->db->where('id', $id);

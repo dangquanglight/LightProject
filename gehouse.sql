@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
+-- version 4.0.4.1
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2014 at 12:08 AM
--- Server version: 5.6.16
--- PHP Version: 5.5.9
+-- Generation Time: May 09, 2014 at 10:08 AM
+-- Server version: 5.5.32
+-- PHP Version: 5.4.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `gehouse`
 --
+CREATE DATABASE IF NOT EXISTS `gehouse` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `gehouse`;
 
 -- --------------------------------------------------------
 
@@ -43,15 +45,14 @@ CREATE TABLE IF NOT EXISTS `actions` (
   `created_by` int(11) DEFAULT NULL,
   `created_date` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `actions`
 --
 
 INSERT INTO `actions` (`id`, `device_id`, `action_type`, `action_setpoint`, `schedule_days`, `schedule_start`, `schedule_end`, `exception_type`, `exception_from`, `exception_to`, `exception_setpoint`, `status`, `description`, `created_by`, `created_date`) VALUES
-(8, 1, 0, 18, '2,3,6', '04:00:00', '12:55:00', '0', NULL, NULL, 0, 1, NULL, NULL, 1399499622),
-(9, 10, 1, 71, NULL, NULL, NULL, 'day', '2014-05-22', NULL, 20, 0, NULL, NULL, 1399500273);
+(1, 1, 1, 21, NULL, NULL, NULL, '0', NULL, NULL, 0, 1, NULL, NULL, 1399619826);
 
 -- --------------------------------------------------------
 
@@ -66,15 +67,7 @@ CREATE TABLE IF NOT EXISTS `action_conditions` (
   `operator` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `condition_setpoint` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
-
---
--- Dumping data for table `action_conditions`
---
-
-INSERT INTO `action_conditions` (`id`, `action_id`, `row_device_id`, `operator`, `condition_setpoint`) VALUES
-(6, 9, 0, '0', 0),
-(10, 9, 0, '0', 0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -119,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `devices` (
   `layout_top_position` int(3) DEFAULT NULL,
   `layout_left_position` int(3) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `devices`
@@ -128,14 +121,15 @@ CREATE TABLE IF NOT EXISTS `devices` (
 INSERT INTO `devices` (`id`, `device_id`, `eep`, `room_id`, `device_type_id`, `device_name`, `description`, `created_date`, `created_by`, `status`, `layout_top_position`, `layout_left_position`) VALUES
 (1, '0186CCCD', 'A52001', 1, 1, 'VALVE1.1.1.1', 'This is device 1', 1, 1, 1, NULL, NULL),
 (2, '008BD382', 'F60302', 1, 2, 'SWITCH1.1.1.1', NULL, 1, 1, 0, NULL, NULL),
-(4, '00000000', '111111', 1, 4, 'DLHUB1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(4, 'C4141198', '111111', 1, 4, 'DLHUB1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (6, '0086A88D', '111111', 1, 6, 'EOHUB1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (7, '00000000', '111111', 1, 7, 'WIFIAP1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (8, '018211CF', 'A51005', 1, 8, 'TEMP1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (9, '0005F0EB', 'A50701', 1, 9, 'PIR1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (10, '00000000', '111111', 1, 10, 'W2DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (11, '00000000', '111111', 1, 11, 'W1DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(12, '0183B036', 'D20101', 1, 12, 'W1R10NT1.1.1.1', NULL, 1, 1, 1, NULL, NULL);
+(12, '0183B036', 'D20101', 1, 12, 'W1R10NT1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(13, '01881790', 'A52001', 1, 1, 'VALVE2.1.1.1', NULL, 1, 1, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -202,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `device_setpoints` (
   `row_device_id` int(11) DEFAULT NULL,
   `value` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `device_setpoints`
@@ -215,7 +209,8 @@ INSERT INTO `device_setpoints` (`id`, `row_device_id`, `value`) VALUES
 (9, 12, 19),
 (12, 9, 10),
 (13, 8, 10),
-(14, 8, 10);
+(14, 8, 10),
+(15, 13, 19);
 
 -- --------------------------------------------------------
 
@@ -332,19 +327,6 @@ INSERT INTO `floors` (`id`, `building_id`, `floor_name`, `description`, `status`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `model_control_details`
---
-
-CREATE TABLE IF NOT EXISTS `model_control_details` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `mode_id` int(11) NOT NULL,
-  `action_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `mode_control`
 --
 
@@ -355,7 +337,35 @@ CREATE TABLE IF NOT EXISTS `mode_control` (
   `created_date` int(11) NOT NULL,
   `created_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `mode_control`
+--
+
+INSERT INTO `mode_control` (`id`, `mode_name`, `status`, `created_date`, `created_by`) VALUES
+(1, 'Spring mode', 1, 1399499622, NULL),
+(2, 'vacation mode', 1, 1399608713, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mode_control_details`
+--
+
+CREATE TABLE IF NOT EXISTS `mode_control_details` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mode_id` int(11) NOT NULL,
+  `action_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `mode_control_details`
+--
+
+INSERT INTO `mode_control_details` (`id`, `mode_id`, `action_id`) VALUES
+(1, 2, 1);
 
 -- --------------------------------------------------------
 

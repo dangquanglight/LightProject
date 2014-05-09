@@ -57,7 +57,7 @@
     <tr>
         <td colspan="2">
             <h3>Group Action</h3>
-            <a href="<?php echo add_mode_url(); ?>">
+            <a href="<?php echo add_new_mode_url(); ?>">
                 <button type="button" class="btn btn-primary">Add new mode</button>
             </a>
         </td>
@@ -73,12 +73,13 @@
         <th style="width: 25%">Action</th>
         </thead>
         <tbody>
+        <?php foreach($list_mode as $item): ?>
         <tr>
-            <td>Mode 1</td>
+            <td><?php echo $item['mode_name']; ?></td>
             <td>Type 1</td>
-            <td>State 1</td>
+            <td><?php echo $item['status']; ?></td>
             <td>
-                <a href="<?php echo mode_detail_url(); ?>">
+                <a href="<?php echo edit_mode_url($item['id']); ?>">
                     <button type="button" onclick="" class="btn btn-default btn-sm">
                         <span class="glyphicon glyphicon-wrench"></span> Edit
                     </button>
@@ -88,21 +89,7 @@
                 </button>
             </td>
         </tr>
-        <tr>
-            <td>Mode 1</td>
-            <td>Type 1</td>
-            <td>State 1</td>
-            <td>
-                <a href="<?php echo mode_detail_url(); ?>">
-                    <button type="button" onclick="" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-wrench"></span> Edit
-                    </button>
-                </a>
-                <button type="button" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-trash"></span> Remove
-                </button>
-            </td>
-        </tr>
+        <?php endforeach; ?>
         </tbody>
     </table>
 </div>
@@ -165,8 +152,7 @@
                 data: {
                     deviceRowId: deviceRowId
                 },
-                beforeSend:function()
-                {
+                beforeSend: function () {
                     $("#loading").show();
                 },
                 success: function (json) {
@@ -186,7 +172,7 @@
                         $("#amount").val(slideEvt.value + ' ' + json.unit_name);
                     });
 
-                    if(typeof(json.setpoint2) != "undefined" && json.setpoint2 !== null) {
+                    if (typeof(json.setpoint2) != "undefined" && json.setpoint2 !== null) {
                         $('#control_setpoint2').show();
 
                         $("#amount2").val(json.setpoint2 + ' ' + json.unit_name);

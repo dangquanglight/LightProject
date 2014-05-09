@@ -113,7 +113,6 @@
             </td>
         </tr>
     </table>
-    <input type="hidden" name="count_condition" id="count_condition" value="">
 </form>
 
 <script type="text/javascript">
@@ -207,7 +206,6 @@ var MaxInputs = <?php echo count($input_devices_list); ?>; //maximum input boxes
 var InputsWrapper = $("#InputsWrapper"); //Input boxes wrapper ID
 var ConditionHtml;
 var count = 0; //initial text box count
-var FieldCount = InputsWrapper.length; //to keep track of text box added
 
 // Popover varialbes
 var popover_options_list = [];
@@ -266,7 +264,7 @@ function btnContinueClick() {
     var ifStatement;
     var labelSize;
 
-    if (FieldCount == 1) {
+    if (count == 0) {
         ifStatement = 'If';
         labelSize = 'col-sm-1';
     }
@@ -281,14 +279,14 @@ function btnContinueClick() {
                 '<label class="control-label ' + labelSize + '">' + ifStatement + '</label>' +
                 '<div class="col-sm-4">' +
                     '<input type="text" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
-                    '<input type="hidden" value="' + InputDevice[2] + '" name="input_device_' + FieldCount + '">' +
+                    '<input type="hidden" value="' + InputDevice[2] + '" name="input_device[]">' +
                 '</div>' +
                 '<div class="col-sm-2">' +
                     '<input type="text" class="form-control text-center" value="=" disabled>' +
-                    '<input type="hidden" value="=" name="operator_' + FieldCount + '">' +
+                    '<input type="hidden" value="=" name="operator[]">' +
                 '</div>' +
                 '<div class="col-sm-3">' +
-                    '<select class="form-control" name="condition_setpoint_' + FieldCount + '">' +
+                    '<select class="form-control" name="condition_setpoint[]">' +
                         '<option value="1">ON</option>' +
                         '<option value="0">OFF</option>' +
                     '</select>' +
@@ -303,10 +301,10 @@ function btnContinueClick() {
                 '<label class="control-label ' + labelSize + '">' + ifStatement + '</label>' +
                 '<div class="col-sm-3">' +
                     '<input type="text" class="form-control text-center" value="' + InputDevice[0] + '" disabled>' +
-                    '<input type="hidden" name="input_device_' + FieldCount + '" value="' + InputDevice[2] + '">' +
+                    '<input type="hidden" name="input_device[]" value="' + InputDevice[2] + '">' +
                 '</div>' +
                 '<div class="col-sm-2">' +
-                    '<select class="form-control" name="operator_' + FieldCount + '">' +
+                    '<select class="form-control" name="operator[]">' +
                         '<option value="<"> &nbsp; < </option>' +
                         '<option value="<="> &nbsp; <= </option>' +
                         '<option value="="> &nbsp; = </option>' +
@@ -315,7 +313,7 @@ function btnContinueClick() {
                     '</select>' +
                 '</div>' +
                 '<div class="col-sm-3">' +
-                    '<input type="text" name="condition_setpoint_' + FieldCount + '" class="form-control" placeholder="Ex: 15 °C" ">' +
+                    '<input type="text" name="condition_setpoint[]" class="form-control" placeholder="Ex: 15 °C" ">' +
                 '</div>' +
                 '<button type="button" id="removeCondition" onclick="btnRemoveCondition(' + removeButtonID + ')" title="Remove">&times;</button>' +
             '</div>'
@@ -323,7 +321,6 @@ function btnContinueClick() {
     }
 
     if (count < MaxInputs) {
-        FieldCount++;
         count++;
         // Add input box
         $(InputsWrapper).append(ConditionHtml);
@@ -335,20 +332,13 @@ function btnContinueClick() {
         // Destroy popover and re-initial it
         createNewPopover(popover_options_list, '#btnAddNewCondition');
 
-        if ((MaxInputs - count) >= 1) {
-            $("#count_condition").val(count); // Assign number of condition to hidden input count_condition
-
-        }
-        else {
+        if ((MaxInputs - count) < 1) {
             $("#inputDevice").append(new Option("No more input device", "no_more"));
             $("#inputDevice").prop('disabled', true);
 
             // Hide popover and disable button Add new condition
             $("#btnContinue").hide();
             $("#btnAddNewCondition").prop('disabled', true);
-
-            // Assign number of condition to hidden input count_condition
-            $("#count_condition").val(count);
         }
     }
 }
@@ -363,7 +353,6 @@ function btnRemoveCondition(removeButtonID) {
     $("#btnAddNewCondition").prop('disabled', false); // Re-active button Add new condition
 
     count--; //decrement textbox count
-    FieldCount--;
 }
 
 // Initial popover
