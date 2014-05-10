@@ -87,7 +87,7 @@ class Device_management extends GEH_Controller
         foreach ($data as &$item) {
             $item['device_location'] = $item['floor_name'] . ', ' . $item['zone_name'] . ', ' . $item['room_name'];
             $item['state_name'] = ucfirst($item['state_name']);
-            if ($item['device_status'] == STATUS_PENDING_TEACH_IN)
+            if ($item['device_status'] == DEVICE_STATUS_PENDING_TEACH_IN)
                 $item['teach_in_status'] = 'Pending';
             else
                 $item['teach_in_status'] = 'Taught-in';
@@ -128,7 +128,7 @@ class Device_management extends GEH_Controller
                     'device_type_id' => $device_type_id,
                     'device_name' => $device_name,
                     'created_date' => time(),
-                    'status' => STATUS_PENDING_TEACH_IN
+                    'status' => DEVICE_STATUS_PENDING_TEACH_IN
                 ); var_dump($insert_data); die();
 
                 if($this->device_model->insert($insert_data)) {

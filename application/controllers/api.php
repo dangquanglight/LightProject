@@ -88,6 +88,11 @@ class Api extends GEH_Controller {
                 $setpoint_log = $this->device_setpoint_log_model->get_latest_setpoint($device['id']);
                 $flag_none = TRUE;
 
+                if($device['status'] == DEVICE_STATUS_PENDING_TEACH_IN) {
+                    echo 'TEACHIN_REQ?' . $device_id . $device['eep'];
+                    return;
+                }
+
                 foreach($device_setpoint as $setpoint) {
                     if($setpoint['value'] != $setpoint_log['current_setpoint']) {
                         $flag_none = FALSE;

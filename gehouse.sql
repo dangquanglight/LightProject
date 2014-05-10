@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 09, 2014 at 08:19 PM
+-- Generation Time: May 10, 2014 at 11:38 AM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `action_conditions` (
   `operator` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `condition_setpoint` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

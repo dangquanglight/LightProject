@@ -106,7 +106,7 @@
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button type="submit" class="btn btn-primary">Save</button>
-            <?php if ($device['status'] == STATUS_PENDING_TEACH_IN): ?>
+            <?php if ($device['status'] == DEVICE_STATUS_PENDING_TEACH_IN): ?>
                 <button type="button" class="btn btn-primary">Teach in</button>
             <?php endif; ?>
             <button type="button" class="btn btn-default"
@@ -235,7 +235,7 @@ if ($device['type_name'] == 'DALI Controller'): ?>
 
     <div style="margin-top: 280px;">
         <button type="submit" class="btn btn-primary">Save</button>
-        <?php if ($device['status'] == STATUS_PENDING_TEACH_IN): ?>
+        <?php if ($device['status'] == DEVICE_STATUS_PENDING_TEACH_IN): ?>
             <button type="button" class="btn btn-primary">Teach in</button>
         <?php endif; ?>
         <button type="button" class="btn btn-default"

@@ -39,8 +39,8 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 // region DEVICE MANAGEMENT
 
 // Teach-in status
-define('STATUS_TAUGHT_IN', 1);
-define('STATUS_PENDING_TEACH_IN', 0);
+define('DEVICE_STATUS_TAUGHT_IN', 1);
+define('DEVICE_STATUS_PENDING_TEACH_IN', 0);
 
 // Device state
 define('DEVICE_STATE_CONTROLLER', 'controller');

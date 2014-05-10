@@ -46,7 +46,14 @@ class Action_management extends GEH_Controller
             $i++;
         }
 
-        $data['actions_list'] = $this->prepare_action_list_info($this->actions_model->get_list_index($mode_actions_id_list));
+        if(count($mode_actions_id_list) > 0) {
+            $actions_list = $this->actions_model->get_list_index($mode_actions_id_list);
+        }
+        else {
+            $actions_list = $this->actions_model->get_list();
+        }
+
+        $data['actions_list'] = $this->prepare_action_list_info($actions_list);
         $data['controlled_devices_list'] = $this->device_model->get_by_device_state(DEVICE_STATE_CONTROLLED);
         $extend_data['content_view'] = $this->load->view($this->action_management_view . 'index', $data, TRUE);
 
