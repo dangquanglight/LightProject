@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4.1
+-- version 4.1.6
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2014 at 11:38 AM
--- Server version: 5.5.32
--- PHP Version: 5.4.19
+-- Generation Time: Jun 19, 2014 at 04:10 AM
+-- Server version: 5.6.16
+-- PHP Version: 5.5.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `gehouse`
 --
-CREATE DATABASE IF NOT EXISTS `gehouse` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `gehouse`;
 
 -- --------------------------------------------------------
 
@@ -45,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `actions` (
   `created_by` int(11) DEFAULT NULL,
   `created_date` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `actions`
@@ -53,10 +51,12 @@ CREATE TABLE IF NOT EXISTS `actions` (
 
 INSERT INTO `actions` (`id`, `device_id`, `action_type`, `action_setpoint`, `schedule_days`, `schedule_start`, `schedule_end`, `exception_type`, `exception_from`, `exception_to`, `exception_setpoint`, `status`, `description`, `created_by`, `created_date`) VALUES
 (12, 1, 0, 21, NULL, '00:00:00', '00:00:00', '0', NULL, NULL, 0, 1, NULL, NULL, 1399646101),
-(14, 11, 0, 18, NULL, '00:00:00', '00:00:00', '0', NULL, NULL, 0, 1, NULL, NULL, 1399646113),
-(15, 1, 1, 21, NULL, NULL, NULL, '0', NULL, NULL, 0, 1, NULL, NULL, 1399646146),
-(16, 11, 1, 18, NULL, NULL, NULL, '0', NULL, NULL, 0, 1, NULL, NULL, 1399646180),
-(17, 13, 0, 17, NULL, '00:00:00', '00:00:00', '0', NULL, NULL, 0, 1, NULL, NULL, 1399654791);
+(15, 1, 1, 21, NULL, NULL, NULL, '0', NULL, NULL, 0, 1, NULL, NULL, 1400332530),
+(16, 11, 1, 17, NULL, NULL, NULL, '0', NULL, NULL, 0, 1, NULL, NULL, 1400249813),
+(17, 13, 0, 17, NULL, '00:00:00', '00:00:00', '0', NULL, NULL, 0, 1, NULL, NULL, 1400332508),
+(18, 1, 1, 21, NULL, NULL, NULL, '0', NULL, NULL, 0, 1, NULL, NULL, 1400249788),
+(19, 12, 0, 19, NULL, '00:00:00', '00:00:00', '0', NULL, NULL, 0, 1, NULL, NULL, 1400332542),
+(20, 1, 1, 21, NULL, NULL, NULL, '0', NULL, NULL, 0, 1, NULL, NULL, 1400332548);
 
 -- --------------------------------------------------------
 
@@ -124,14 +124,14 @@ CREATE TABLE IF NOT EXISTS `devices` (
 
 INSERT INTO `devices` (`id`, `device_id`, `eep`, `room_id`, `device_type_id`, `device_name`, `description`, `created_date`, `created_by`, `status`, `layout_top_position`, `layout_left_position`) VALUES
 (1, '0186CCCD', 'A52001', 1, 1, 'VALVE1.1.1.1', 'This is device 1', 1, 1, 1, NULL, NULL),
-(2, '008BD382', 'F60302', 1, 2, 'SWITCH1.1.1.1', NULL, 1, 1, 0, NULL, NULL),
-(4, 'C4141198', '111111', 1, 4, 'DLHUB1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(6, '0086A88D', '111111', 1, 6, 'EOHUB1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(2, '008BD382', 'F60302', 1, 2, 'SWITCH1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(4, 'C4141198', 'F6DA00', 1, 4, 'DLHUB1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(6, '0086A88D', '111111', 1, 6, 'EOHUB1.1.1.1', '192.168.0.1', 1, 1, 1, NULL, NULL),
 (7, '00000000', '111111', 1, 7, 'WIFIAP1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (8, '018211CF', 'A51005', 1, 8, 'TEMP1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (9, '0005F0EB', 'A50701', 1, 9, 'PIR1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(10, '00000000', '111111', 1, 10, 'W2DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
-(11, '00000000', '111111', 1, 11, 'W1DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(10, '002DAC00', 'A52DAC', 1, 10, 'W2DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
+(11, '001DAC00', 'A51DAC', 1, 11, 'W1DAC1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (12, '0183B036', 'D20101', 1, 12, 'W1R10NT1.1.1.1', NULL, 1, 1, 1, NULL, NULL),
 (13, '01881790', 'A52001', 1, 1, 'VALVE2.1.1.1', NULL, 1, 1, 1, NULL, NULL);
 
@@ -364,7 +364,7 @@ CREATE TABLE IF NOT EXISTS `mode_control` (
   `created_date` int(11) NOT NULL,
   `created_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `mode_control`
@@ -372,7 +372,8 @@ CREATE TABLE IF NOT EXISTS `mode_control` (
 
 INSERT INTO `mode_control` (`id`, `mode_name`, `status`, `created_date`, `created_by`) VALUES
 (2, 'Vacation mode', 1, 1399641332, NULL),
-(3, 'Spring mode', 1, 1399646027, NULL);
+(3, 'Spring mode', 0, 1400249818, NULL),
+(4, 'test', 0, 1400252165, NULL);
 
 -- --------------------------------------------------------
 
@@ -385,7 +386,7 @@ CREATE TABLE IF NOT EXISTS `mode_control_details` (
   `mode_id` int(11) NOT NULL,
   `action_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `mode_control_details`
@@ -393,7 +394,7 @@ CREATE TABLE IF NOT EXISTS `mode_control_details` (
 
 INSERT INTO `mode_control_details` (`id`, `mode_id`, `action_id`) VALUES
 (14, 3, 16),
-(15, 3, 14);
+(16, 3, 18);
 
 -- --------------------------------------------------------
 

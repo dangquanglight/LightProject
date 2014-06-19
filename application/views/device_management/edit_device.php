@@ -128,7 +128,7 @@ if ($device['type_name'] == 'DALI Controller'): ?>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
                 <table style="width: 100%; margin-top: 20px; text-align: center" border="0">
-                    <?php for ($i = 1; $i < 5; $i++): ?>
+                    <?php for ($i = 1; $i < 2; $i++): ?>
                         <tr>
                             <td style="width: 5%">
                                 <p></p>
@@ -156,7 +156,7 @@ if ($device['type_name'] == 'DALI Controller'): ?>
                             </td>
                             <td style="width: 15%">
                                 <p></p>
-                                Group <?php echo $i + 4; ?>
+                                Group <?php echo $i + 1; ?>
                             </td>
                             <td style="width: 30%">
                                 <p></p>
@@ -176,7 +176,7 @@ if ($device['type_name'] == 'DALI Controller'): ?>
             </div>
             <div class="tab-pane" id="tab_2">
                 <table style="width: 100%; margin-top: 20px; text-align: center" border="0">
-                    <?php for ($i = 1; $i < 5; $i++): ?>
+                    <?php for ($i = 1; $i < 3; $i++): ?>
                         <tr>
                             <td style="width: 5%">
                                 <p></p>
@@ -204,7 +204,7 @@ if ($device['type_name'] == 'DALI Controller'): ?>
                             </td>
                             <td style="width: 15%">
                                 <p></p>
-                                Scene <?php echo $i + 4; ?>
+                                Scene <?php echo $i + 2; ?>
                             </td>
                             <td style="width: 30%">
                                 <p></p>
@@ -233,7 +233,7 @@ if ($device['type_name'] == 'DALI Controller'): ?>
     </div>-->
 
 
-    <div style="margin-top: 280px;">
+    <div style="margin-top: 180px;">
         <button type="submit" class="btn btn-primary">Save</button>
         <?php if ($device['status'] == DEVICE_STATUS_PENDING_TEACH_IN): ?>
             <button type="button" class="btn btn-primary">Teach in</button>

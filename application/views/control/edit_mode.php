@@ -18,20 +18,20 @@
 <?php endif; ?>
 
 <form class="form-horizontal" role="form" name="frmEditMode" method="post">
-    <div class="form-group">
+<!--    <div class="form-group">
         <label class="control-label col-sm-1">Status</label>
 
         <div class="btn-group col-sm-3">
             <label class="btn btn-primary">
-                <input type="radio" name="mode_status" value="<?php echo MODE_CONTROL_ENABLE ?>"
-                    <?php if ($mode['status'] == MODE_CONTROL_ENABLE) echo 'checked'; ?>> Enable
+                <input type="radio" name="mode_status" value="<?php /*echo MODE_CONTROL_ENABLE */?>"
+                    <?php /*if ($mode['status'] == MODE_CONTROL_ENABLE) echo 'checked'; */?>> Enable
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="mode_status" value="<?php echo MODE_CONTROL_DISABLE ?>"
-                    <?php if ($mode['status'] == MODE_CONTROL_DISABLE) echo 'checked'; ?>> Disable
+                <input type="radio" name="mode_status" value="<?php /*echo MODE_CONTROL_DISABLE */?>"
+                    <?php /*if ($mode['status'] == MODE_CONTROL_DISABLE) echo 'checked'; */?>> Disable
             </label>
         </div>
-    </div>
+    </div>-->
 
     <div class="form-group">
         <label class="control-label col-sm-1">Mode</label>
@@ -122,7 +122,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12" style="margin-top: 10px;">
+                    <!--<div class="col-sm-12" style="margin-top: 10px;">
                         <label class="checkbox-inline">
                             <input type="radio" name="action_type" value="schedule" checked> Add action based on
                             schedule
@@ -130,7 +130,7 @@
                         <label class="checkbox-inline">
                             <input type="radio" name="action_type" value="event"> Add action based on event
                         </label>
-                    </div>
+                    </div>-->
 
                 </div>
                 <div class="modal-footer">

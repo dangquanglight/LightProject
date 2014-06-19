@@ -31,11 +31,13 @@ function echo_checked_day($data, $value)
                 <div class="btn-group">
                     <label class="btn btn-primary">
                         <input type="radio" name="action_status"
-                               value="<?php echo ACTION_ENABLE; ?>" <?php if ($action['status'] == ACTION_ENABLE) echo 'checked'; ?>> Enable
+                               value="<?php echo ACTION_ENABLE; ?>" <?php if ($action['status'] == ACTION_ENABLE) echo 'checked'; ?>>
+                        Enable
                     </label>
                     <label class="btn btn-primary">
                         <input type="radio" name="action_status"
-                               value="<?php echo ACTION_DISABLE; ?>" <?php if ($action['status'] == ACTION_DISABLE) echo 'checked'; ?>> Disable
+                               value="<?php echo ACTION_DISABLE; ?>" <?php if ($action['status'] == ACTION_DISABLE) echo 'checked'; ?>>
+                        Disable
                     </label>
                 </div>
             </td>
@@ -57,31 +59,38 @@ function echo_checked_day($data, $value)
                 <h4>Schedule</h4>
 
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="day_group" name="schedule_day[]" value="<?php echo ACTION_SCHEDULE_MONDAY; ?>"
+                    <input type="checkbox" id="day_group" name="schedule_day[]"
+                           value="<?php echo ACTION_SCHEDULE_MONDAY; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_MONDAY); ?>> Monday
                 </label>
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="day_group" name="schedule_day[]" value="<?php echo ACTION_SCHEDULE_TUESDAY; ?>"
+                    <input type="checkbox" id="day_group" name="schedule_day[]"
+                           value="<?php echo ACTION_SCHEDULE_TUESDAY; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_TUESDAY); ?>> Tuesday
                 </label>
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="day_group" name="schedule_day[]" value="<?php echo ACTION_SCHEDULE_WEDNESDAY; ?>"
+                    <input type="checkbox" id="day_group" name="schedule_day[]"
+                           value="<?php echo ACTION_SCHEDULE_WEDNESDAY; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_WEDNESDAY); ?>> Wednesday
                 </label>
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="day_group" name="schedule_day[]" value="<?php echo ACTION_SCHEDULE_THURSDAY; ?>"
+                    <input type="checkbox" id="day_group" name="schedule_day[]"
+                           value="<?php echo ACTION_SCHEDULE_THURSDAY; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_THURSDAY); ?>> Thursday
                 </label>
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="day_group" name="schedule_day[]" value="<?php echo ACTION_SCHEDULE_FRIDAY; ?>"
+                    <input type="checkbox" id="day_group" name="schedule_day[]"
+                           value="<?php echo ACTION_SCHEDULE_FRIDAY; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_FRIDAY); ?>> Friday
                 </label>
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="day_group" name="schedule_day[]" value="<?php echo ACTION_SCHEDULE_SARTUDAY; ?>"
+                    <input type="checkbox" id="day_group" name="schedule_day[]"
+                           value="<?php echo ACTION_SCHEDULE_SARTUDAY; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_SARTUDAY); ?>> Sartuday
                 </label>
                 <label class="btn btn-primary">
-                    <input type="checkbox" id="day_group" name="schedule_day[]" value="<?php echo ACTION_SCHEDULE_SUNDAY; ?>"
+                    <input type="checkbox" id="day_group" name="schedule_day[]"
+                           value="<?php echo ACTION_SCHEDULE_SUNDAY; ?>"
                         <?php echo_checked_day($action['schedule_days'], ACTION_SCHEDULE_SUNDAY); ?>> Sunday
                 </label>
                 <label class="btn btn-primary">
@@ -95,7 +104,8 @@ function echo_checked_day($data, $value)
                     <label for="start">Start</label>
 
                     <div id="timepickerStart" class="input-group date form_time">
-                        <input class="form-control" type="text" name="time_start" value="<?php echo $action['schedule_start']; ?>">
+                        <input class="form-control" type="text" name="time_start"
+                               value="<?php echo $action['schedule_start']; ?>">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                     </div>
                 </div>
@@ -104,7 +114,8 @@ function echo_checked_day($data, $value)
                     <label for="end">End</label>
 
                     <div id="timepickerEnd" class="input-group date form_time">
-                        <input class="form-control" type="text" name="time_end" value="<?php echo $action['schedule_end']; ?>">
+                        <input class="form-control" type="text" name="time_end"
+                               value="<?php echo $action['schedule_end']; ?>">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                     </div>
                 </div>
@@ -115,12 +126,14 @@ function echo_checked_day($data, $value)
                 <br>
                 <h4>Exception &nbsp;
                     <label class="radio-inline">
-                        <input type="radio" name="exception_type" id="radio-exception-day" value="<?php echo EXCEPTION_TYPE_DAY; ?>"
-                            <?php if($action['exception_type'] == EXCEPTION_TYPE_DAY) echo 'checked'; ?>> Day
+                        <input type="radio" name="exception_type" id="radio-exception-day"
+                               value="<?php echo EXCEPTION_TYPE_DAY; ?>"
+                            <?php if ($action['exception_type'] == EXCEPTION_TYPE_DAY) echo 'checked'; ?>> Day
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="exception_type" id="radio-exception-duration" value="<?php echo EXCEPTION_TYPE_DURATION; ?>"
-                            <?php if($action['exception_type'] == EXCEPTION_TYPE_DURATION) echo 'checked'; ?>>
+                        <input type="radio" name="exception_type" id="radio-exception-duration"
+                               value="<?php echo EXCEPTION_TYPE_DURATION; ?>"
+                            <?php if ($action['exception_type'] == EXCEPTION_TYPE_DURATION) echo 'checked'; ?>>
                         Duration
                     </label>
                 </h4>
@@ -132,8 +145,9 @@ function echo_checked_day($data, $value)
                 <div id="exception-day" class="none">
                     <div class="input-group date col-sm-4" id="datepicker_day">
                         <input class="form-control" type="text" name="exception_day"
-                               value="<?php if($action['exception_from']and
-                                   $action['exception_type'] == EXCEPTION_TYPE_DAY) echo $action['exception_from']; ?>"
+                               value="<?php if ($action['exception_from'] and
+                                   $action['exception_type'] == EXCEPTION_TYPE_DAY
+                               ) echo $action['exception_from']; ?>"
                                readonly>
                                 <span class="input-group-addon"><span
                                         class="glyphicon glyphicon-calendar"></span></span>
@@ -147,8 +161,9 @@ function echo_checked_day($data, $value)
                         <td style="width: 35%">
                             <div class="input-group date col-sm-11" id="datepicker_from">
                                 <input class="form-control" type="text" name="exception_from"
-                                       value="<?php if($action['exception_from'] and
-                                           $action['exception_type'] == EXCEPTION_TYPE_DURATION) echo $action['exception_from']; ?>"
+                                       value="<?php if ($action['exception_from'] and
+                                           $action['exception_type'] == EXCEPTION_TYPE_DURATION
+                                       ) echo $action['exception_from']; ?>"
                                        readonly>
                                 <span class="input-group-addon"><span
                                         class="glyphicon glyphicon-calendar"></span></span>
@@ -160,8 +175,9 @@ function echo_checked_day($data, $value)
                         <td style="width: 40%">
                             <div class="input-group date col-sm-10" id="datepicker_to">
                                 <input class="form-control" type="text" name="exception_to"
-                                       value="<?php if($action['exception_to'] and
-                                           $action['exception_type'] == EXCEPTION_TYPE_DURATION) echo $action['exception_to']; ?>"
+                                       value="<?php if ($action['exception_to'] and
+                                           $action['exception_type'] == EXCEPTION_TYPE_DURATION
+                                       ) echo $action['exception_to']; ?>"
                                        readonly>
                                 <span class="input-group-addon"><span
                                         class="glyphicon glyphicon-calendar"></span></span>
@@ -185,15 +201,9 @@ function echo_checked_day($data, $value)
             <td style="float: left;">
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Save changes</button>
-                    <?php if(!isset($_GET['callback'])) { ?>
-                        <button type="button" class="btn btn-default"
-                                onclick="window.location.href = '<?php echo action_management_controller_url(); ?>'">Cancel
-                        </button>
-                    <?php } else { if($_GET['callback'] == CALLBACK_ADD_EDIT_MODE_CONTROL): ?>
-                        <button type="button" class="btn btn-default"
-                                onclick="window.location.href = '<?php echo edit_mode_url($_GET['data']); ?>'">Cancel
-                        </button>
-                    <?php endif; } ?>
+                    <button type="button" class="btn btn-default"
+                            onclick="window.location.href = '<?php echo action_management_controller_url(); ?>'">Cancel
+                    </button>
                 </div>
             </td>
         </tr>

@@ -51,7 +51,7 @@ class Ajax extends REST_Controller {
 
         $device = $this->device_model->get_by_device_id('018211CF');
         $setpoint = $this->device_setpoint_model->get_by_device_row_id($device['id']);
-        $setpoint = 40 * (1 - $setpoint[1]['value'] / 255);
+        $setpoint = 40 * (1 - $setpoint[0]['value'] / 255);
 
         $this->response(round($setpoint));
     }

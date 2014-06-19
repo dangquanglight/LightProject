@@ -84,7 +84,8 @@
                             <span class="glyphicon glyphicon-wrench"></span> View detail / Edit
                         </button>
                     </a>
-                    <button type="button" class="btn btn-default btn-sm" onclick="confirm_delete('<?php echo delete_action_url($item['action_id']); ?>')">
+                    <button type="button" class="btn btn-default btn-sm"
+                            onclick="confirm_delete('<?php echo delete_action_url($item['action_id']); ?>')">
                         <span class="glyphicon glyphicon-trash"></span> Remove
                     </button>
                 </td>
@@ -94,3 +95,13 @@
     </table>
 </div>
 
+<script language="javascript">
+    $(document).ready(function () {
+        <?php if($this->session->flashdata('call_client')) : ?>
+        $.ajax({
+            url: "<?php echo $this->session->flashdata('call_client'); ?>",
+            context: document.body
+        });
+        <?php endif; ?>
+    });
+</script>

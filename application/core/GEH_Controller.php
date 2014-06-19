@@ -5,10 +5,15 @@ if (!defined('BASEPATH'))
 
 class GEH_Controller extends CI_Controller
 {
+    public $client_address;
 
     function __construct()
     {
         parent::__construct();
+
+        $this->load->model('device_model');
+        $device = $this->device_model->get_by_device_id('0086A88D');
+        $this->client_address = 'http://' . $device['description'] . '//index.html?request';
     }
 
     // Flash data successful

@@ -41,4 +41,12 @@ class Mode_control_model extends CI_Model{
         return $query->row_array();
     }
 
+    public function get_not_in_by_id($array_id)
+    {
+        $this->db->where_not_in("id", $array_id);
+        $query = $this->db->get($this->_table_name);
+
+        return $query->result_array();
+    }
+
 }

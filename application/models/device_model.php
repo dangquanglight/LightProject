@@ -95,9 +95,30 @@ class Device_model extends CI_Model{
 
     public function get_list_by_device_type_id($type_id, $order_by = "device_id", $condition = "ASC")
     {
-        $this->db->select('id AS row_device_id, device_name, device_id, eep');
-        $this->db->from($this->_table_name);
-        $this->db->where("device_type_id", $type_id);
+        $this->db->distinct();
+        $this->db->select('d.id AS row_device_id, d.device_name, d.device_id, d.eep, ps.property_name');
+        $this->db->from($this->_table_name . ' d');
+        $this->db->where("d.device_type_id", $type_id);
+        $this->db->join('device_types t', 'd.device_type_id = t.id');
+        $this->db->join('device_states s', 's.id = t.state_id');
+        $this->db->join('device_type_properties p', 'p.device_type_id = t.id', 'left');
+        $this->db->join('device_properties ps', 'p.property_id = ps.id', 'left');
+        $this->db->order_by($order_by, $condition);
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
+    public function get_list_by_device_type_id_and_state($type_id, $state_id, $order_by = "device_id", $condition = "ASC")
+    {
+        $this->db->select('d.id AS row_device_id, d.device_name, d.device_id, d.eep, ps.property_name');
+        $this->db->from($this->_table_name . ' d');
+        $this->db->where("d.device_type_id", $type_id);
+        $this->db->join('device_types t', 'd.device_type_id = t.id');
+        $this->db->where("t.state_id", $state_id);
+        $this->db->join('device_states s', 's.id = t.state_id');
+        $this->db->join('device_type_properties p', 'p.device_type_id = t.id', 'left');
+        $this->db->join('device_properties ps', 'p.property_id = ps.id', 'left');
         $this->db->order_by($order_by, $condition);
         $query = $this->db->get();
 

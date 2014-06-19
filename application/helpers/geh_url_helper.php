@@ -70,6 +70,12 @@ if (!function_exists('edit_mode_url')) {
     }
 }
 
+if (!function_exists('change_mode_status_url')) {
+    function change_mode_status_url($id) {
+        return base_url('mode_control/change_status?id=' . $id);
+    }
+}
+
 if (!function_exists('add_new_mode_url')) {
     function add_new_mode_url() {
         return base_url('mode_control/modify');

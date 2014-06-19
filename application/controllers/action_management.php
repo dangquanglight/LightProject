@@ -24,10 +24,10 @@ class Action_management extends GEH_Controller
 
     public function index()
     {
-        if ($this->input->post()) {
+        if ($this->input->post()) { //var_dump($this->input->post()); die();
             if (isset($_GET['callback'])) {
                 if ($_GET['callback'] == CALLBACK_ADD_EDIT_MODE_CONTROL) {
-                    redirect(add_new_action_with_callback_url($this->input->post('action_type'),
+                    redirect(add_new_action_with_callback_url("event",
                         $this->input->post('controlled_device'), CALLBACK_ADD_EDIT_MODE_CONTROL, $_GET['data']
                     ));
                 }
@@ -136,6 +136,7 @@ class Action_management extends GEH_Controller
                             }
                         }
                         else {
+                            $this->session->set_flashdata('call_client', $this->client_address);
                             redirect(action_management_controller_url());
                         }
                     }
@@ -159,11 +160,13 @@ class Action_management extends GEH_Controller
                             }
                         }
                         else {
+                            $this->session->set_flashdata('call_client', $this->client_address);
                             redirect(action_management_controller_url());
                         }
                     }
                 }
-            } // Action type event
+            }
+            // Action type event
             else if ((isset($_GET['action_type']) and $_GET['action_type'] == 'event') or (isset($_POST['action_type']) and $_POST['action_type'] == 'event')) {
                 $data = array(
                     'device_id' => $this->input->post('action_device_id'),
@@ -218,6 +221,7 @@ class Action_management extends GEH_Controller
                             }
                         }
                         else if ($flag) {
+                            $this->session->set_flashdata('call_client', $this->client_address);
                             redirect(action_management_controller_url());
                         }
                     }
@@ -262,6 +266,7 @@ class Action_management extends GEH_Controller
                             }
                         }
                         else if ($flag) {
+                            $this->session->set_flashdata('call_client', $this->client_address);
                             redirect(action_management_controller_url());
                         }
                     }
@@ -308,12 +313,21 @@ class Action_management extends GEH_Controller
                 $data['new_input_devices'] = $temp_input_device;
                 $data['action_type'] = 'event';
 
-                $extend_data['content_view'] = $this->load->view($this->action_management_view . 'edit_action_event',
-                    $data, TRUE);
+                if (isset($_GET['callback'])) {
+                    if ($_GET['callback'] == CALLBACK_ADD_EDIT_MODE_CONTROL) {
+                        $extend_data['content_view'] = $this->load->view($this->action_management_view . 'edit_action_event_page_control',
+                            $data, TRUE);
+                    }
+                }
+                else {
+                    $extend_data['content_view'] = $this->load->view($this->action_management_view . 'edit_action_event',
+                        $data, TRUE);
+                }
             }
 
             $this->load_frontend_template($extend_data, 'EDIT ACTION');
-        } // Case: add new action
+        }
+        // Case: add new action
         else if (isset($_GET['action_type']) and ($_GET['action_type'] == 'schedule' or $_GET['action_type'] == 'event')) {
             $action_type = $_GET['action_type'];
             $device = $this->device_model->get_by_row_id($_GET['row_device_id']);
@@ -326,12 +340,21 @@ class Action_management extends GEH_Controller
                     $data, TRUE);
             } // Action type: event
             else if ($action_type == 'event') {
-                $extend_data['content_view'] = $this->load->view($this->action_management_view . 'add_action_event',
-                    $data, TRUE);
+                if (isset($_GET['callback'])) {
+                    if ($_GET['callback'] == CALLBACK_ADD_EDIT_MODE_CONTROL) {
+                        $extend_data['content_view'] = $this->load->view($this->action_management_view . 'add_action_event_page_control',
+                            $data, TRUE);
+                    }
+                }
+                else {
+                    $extend_data['content_view'] = $this->load->view($this->action_management_view . 'add_action_event',
+                        $data, TRUE);
+                }
             }
 
             $this->load_frontend_template($extend_data, 'ADD NEW ACTION');
-        } else
+        }
+        else
             redirect(action_management_controller_url());
     }
 

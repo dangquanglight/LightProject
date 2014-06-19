@@ -4,18 +4,18 @@
 </ol>
 
 <form class="form-horizontal" role="form" method="post" id="frmAddNewMode">
-    <div class="form-group">
+<!--    <div class="form-group">
         <label class="control-label col-sm-1">Status</label>
 
         <div class="btn-group col-sm-3">
             <label class="btn btn-primary">
-                <input type="radio" name="mode_status" value="<?php echo MODE_CONTROL_ENABLE ?>" checked> Enable
+                <input type="radio" name="mode_status" value="<?php /*echo MODE_CONTROL_ENABLE */?>" checked> Enable
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="mode_status" value="<?php echo MODE_CONTROL_DISABLE ?>"> Disable
+                <input type="radio" name="mode_status" value="<?php /*echo MODE_CONTROL_DISABLE */?>"> Disable
             </label>
         </div>
-    </div>
+    </div>-->
 
     <div class="form-group">
         <label class="control-label col-sm-1">Mode</label>

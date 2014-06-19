@@ -42,7 +42,7 @@
                     <label class="control-label col-sm-2" for="controlled_device">Controlled device</label>
 
                     <div class="col-sm-3">
-                        <select class="form-control" id="selectDevice" name="device"></select>
+                        <select class="form-control" id="selectDevice" name="device_id"></select>
                     </div>
                 </div>
 
@@ -51,10 +51,11 @@
 
                     <div class="col-sm-2">
                         <input type="text" class="form-control" id="amount" disabled>
+                        <input type="hidden" name="setpoint1" id="setpoint1">
                     </div>
                     <input id="range-slider" type="text"/>
                     &nbsp;&nbsp;
-                    <button type="button" class="btn btn-primary">On/Off</button>
+                    <button type="submit" class="btn btn-primary">Send</button>
                 </div>
 
                 <div class="form-group" id="control_setpoint2">
@@ -62,6 +63,7 @@
 
                     <div class="col-sm-2">
                         <input type="text" class="form-control" id="amount2" disabled>
+                        <input type="hidden" name="setpoint2" id="setpoint1">
                     </div>
                     <input id="range-slider2" type="text"/>
                 </div>
@@ -71,6 +73,16 @@
     <tr>
         <td colspan="2">
             <h3>Group Action</h3>
+            <div class="btn-group-justified" style="margin-bottom: 20px;">
+                <?php $count = 0; foreach($list_mode as $item): if($count < 8): ?>
+                <a href="<?php echo change_mode_status_url($item['id']); ?>">
+                    <button type="button" class="btn btn-<?php if($item['status'] == 'Enable') echo 'success'; else echo 'default'; ?>">
+                        <?php echo $item['mode_name']; ?>
+                    </button>
+                </a>
+                <?php $count++; endif; endforeach; ?>
+            </div>
+
             <a href="<?php echo add_new_mode_url(); ?>">
                 <button type="button" class="btn btn-primary">Add new mode</button>
             </a>
@@ -111,6 +123,13 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        <?php if($this->session->flashdata('call_client')) : ?>
+            $.ajax({
+                url: "<?php echo $this->session->flashdata('call_client'); ?>",
+                context: document.body
+            });
+        <?php endif; ?>
+
         $("#selectFloor").change(function () {
             var floorID = $(this).val();
             if (!floorID)
@@ -173,6 +192,7 @@
                 success: function (json) {
                     $("#loading").hide();
                     $("#amount").val(json.setpoint1 + ' ' + json.unit_name);
+                    $("#setpoint1").val(json.setpoint1);
 
                     $slider = $("#range-slider");
                     $("#range-slider").slider({
@@ -185,12 +205,14 @@
 
                     $("#range-slider").on('slide', function (slideEvt) {
                         $("#amount").val(slideEvt.value + ' ' + json.unit_name);
+                        $("#setpoint1").val(slideEvt.value);
                     });
 
                     if (typeof(json.setpoint2) != "undefined" && json.setpoint2 !== null) {
                         $('#control_setpoint2').show();
 
                         $("#amount2").val(json.setpoint2 + ' ' + json.unit_name);
+                        $("#setpoint2").val(json.setpoint1);
 
                         $slider2 = $("#range-slider2");
                         $("#range-slider2").slider({
@@ -203,6 +225,7 @@
 
                         $("#range-slider2").on('slide', function (slideEvt) {
                             $("#amount2").val(slideEvt.value + ' ' + json.unit_name);
+                            $("#setpoint2").val(slideEvt.value);
                         });
                     }
                     else {

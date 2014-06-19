@@ -22,12 +22,12 @@
 <img src="images/floorplan.png" width="40%">
 
 <div class="well col-sm-3 text-center pull-right" style="margin-top:50px; margin-right: 300px; padding: 5px;">
-    <h3>Temperature: <span id="temp_value"><?php echo $temp_value , ' °C'; ?></span></h3>
+    <h3>Temperature: <span id="temp_value"></span></h3>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        setInterval(function(){getTempHomepage()}, 10000);
+        setInterval(function(){getTempHomepage()}, 5 * 60 * 1000);
 
         $("#selectFloor").change(function () {
             var floorID = $(this).val();

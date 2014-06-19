@@ -23,6 +23,23 @@ class Mode_control extends GEH_Controller
 
     public function index()
     {
+        if($this->input->post()) {
+            $this->load->model('device_setpoint_model');
+            $row_device_id = $this->input->post('device_id');
+            $setpoint = $this->input->post('setpoint1');
+
+            $device_setpoint = $this->device_setpoint_model->get_by_device_row_id($row_device_id);
+
+            $data = array(
+                'value' => $setpoint
+            );
+            if($this->device_setpoint_model->update($device_setpoint[0]['id'], $data)) {
+                $this->session->set_flashdata($this->flash_success_session, 'Sending setpoint successful!');
+                $this->session->set_flashdata('call_client', $this->client_address);
+                redirect(control_controller_url());
+            }
+        }
+
         // Get floor list
         $data['floor_list'] = $this->floor_model->get_list();
 
@@ -43,6 +60,39 @@ class Mode_control extends GEH_Controller
         }
 
         return $data;
+    }
+
+    public function change_status()
+    {
+        if(isset($_GET['id'])) {
+            $mode = $this->mode_control_model->get_by_id($_GET['id']);
+            if($mode) {
+                if($mode['status'] == MODE_CONTROL_ENABLE) {
+                    $data = array(
+                        'status' => MODE_CONTROL_DISABLE
+                    );
+                }
+                else if($mode['status'] == MODE_CONTROL_DISABLE) {
+                    $data = array(
+                        'status' => MODE_CONTROL_ENABLE
+                    );
+
+                    $all_modes_except_this_mode = $this->mode_control_model->get_not_in_by_id(array($_GET['id']));
+                    foreach($all_modes_except_this_mode as $item) {
+                        $update_data = array(
+                            'status' => MODE_CONTROL_DISABLE
+                        );
+                        $this->mode_control_model->update($item['id'], $update_data);
+                    }
+                }
+
+                if($this->mode_control_model->update($_GET['id'], $data)) {
+                    $this->session->set_flashdata($this->flash_success_session, 'Mode status has been change successful!');
+                    $this->session->set_flashdata('call_client', $this->client_address);
+                    redirect(control_controller_url());
+                }
+            }
+        }
     }
 
     public function modify()
@@ -69,14 +119,14 @@ class Mode_control extends GEH_Controller
                 }
             }
 
-            $data = array(
-                'mode_name' => trim($this->input->post('mode_name')),
-                'status' => $this->input->post('mode_status'),
-                'created_date' => time()
-            );
-
             // Add new mode control
             if (!isset($_GET['id'])) {
+                $data = array(
+                    'mode_name' => trim($this->input->post('mode_name')),
+                    'status' => MODE_CONTROL_DISABLE,
+                    'created_date' => time()
+                );
+
                 if ($mode_id = $this->mode_control_model->insert($data)) {
                     $this->session->set_flashdata($this->flash_success_session, 'Add new mode successful!');
                     redirect(edit_mode_url($mode_id));
@@ -84,6 +134,11 @@ class Mode_control extends GEH_Controller
             }
             // Edit mode control
             else {
+                $data = array(
+                    'mode_name' => trim($this->input->post('mode_name')),
+                    'created_date' => time()
+                );
+
                 if ($this->mode_control_model->update($_GET['id'], $data)) {
                     $this->session->set_flashdata($this->flash_success_session, 'Edit mode successful!');
                     redirect(control_controller_url());

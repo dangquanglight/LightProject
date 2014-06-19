@@ -106,9 +106,15 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-default"
-                            onclick="window.location.href = '<?php echo action_management_controller_url(); ?>'">Cancel
-                    </button>
+                    <?php if(!isset($_GET['callback'])) { ?>
+                        <button type="button" class="btn btn-default"
+                                onclick="window.location.href = '<?php echo action_management_controller_url(); ?>'">Cancel
+                        </button>
+                    <?php } else { if($_GET['callback'] == CALLBACK_ADD_EDIT_MODE_CONTROL): ?>
+                        <button type="button" class="btn btn-default"
+                                onclick="window.location.href = '<?php echo edit_mode_url($_GET['data']); ?>'">Cancel
+                        </button>
+                    <?php endif; } ?>
                 </div>
             </td>
         </tr>
