@@ -292,7 +292,7 @@ if ($device['type_name'] == 'DALI Controller'): ?>
         $(this).tab('show')
     });
 
-    <?php if($device_setpoints[0]['value']) { ?>
+    <?php if($device_setpoints[0]['value'] != NULL) { ?>
     $("#amount").val('<?php echo $device_setpoints[0]['value'] , ' ' , $device['unit_name']; ?>');
     <?php } ?>
     $("#range-slider").slider({
@@ -300,7 +300,7 @@ if ($device['type_name'] == 'DALI Controller'): ?>
         <?php if($device['min_value']): ?>min: <?php echo $device['min_value']; ?>, <?php endif; ?>
         <?php if($device['max_value']): ?>max: <?php echo $device['max_value']; ?>, <?php endif; ?>
         step: 1,
-        <?php if($device_setpoints[0]['value']) { ?>
+        <?php if($device_setpoints[0]['value'] != NULL) { ?>
         value: <?php echo $device_setpoints[0]['value']; ?>
         <?php } ?>
     });

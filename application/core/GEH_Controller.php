@@ -6,6 +6,10 @@ if (!defined('BASEPATH'))
 class GEH_Controller extends CI_Controller
 {
     public $client_address;
+	//Hieu added 2014-05-17
+	public $client_mode_request;
+	public $client_action_request;
+	public $client_ip_address;
 
     function __construct()
     {
@@ -13,7 +17,12 @@ class GEH_Controller extends CI_Controller
 
         $this->load->model('device_model');
         $device = $this->device_model->get_by_device_id('0086A88D');
-        $this->client_address = 'http://' . $device['description'] . '//index.html?request';
+		
+        $this->client_address = 'http://' . $device['description'] . '/status.html?request';
+		//Hieu added 2014-05-17
+		$this->client_mode_request = 'http://' . $device['description'] . '/mode.html?request';
+		$this->client_action_request = 'http://' . $device['description'] . '/action.html?request';		
+		$this->client_ip_address = $device['description'];
     }
 
     // Flash data successful

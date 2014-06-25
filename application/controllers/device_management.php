@@ -108,41 +108,7 @@ class Device_management extends GEH_Controller
             'device_setpoint_model'
         ));
 
-        if($this->input->post()) {
-            // Add new device
-            if(!isset($_GET['id'])) {
-                $device_type_id = $this->input->post('device_type');
-                $device_type = $this->device_type_model->get_by_id($device_type_id);
-                $device_type_count = $this->device_model->get_count_by_device_type($device_type_id);
-
-                // Device name format: [device_type_short_name][device_count_by_type].[floor_id].[zone_id].[room_id]
-                $device_name = $device_type['type_short_name'] . ($device_type_count + 1) . '.' .
-                    $this->input->post('floor_id') . '.' .
-                    $this->input->post('zone_id') . '.' .
-                    $this->input->post('room_id')
-                ;
-
-                $insert_data = array(
-                    'device_id' => $this->input->post('device_id'),
-                    'room_id' => $this->input->post('room_id'),
-                    'device_type_id' => $device_type_id,
-                    'device_name' => $device_name,
-                    'created_date' => time(),
-                    'status' => DEVICE_STATUS_PENDING_TEACH_IN
-                ); var_dump($insert_data); die();
-
-                if($this->device_model->insert($insert_data)) {
-                    $this->session->set_flashdata('add_success', 'Add new device successful!');
-                    redirect(device_management_controller_url());
-                }
-            }
-            else {
-
-            }
-        }
-
         $data['floor_list'] = $this->floor_model->get_list();
-
         // List temperature devices
         $type = $this->device_type_model->get_by_short_name('TEMP');
         $data['temp_devices_list'] = $this->device_model->get_list_by_device_type_id($type['id']);
@@ -166,7 +132,7 @@ class Device_management extends GEH_Controller
                     foreach ($setpoint_info as $item) {
                         if($this->input->post('hiddenSetpoint' . $count)) {
                             $update_array = array(
-                                'value' => $this->input->post('hiddenSetpoint' . $count)
+                                'value' => intval($this->input->post('hiddenSetpoint' . $count))
                             );
                             $this->device_setpoint_model->update($item['id'], $update_array);
                             $count++;
@@ -174,9 +140,9 @@ class Device_management extends GEH_Controller
                     }
                 }
                 else {
-                    if($this->input->post('hiddenSetpoint1')) {
+                    if($this->input->post('hiddenSetpoint1') != NULL) {
                         $update_array = array(
-                            'value' => $this->input->post('hiddenSetpoint1')
+                            'value' => intval($this->input->post('hiddenSetpoint1'))
                         );
                         $this->device_setpoint_model->update($setpoint_info[0]['id'], $update_array);
                     }
@@ -188,8 +154,36 @@ class Device_management extends GEH_Controller
             $extend_data['content_view'] = $this->load->view($this->device_management_view . 'edit_device', $data, TRUE);
             $this->load_frontend_template($extend_data, 'EDIT DEVICE INFORMATION');
         }
+
         // Case: add new device
         else {
+            if($this->input->post()) {
+                $device_type_id = $this->input->post('device_type');
+                $device_type = $this->device_type_model->get_by_id($device_type_id);
+                $device_type_count = $this->device_model->get_count_by_device_type($device_type_id);
+
+                // Device name format: [device_type_short_name][device_count_by_type].[floor_id].[zone_id].[room_id]
+                $device_name = $device_type['type_short_name'] . ($device_type_count + 1) . '.' .
+                    $this->input->post('floor_id') . '.' .
+                    $this->input->post('zone_id') . '.' .
+                    $this->input->post('room_id')
+                ;
+
+                $insert_data = array(
+                    'device_id' => $this->input->post('device_id'),
+                    'room_id' => $this->input->post('room_id'),
+                    'device_type_id' => $device_type_id,
+                    'device_name' => $device_name,
+                    'created_date' => time(),
+                    'status' => DEVICE_STATUS_PENDING_TEACH_IN
+                );
+
+                if($this->device_model->insert($insert_data)) {
+                    $this->session->set_flashdata('add_success', 'Add new device successful!');
+                    redirect(device_management_controller_url());
+                }
+            }
+
             $data['device_type_list'] = $this->device_type_model->get_list();
 
             $extend_data['content_view'] = $this->load->view($this->device_management_view . 'add_device', $data, TRUE);

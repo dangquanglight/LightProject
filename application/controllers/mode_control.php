@@ -23,6 +23,7 @@ class Mode_control extends GEH_Controller
 
     public function index()
     {
+		
         if($this->input->post()) {
             $this->load->model('device_setpoint_model');
             $row_device_id = $this->input->post('device_id');
@@ -39,7 +40,7 @@ class Mode_control extends GEH_Controller
                 redirect(control_controller_url());
             }
         }
-
+		//$this->session->set_flashdata('call_client', $this->client_address);
         // Get floor list
         $data['floor_list'] = $this->floor_model->get_list();
 
@@ -88,7 +89,7 @@ class Mode_control extends GEH_Controller
 
                 if($this->mode_control_model->update($_GET['id'], $data)) {
                     $this->session->set_flashdata($this->flash_success_session, 'Mode status has been change successful!');
-                    $this->session->set_flashdata('call_client', $this->client_address);
+                    $this->session->set_flashdata('call_client', $this->client_mode_request);
                     redirect(control_controller_url());
                 }
             }
@@ -115,6 +116,7 @@ class Mode_control extends GEH_Controller
                 }
                 if($flag) {
                     $this->session->set_flashdata($this->flash_success_session, 'Add new action(s) successful!');
+					//$this->session->set_flashdata('call_client', $this->client_action_request);
                     redirect(edit_mode_url($_GET['id']));
                 }
             }
@@ -284,5 +286,5 @@ class Mode_control extends GEH_Controller
 
 }
 
-/* End of file control.php */
-/* Location: ./application/controllers/control.php */
+/* End of file mode_control.php */
+/* Location: ./application/controllers/mode_control.php */
