@@ -89,6 +89,14 @@ define('CALLBACK_ADD_EDIT_MODE_CONTROL', 'edit_control');
 
 // endregion CALLBACK CONSTANT
 
+// region USER ACCOUNT
+
+define('USER_STATUS_ACTIVE', 1);
+define('USER_STATUS_INACTIVE', 0);
+
+define('USER_SESSION_NAME', 'user_session');
+
+// endregion USER ACCOUNT
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

@@ -15,6 +15,11 @@ class GEH_Controller extends CI_Controller
     {
         parent::__construct();
 
+        // Check user logged or not
+        if(! ($this->router->class == 'user' and $this->router->method == 'login') ) {
+            $this->check_user_logged_in();
+        }
+
         $this->load->model('device_model');
         $device = $this->device_model->get_by_device_id('0086A88D');
 		
@@ -31,8 +36,9 @@ class GEH_Controller extends CI_Controller
     function get_common_view()
     {
         $data = new ArrayObject();
+        $username = array('username' => $this->get_username_from_session());
 
-        $header = $this->load->view('templates/header', $data, TRUE);
+        $header = $this->load->view('templates/header', $username, TRUE);
         $footer = $this->load->view('templates/footer', $data, TRUE);
         $sidebar = $this->load->view('templates/sidebar', $data, TRUE);
 
@@ -233,6 +239,18 @@ class GEH_Controller extends CI_Controller
             return TRUE;
         else
             return FALSE;
+    }
+
+    public function check_user_logged_in()
+    {
+        if(!$this->session->userdata(USER_SESSION_NAME))
+            redirect(user_login_url());
+    }
+
+    public function get_username_from_session()
+    {
+        $account = $this->session->userdata(USER_SESSION_NAME);
+        return $account['username'];
     }
 
 }

@@ -124,14 +124,19 @@ if (!function_exists('document_viewer_url')) {
 }
 // endregion STATIC PAGE
 
-if (!function_exists('book_details_url_old')) {
-    function book_details_url_old($book = FALSE, $sob_id = 0) {
-        if(!$book) return base_url('/home');
-        $url = base_url('/book/details/'.$book['book_id']);
-        if($sob_id) $url.= "/$sob_id";
-        $book_title = url_title($book['title'], '-', TRUE);
-        $url.= "/$book_title";
-        return $url;
+// region USER CONTROLLER
+
+if (!function_exists('user_login_url')) {
+    function user_login_url() {
+        return base_url('user/login');
     }
 }
+
+if (!function_exists('user_logout_url')) {
+    function user_logout_url() {
+        return base_url('user/logout');
+    }
+}
+
+// endregion USER CONTROLLER
 
