@@ -12,7 +12,7 @@
 
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a style="color: #ffffff" href="#">Wellcome <?php echo $username; ?></a></li>
+                <li><a style="color: #ffffff" href="#">WELCOME <?php echo $username; ?></a></li>
             </ul>
             <!--<form class="navbar-form navbar-right">
                 <input type="text" class="form-control" placeholder="Search...">

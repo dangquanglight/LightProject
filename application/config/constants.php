@@ -94,6 +94,10 @@ define('CALLBACK_ADD_EDIT_MODE_CONTROL', 'edit_control');
 define('USER_STATUS_ACTIVE', 1);
 define('USER_STATUS_INACTIVE', 0);
 
+define('USER_GROUP_ROOT_ADMIN', 1);
+define('USER_GROUP_BUILDINGS_OWNER', 2);
+define('USER_GROUP_ROOMS_ADMIN', 3);
+
 define('USER_SESSION_NAME', 'user_session');
 
 // endregion USER ACCOUNT

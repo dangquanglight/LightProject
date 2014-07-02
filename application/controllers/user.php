@@ -17,7 +17,9 @@ class User extends GEH_Controller {
 
     public function index()
     {
-
+        $data = array();
+        $extend_data['content_view'] = $this->load->view($this->user_view . 'index', $data, TRUE);
+        $this->load_frontend_template($extend_data, 'USER ACCOUNT MANAGEMENT');
     }
 
     public function login()
@@ -53,10 +55,10 @@ class User extends GEH_Controller {
         }
 
         if(!$err_flag) {
-            $this->load->view($this->user_view . '/login');
+            $this->load->view($this->user_view . 'login');
         }
         else {
-            $this->load->view($this->user_view . '/login', $data);
+            $this->load->view($this->user_view . 'login', $data);
         }
     }
 

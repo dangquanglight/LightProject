@@ -126,6 +126,12 @@ if (!function_exists('document_viewer_url')) {
 
 // region USER CONTROLLER
 
+if (!function_exists('user_account_controller_url')) {
+    function user_account_controller_url() {
+        return base_url('user');
+    }
+}
+
 if (!function_exists('user_login_url')) {
     function user_login_url() {
         return base_url('user/login');
