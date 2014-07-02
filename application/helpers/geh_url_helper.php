@@ -132,6 +132,24 @@ if (!function_exists('user_account_controller_url')) {
     }
 }
 
+if (!function_exists('add_new_user_url')) {
+    function add_new_user_url() {
+        return base_url('user/modify');
+    }
+}
+
+if (!function_exists('edit_user_privileges_url')) {
+    function edit_user_privileges_url($user_id) {
+        return base_url('user/privileges?id=' . $user_id);
+    }
+}
+
+if (!function_exists('edit_user_url')) {
+    function edit_user_url($user_id) {
+        return base_url('user/modify?id=' . $user_id);
+    }
+}
+
 if (!function_exists('user_login_url')) {
     function user_login_url() {
         return base_url('user/login');

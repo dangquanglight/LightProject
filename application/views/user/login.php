@@ -84,7 +84,7 @@
 
         <form id="login_form" method="post">
             <div class="form-group">
-                <label for="login_username">Username</label>
+                <label for="login_username">User name</label>
                 <input type="text" id="login_username" name="username" class="form-control input-lg">
             </div>
             <div class="form-group">

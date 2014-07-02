@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4.1
+-- version 4.1.12
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2014 at 07:07 AM
--- Server version: 5.5.32
--- PHP Version: 5.4.19
+-- Generation Time: Jul 02, 2014 at 12:25 PM
+-- Server version: 5.6.16
+-- PHP Version: 5.5.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `gehouse`
 --
-CREATE DATABASE IF NOT EXISTS `gehouse` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `gehouse`;
 
 -- --------------------------------------------------------
 
@@ -95,14 +93,18 @@ CREATE TABLE IF NOT EXISTS `buildings` (
   `created_date` int(11) NOT NULL,
   `created_by` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `buildings`
 --
 
 INSERT INTO `buildings` (`id`, `building_name`, `description`, `status`, `created_date`, `created_by`) VALUES
-(1, 'building 1', NULL, 1, 1, 1);
+(1, 'building 1', NULL, 1, 1, 1),
+(2, 'building 2', NULL, 1, 1, 1),
+(3, 'building 3', NULL, 1, 1, 1),
+(4, 'building 4', NULL, 1, 1, 1),
+(5, 'building 5', NULL, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -125,8 +127,11 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('80b033ddc182d0efe6ff2cbd60f98130', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0', 1404190746, 'a:2:{s:9:"user_data";s:0:"";s:12:"user_session";a:4:{s:7:"user_id";s:1:"1";s:10:"user_email";s:19:"localhost@local.com";s:10:"user_group";s:1:"1";s:8:"username";s:5:"light";}}'),
-('dfcb83d5d94123c8c6ba9e882f7920ed', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0', 1404190626, 'a:1:{s:12:"user_session";a:3:{s:7:"user_id";s:1:"1";s:10:"user_email";s:19:"localhost@local.com";s:10:"user_group";s:1:"1";}}');
+('747307818566152b06cec07c9df35422', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0', 1404296639, 'a:2:{s:9:"user_data";s:0:"";s:12:"user_session";a:4:{s:7:"user_id";s:1:"3";s:10:"user_email";s:11:"abc@abc.com";s:10:"user_group";s:1:"2";s:8:"username";s:6:"light2";}}'),
+('acd3b4c3033e139202d58f5907e792d3', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0', 1404292282, 'a:3:{s:9:"user_data";s:0:"";s:12:"user_session";a:4:{s:7:"user_id";s:1:"1";s:10:"user_email";s:19:"localhost@local.com";s:10:"user_group";s:1:"1";s:8:"username";s:5:"light";}s:23:"flash:new:flash_success";s:33:"Edit user information successful!";}'),
+('afb1c50ca850bde0cb353c7ff307351f', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0', 1404290631, 'a:2:{s:9:"user_data";s:0:"";s:12:"user_session";a:4:{s:7:"user_id";s:1:"1";s:10:"user_email";s:19:"localhost@local.com";s:10:"user_group";s:1:"1";s:8:"username";s:5:"light";}}'),
+('dfaaaff40b48d464b11c764404ca0aa9', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0', 1404295772, 'a:3:{s:9:"user_data";s:0:"";s:12:"user_session";a:4:{s:7:"user_id";s:1:"3";s:10:"user_email";s:11:"abc@abc.com";s:10:"user_group";s:1:"3";s:8:"username";s:6:"light2";}s:23:"flash:old:flash_success";s:33:"Edit user information successful!";}'),
+('f5b57e68782e6d20858e71f1936e2814', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0', 1404289836, 'a:2:{s:9:"user_data";s:0:"";s:12:"user_session";a:4:{s:7:"user_id";s:1:"1";s:10:"user_email";s:19:"localhost@local.com";s:10:"user_group";s:1:"1";s:8:"username";s:5:"light";}}');
 
 -- --------------------------------------------------------
 
@@ -1586,15 +1591,17 @@ CREATE TABLE IF NOT EXISTS `user_accounts` (
   `is_active` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `created_date` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `user_accounts`
 --
 
 INSERT INTO `user_accounts` (`id`, `user_group`, `email`, `username`, `password`, `is_active`, `created_date`) VALUES
-(1, 1, 'localhost@local.com', 'light', '202cb962ac59075b964b07152d234b70', 1, 1),
-(2, 1, 'hieu@hieu.com', 'hieu', '202cb962ac59075b964b07152d234b70', 1, 1);
+(1, 1, 'localhost@local.com', 'light', '202cb962ac59075b964b07152d234b70', 1, 1404287090),
+(2, 1, 'hieu@hieu.com', 'hieu', '202cb962ac59075b964b07152d234b70', 1, 1404287090),
+(3, 2, 'abc@abc.com', 'light2', '202cb962ac59075b964b07152d234b70', 1, 1404287090),
+(4, 3, 'abc@abc.com', 'light3', '202cb962ac59075b964b07152d234b70', 1, 1404287090);
 
 -- --------------------------------------------------------
 
@@ -1630,10 +1637,20 @@ INSERT INTO `user_groups` (`id`, `group_name`, `group_desc`, `group_admin`) VALU
 CREATE TABLE IF NOT EXISTS `user_privileges` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_account` int(11) NOT NULL,
-  `room_id` int(11) NOT NULL,
+  `room_id` int(11) DEFAULT NULL,
+  `building_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `upriv_id` (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `user_privileges`
+--
+
+INSERT INTO `user_privileges` (`id`, `user_account`, `room_id`, `building_id`) VALUES
+(1, 3, NULL, 1),
+(2, 3, NULL, 3),
+(3, 3, NULL, 5);
 
 -- --------------------------------------------------------
 

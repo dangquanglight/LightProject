@@ -1,7 +1,7 @@
 <?php
 
-class User_account_model extends CI_Model{
-    private $_table_name = 'user_accounts';
+class User_privileges_model extends CI_Model{
+    private $_table_name = 'user_privileges';
 
     public function insert($arr_data)
     {
@@ -43,17 +43,22 @@ class User_account_model extends CI_Model{
         return $query->row_array();
     }
 
-    public function get_by_account($username, $pass)
+    public function get_by_account($group_id, $user_id)
     {
-        $this->db->select('id, user_group, username, is_active, created_date, email');
-        $this->db->where(array(
-            'username' => $username,
-            'password' => $pass
-        ));
+        if($group_id == USER_GROUP_BUILDINGS_OWNER) {
+            $this->db->select('u.id as privilege_id, u.building_id, b.building_name');
+            $this->db->join('buildings b', 'b.id = u.building_id');
+        }
+        else if($group_id == USER_GROUP_ROOMS_ADMIN) {
+            $this->db->select('u.id as privilege_id, u.room_id, r.room_name');
+            $this->db->join('rooms r', 'r.id = u.room_id');
+        }
 
-        $query = $this->db->get($this->_table_name);
+        $this->db->from($this->_table_name. ' u');
+        $this->db->where('user_account', $user_id);
+        $query = $this->db->get();
 
-        return $query->row_array();
+        return $query->result_array();
     }
 
 }

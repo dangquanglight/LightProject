@@ -37,10 +37,11 @@ class GEH_Controller extends CI_Controller
     {
         $data = new ArrayObject();
         $username = array('username' => $this->get_username_from_session());
+        $user_group = array('user_group' => $this->get_user_group_from_session());
 
         $header = $this->load->view('templates/header', $username, TRUE);
         $footer = $this->load->view('templates/footer', $data, TRUE);
-        $sidebar = $this->load->view('templates/sidebar', $data, TRUE);
+        $sidebar = $this->load->view('templates/sidebar', $user_group, TRUE);
 
         $data = array(
             'header' => $header,
@@ -247,10 +248,33 @@ class GEH_Controller extends CI_Controller
             redirect(user_login_url());
     }
 
+    public function set_user_session($user_info)
+    {
+        $user_data = array(
+            'user_id' => $user_info['id'],
+            'user_email' => $user_info['email'],
+            'user_group' => $user_info['user_group'],
+            'username' => $user_info['username']
+        );
+
+        $this->session->set_userdata(USER_SESSION_NAME, $user_data);
+    }
+
     public function get_username_from_session()
     {
         $account = $this->session->userdata(USER_SESSION_NAME);
         return $account['username'];
+    }
+
+    public function get_user_group_from_session()
+    {
+        $account = $this->session->userdata(USER_SESSION_NAME);
+        return $account['user_group'];
+    }
+
+    public function get_user_logged_in_info()
+    {
+        return $this->session->userdata(USER_SESSION_NAME);
     }
 
 }
