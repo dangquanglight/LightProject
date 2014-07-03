@@ -112,7 +112,7 @@ class User extends GEH_Controller {
 
             if($user_info['user_group'] == USER_GROUP_BUILDINGS_OWNER) {
                 $data['privileges'] = $this->user_privileges_model->get_by_account(USER_GROUP_BUILDINGS_OWNER, $user_id);
-                var_dump($data['privileges']); die();
+                //var_dump($data['privileges']); die();
 
                 $extend_data['content_view'] = $this->load->view(
                     $this->user_view . 'edit_privileges_buildings_owner', $data, TRUE

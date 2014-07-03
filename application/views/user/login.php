@@ -85,7 +85,7 @@
         <form id="login_form" method="post">
             <div class="form-group">
                 <label for="login_username">User name</label>
-                <input type="text" id="login_username" name="username" class="form-control input-lg">
+                <input type="text" id="login_username" name="username" class="form-control input-lg" autofocus>
             </div>
             <div class="form-group">
                 <label for="login_password">Password <!--<a href="#" class="pull-right">Forgot password?</a>--></label>
@@ -102,4 +102,10 @@
 </div>
 
 </body>
+
+<script>
+    $(document).ready(function(){
+        $('[autofocus]').focus();
+    });
+</script>
 </html>

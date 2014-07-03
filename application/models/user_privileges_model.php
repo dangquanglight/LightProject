@@ -48,10 +48,12 @@ class User_privileges_model extends CI_Model{
         if($group_id == USER_GROUP_BUILDINGS_OWNER) {
             $this->db->select('u.id as privilege_id, u.building_id, b.building_name');
             $this->db->join('buildings b', 'b.id = u.building_id');
+            $this->db->order_by('b.building_name', 'ASC');
         }
         else if($group_id == USER_GROUP_ROOMS_ADMIN) {
             $this->db->select('u.id as privilege_id, u.room_id, r.room_name');
             $this->db->join('rooms r', 'r.id = u.room_id');
+            $this->db->order_by('r.room_name', 'ASC');
         }
 
         $this->db->from($this->_table_name. ' u');
