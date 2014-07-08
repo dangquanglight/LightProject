@@ -11,6 +11,13 @@ class User extends GEH_Controller {
         $this->load->model(array(
             'user_account_model'
         ));
+
+        // Prevent user access into user management
+        $user_info = $this->get_user_logged_in_info();
+        if($user_info != NULL and $user_info['user_group'] != USER_GROUP_ROOT_ADMIN and
+            $this->router->method != 'logout' and $this->router->method != 'login') {
+            redirect(home_url());
+        }
     }
 
     public $user_view = 'user/';
@@ -28,7 +35,7 @@ class User extends GEH_Controller {
     {
         foreach($data as &$item) {
             if($item['is_active'] == USER_STATUS_ACTIVE)
-                $item['is_active'] = 'Acitve';
+                $item['is_active'] = 'Active';
             else if($item['is_active'] == USER_STATUS_INACTIVE)
                 $item['is_active'] = 'Inactive';
 
@@ -57,28 +64,56 @@ class User extends GEH_Controller {
 
             // Have post to update to database
             if ($this->input->post()) {
-                $update_data = array(
-                    'username' => trim($this->input->post('username')),
-                    'email' => trim($this->input->post('email')),
-                    'user_group' => $this->input->post('user_group'),
-                    'is_active' => $this->input->post('user_status'),
-                );
+                // Check username exist or not
+                $username = trim($this->input->post('geh_login_name'));
+                $this->check_username($username, $user_id);
+
+                // Check email exist or not
+                $email = trim($this->input->post('geh_message'));
+                $this->check_email($email, $user_id);
+
+                $edited_user_info = $this->user_account_model->get_by_id($user_id);
+
+                if($edited_user_info['user_group'] != USER_GROUP_ROOT_ADMIN) {
+                    $user_group = $this->input->post('user_group');
+
+                    // Delete all related user privileges before change user's group
+                    if($edited_user_info['user_group'] != $user_group) {
+                        $this->load->model('user_privileges_model');
+                        $privileges = $this->user_privileges_model->get_by_account($edited_user_info['user_group'], $user_id);
+
+                        if(count($privileges) > 0) {
+                            foreach($privileges as $item) {
+                                $this->user_privileges_model->delete($item['privilege_id']);
+                            }
+                        }
+                    }
+
+                    $update_data = array(
+                        'username' => $username,
+                        'email' => $email,
+                        'user_group' => $user_group,
+                        'is_active' => $this->input->post('user_status')
+                    );
+                }
+                else {
+                    $update_data = array(
+                        'username' => $username,
+                        'email' => $email
+                    );
+                }
+
                 if($this->input->post('password') != "") {
                     $update_data = $update_data + array('password' => md5(trim($this->input->post('password'))));
                 }
 
                 if($this->user_account_model->update($user_id, $update_data)) {
-                    // Update new user info to user session
-                    $user_info = $this->user_account_model->get_by_id($user_id);
-                    $this->set_user_session($user_info);
-
-                    $this->session->set_flashdata('flash_success', 'Edit user information successful!');
+                    $this->session->set_flashdata($this->flash_success_session, 'Edit user information successful!');
                     redirect(user_account_controller_url());
                 }
             }
 
             $data['user_info'] = $this->user_account_model->get_by_id($user_id);
-
             $extend_data['content_view'] = $this->load->view($this->user_view . 'edit_user', $data, TRUE);
             $this->load_frontend_template($extend_data, 'EDIT USER INFORMATION');
         }
@@ -86,12 +121,25 @@ class User extends GEH_Controller {
         // Case: add new user
         else {
             if($this->input->post()) {
-                $insert_data = array(
+                // Check username exist or not
+                $username = trim($this->input->post('geh_login_name'));
+                $this->check_username($username);
 
+                // Check email exist or not
+                $email = trim($this->input->post('geh_message'));
+                $this->check_email($email);
+
+                $insert_data = array(
+                    'username' => $username,
+                    'email' => $email,
+                    'user_group' => $this->input->post('user_group'),
+                    'is_active' => $this->input->post('user_status'),
+                    'password' => md5(trim($this->input->post('password'))),
+                    'created_date' => time()
                 );
 
-                if($this->device_model->insert($insert_data)) {
-                    $this->session->set_flashdata('flash_success', 'Add new user successful!');
+                if($this->user_account_model->insert($insert_data)) {
+                    $this->session->set_flashdata($this->flash_success_session, 'Add new user successful!');
                     redirect(user_account_controller_url());
                 }
             }
@@ -101,26 +149,176 @@ class User extends GEH_Controller {
         }
     }
 
+    private function check_username($username, $user_id = NULL)
+    {
+        $result = $this->user_account_model->get_by_username($username);
+        $err_message = 'Username already exist.';
+
+        if($user_id != NULL) {
+            if(count($result) > 0 and $result['id'] != $user_id) {
+                $this->session->set_flashdata($this->flash_warning_session, $err_message);
+                redirect(edit_user_url($user_id));
+            }
+        }
+        else {
+            if(count($result) > 0) {
+                $this->session->set_flashdata($this->flash_warning_session, $err_message);
+                redirect(add_new_user_url());
+            }
+        }
+    }
+
+    private function check_email($email, $user_id = NULL)
+    {
+        $result = $this->user_account_model->get_by_email($email);
+        $err_message = 'Email address already exist.';
+
+        if($user_id != NULL) {
+            if(count($result) > 0 and $result['id'] != $user_id) {
+                $this->session->set_flashdata($this->flash_warning_session, $err_message);
+                redirect(edit_user_url($user_id));
+            }
+        }
+        else {
+            if(count($result) > 0) {
+                $this->session->set_flashdata($this->flash_warning_session, $err_message);
+                redirect(add_new_user_url());
+            }
+        }
+
+    }
+
     public function privileges()
     {
-        if(isset($_GET['id'])) {
+        if(isset($_GET['id']) or isset($_GET['floor'])) {
             $this->load->model(array(
-                'user_privileges_model'
+                'user_privileges_model',
+                'building_model'
             ));
             $user_id = $_GET['id'];
             $user_info = $this->user_account_model->get_by_id($user_id);
+            $data['buildings_list'] = $this->building_model->get_list();
 
             if($user_info['user_group'] == USER_GROUP_BUILDINGS_OWNER) {
-                $data['privileges'] = $this->user_privileges_model->get_by_account(USER_GROUP_BUILDINGS_OWNER, $user_id);
-                //var_dump($data['privileges']); die();
+                $privileges = $this->user_privileges_model->get_by_account(USER_GROUP_BUILDINGS_OWNER, $user_id);
+                $data['privileges'] = $privileges;
+
+                if($this->input->post()) {
+                    $checked_buildings = $this->input->post('arr_building');
+
+                    if(count($checked_buildings) == count($privileges)) {
+                        $count = 0;
+                        foreach($privileges as $privilege) {
+                            $update_data = array(
+                                'building_id' => $checked_buildings[$count]
+                            );
+                            $this->user_privileges_model->update($privilege['privilege_id'], $update_data);
+                            $count++;
+                        }
+                    }
+                    // Delete all record and insert new ones
+                    else {
+                        // Delete all record
+                        foreach($privileges as $privilege) {
+                            $this->user_privileges_model->delete($privilege['privilege_id']);
+                        }
+
+                        // Insert new privileges
+                        foreach($checked_buildings as $checked) {
+                            $insert_data = array(
+                                'user_account' => $user_info['id'],
+                                'building_id' => $checked
+                            );
+                            $this->user_privileges_model->insert($insert_data);
+                        }
+                    }
+
+                    $this->session->set_flashdata($this->flash_success_session, 'Edit user privileges successful!');
+                    redirect(user_account_controller_url());
+                }
 
                 $extend_data['content_view'] = $this->load->view(
                     $this->user_view . 'edit_privileges_buildings_owner', $data, TRUE
                 );
             }
             else if($user_info['user_group'] == USER_GROUP_ROOMS_ADMIN) {
-                $data['privileges'] = $this->user_privileges_model->get_by_account(USER_GROUP_ROOMS_ADMIN, $user_id);
-                var_dump($data['privileges']); die();
+                $privileges = $this->user_privileges_model->get_by_account(USER_GROUP_ROOMS_ADMIN, $user_id);
+                $data['privileges'] = $privileges;
+
+                // When filter button submitted
+                if(isset($_GET['building'])) {
+                    $building_id = $_GET['building'];
+                    $this->load->model(array(
+                        'floor_model',
+                        'zone_model',
+                        'room_model'
+                    ));
+
+                    $floors_list = $this->floor_model->get_by_building_id($building_id);
+                    $zones_array = array();
+                    $rooms_array = array();
+
+                    foreach($floors_list as $floor) {
+                        $zones_list = $this->zone_model->get_by_floor_id($floor['floor_id']);
+                        foreach($zones_list as $zone) {
+                            array_push($zones_array, array(
+                                'floor_id' => $floor['floor_id'],
+                                'zone_id' => $zone['zone_id'],
+                                'zone_name' => $zone['zone_name']
+                            ));
+                        }
+
+                        foreach($zones_list as $item) {
+                            $rooms_list = $this->room_model->get_by_zone_id($item['zone_id']);
+                            foreach($rooms_list as $room) {
+                                array_push($rooms_array, array(
+                                    'zone_id' => $item['zone_id'],
+                                    'room_id' => $room['room_id'],
+                                    'room_name' => $room['room_name']
+                                ));
+                            }
+                        }
+                    }
+
+                    $data['floors_list'] = $floors_list;
+                    $data['zones_list'] = $zones_array;
+                    $data['rooms_list'] = $rooms_array;
+
+                    // When save changes button submitted
+                    if($this->input->post()) {
+                        $checked_rooms = $this->input->post('arr_room');
+
+                        if(count($checked_rooms) == count($privileges)) {
+                            $count = 0;
+                            foreach($privileges as $privilege) {
+                                $update_data = array(
+                                    'room_id' => $checked_rooms[$count]
+                                );
+                                $this->user_privileges_model->update($privilege['privilege_id'], $update_data);
+                                $count++;
+                            }
+                        }
+                        // Delete all record and insert new ones
+                        else {
+                            // Delete all record
+                            foreach($privileges as $privilege) {
+                                $this->user_privileges_model->delete($privilege['privilege_id']);
+                            }
+
+                            // Insert new privileges
+                            foreach($checked_rooms as $checked) {
+                                $insert_data = array(
+                                    'user_account' => $user_info['id'],
+                                    'room_id' => $checked
+                                );
+                                $this->user_privileges_model->insert($insert_data);
+                            }
+                        }
+
+                        $this->session->set_flashdata($this->flash_success_session, 'Edit user privileges successful!');
+                        redirect(user_account_controller_url());
+                    }
+                }
 
                 $extend_data['content_view'] = $this->load->view(
                     $this->user_view . 'edit_privileges_rooms_admin', $data, TRUE
@@ -131,6 +329,22 @@ class User extends GEH_Controller {
         }
         else {
             redirect(user_account_controller_url());
+        }
+    }
+
+    public function delete()
+    {
+        if ($this->input->get('id')) {
+            $user_id = $this->input->get('id');
+            $update_data = array(
+                'is_delete' => USER_IS_DELETE_TRUE
+            );
+
+            // Delete action after delete all its condition
+            if ($this->user_account_model->update($user_id, $update_data)) {
+                $this->session->set_flashdata($this->flash_success_session, 'User has been delete successful!');
+                redirect(user_account_controller_url());
+            }
         }
     }
 
@@ -149,6 +363,7 @@ class User extends GEH_Controller {
                     $data['err_message'] = 'Your account is not active yet.';
                 }
                 else {
+                    $this->session->unset_userdata(USER_SESSION_NAME);
                     $this->set_user_session($account);
                     redirect(home_url());
                 }
@@ -169,7 +384,7 @@ class User extends GEH_Controller {
 
     public function logout()
     {
-        $this->session->unset_userdata(USER_SESSION_NAME);
+        $this->session->sess_destroy();
         redirect(user_login_url());
     }
 

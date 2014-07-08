@@ -162,5 +162,11 @@ if (!function_exists('user_logout_url')) {
     }
 }
 
+if (!function_exists('delete_user_url')) {
+    function delete_user_url($id) {
+        return base_url('user/delete?id=' . $id);
+    }
+}
+
 // endregion USER CONTROLLER
 

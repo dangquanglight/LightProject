@@ -9,6 +9,11 @@ class Ajax extends REST_Controller {
         parent::__construct();
     }
 
+    public function get_floors_get() {
+        $floor_list = $this->get_floors_list($this->input->get('buildingID'));
+        $this->response($floor_list);
+    }
+
     public function get_zones_get() {
         $zones_list = $this->get_zones_list($this->input->get('floorID'));
 

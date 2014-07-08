@@ -6,32 +6,32 @@ if (!defined('BASEPATH'))
 class GEH_Controller extends CI_Controller
 {
     public $client_address;
-	//Hieu added 2014-05-17
-	public $client_mode_request;
-	public $client_action_request;
-	public $client_ip_address;
+    //Hieu added 2014-05-17
+    public $client_mode_request;
+    public $client_action_request;
+    public $client_ip_address;
 
     function __construct()
     {
         parent::__construct();
 
         // Check user logged or not
-        if(! ($this->router->class == 'user' and $this->router->method == 'login') ) {
-            $this->check_user_logged_in();
-        }
+        $this->check_user_logged_in();
 
         $this->load->model('device_model');
         $device = $this->device_model->get_by_device_id('0086A88D');
-		
+
         $this->client_address = 'http://' . $device['description'] . '/status.html?request';
-		//Hieu added 2014-05-17
-		$this->client_mode_request = 'http://' . $device['description'] . '/mode.html?request';
-		$this->client_action_request = 'http://' . $device['description'] . '/action.html?request';		
-		$this->client_ip_address = $device['description'];
+        //Hieu added 2014-05-17
+        $this->client_mode_request = 'http://' . $device['description'] . '/mode.html?request';
+        $this->client_action_request = 'http://' . $device['description'] . '/action.html?request';
+        $this->client_ip_address = $device['description'];
     }
 
     // Flash data successful
     public $flash_success_session = 'flash_success';
+    // Flash data warning
+    public $flash_warning_session = 'flash_warning';
 
     function get_common_view()
     {
@@ -100,8 +100,7 @@ class GEH_Controller extends CI_Controller
 
         if (!$mail->Send()) {
             return $mail->ErrorInfo;
-        }
-        else {
+        } else {
             return TRUE;
         }
     }
@@ -150,6 +149,60 @@ class GEH_Controller extends CI_Controller
         return $template_content;
     }
 
+    public function get_floors_list_by_privileges()
+    {
+        $this->load->model('floor_model');
+        $user_info = $this->get_user_logged_in_info();
+
+        if ($user_info['user_group'] == USER_GROUP_ROOT_ADMIN) {
+            return $this->floor_model->get_list();
+        }
+        else if ($user_info['user_group'] == USER_GROUP_BUILDINGS_OWNER) {
+            $this->load->model('user_privileges_model');
+            $floors_list = array();
+
+            $privileges = $this->user_privileges_model->get_by_account($user_info['user_group'], $user_info['user_id']);
+            foreach ($privileges as $privilege) {
+                $result = $this->floor_model->get_by_building_id($privilege['building_id']);
+                foreach($result as $item) {
+                    array_push($floors_list, $item);
+                }
+            }
+
+            return $floors_list;
+        }
+        else if ($user_info['user_group'] == USER_GROUP_ROOMS_ADMIN) {
+            $this->load->model(array(
+                'user_privileges_model',
+                'room_model'
+            ));
+            $floors_list = array();
+
+            $privileges = $this->user_privileges_model->get_by_account($user_info['user_group'], $user_info['user_id']);
+            foreach($privileges as $privilege) {
+                $floor = $this->room_model->get_floor_id($privilege['room_id']);
+                if(!in_array($floor, $floors_list)) {
+                    array_push($floors_list, $floor);
+                }
+            }
+
+            return $floors_list;
+        }
+    }
+
+    public function get_floors_list($building_id)
+    {
+        $this->load->model('floor_model');
+        $zones = $this->floor_model->get_by_building_id($building_id);
+        $data = array();
+        foreach ($zones as $key => $zone) {
+            $data[$key]['name'] = $zone['floor_name'];
+            $data[$key]['id'] = $zone['floor_id'];
+        }
+
+        return $data;
+    }
+
     public function get_zones_list($floor_id)
     {
         $this->load->model('zone_model');
@@ -178,13 +231,56 @@ class GEH_Controller extends CI_Controller
         return $data;
     }
 
+    public function get_devices_list_by_privileges()
+    {
+        $this->load->model('device_model');
+        $user_info = $this->get_user_logged_in_info();
+
+        if ($user_info['user_group'] == USER_GROUP_ROOT_ADMIN) {
+            return $this->device_model->get_list();
+        }
+        else if ($user_info['user_group'] == USER_GROUP_BUILDINGS_OWNER) {
+            $this->load->model(array(
+                'user_privileges_model',
+                'building_model'
+            ));
+            $devices_list = array();
+
+            $privileges = $this->user_privileges_model->get_by_account($user_info['user_group'], $user_info['user_id']);
+            foreach ($privileges as $privilege) {
+                $result = $this->building_model->get_devices_list($privilege['building_id']);
+                foreach($result as $item) {
+                    array_push($devices_list, $item);
+                }
+            }
+
+            return $devices_list;
+        }
+        else if ($user_info['user_group'] == USER_GROUP_ROOMS_ADMIN) {
+            $this->load->model(array(
+                'user_privileges_model'
+            ));
+            $devices_list = array();
+
+            $privileges = $this->user_privileges_model->get_by_account($user_info['user_group'], $user_info['user_id']);
+            foreach ($privileges as $privilege) {
+                $result = $this->device_model->get_list_by_room_id($privilege['room_id']);
+                foreach($result as $item) {
+                    array_push($devices_list, $item);
+                }
+            }
+
+            return $devices_list;
+        }
+    }
+
     public function get_controlled_devices_list($room_id)
     {
         $this->load->model(array('device_model', 'device_state_model'));
         $state = $this->device_state_model->get_by_name(DEVICE_STATE_CONTROLLED);
         $devices = $this->device_model->get_list_by_state_id_and_room_id($state['id'], $room_id);
         $data = array();
-        foreach($devices as $device) {
+        foreach ($devices as $device) {
             array_push($data, array(
                 'id' => $device['row_device_id'],
                 'name' => $device['device_name']
@@ -209,16 +305,14 @@ class GEH_Controller extends CI_Controller
         // Get device setpoint value
         $setpoint_info = $this->device_setpoint_model->get_by_device_row_id($device['id']);
         $flag = 1;
-        foreach($setpoint_info as $item) {
-            if(count($setpoint_info) == 1) {
+        foreach ($setpoint_info as $item) {
+            if (count($setpoint_info) == 1) {
                 $data['setpoint1'] = $item['value'];
-            }
-            else if(count($setpoint_info) == 2) {
-                if($flag == 1) {
+            } else if (count($setpoint_info) == 2) {
+                if ($flag == 1) {
                     $data['setpoint1'] = $item['value'];
                     $flag++;
-                }
-                else {
+                } else {
                     $data['setpoint2'] = $item['value'];
                 }
             }
@@ -236,7 +330,7 @@ class GEH_Controller extends CI_Controller
         );
         $this->load->model('device_setpoint_log_model');
 
-        if($this->device_setpoint_log_model->insert($insert_data))
+        if ($this->device_setpoint_log_model->insert($insert_data))
             return TRUE;
         else
             return FALSE;
@@ -244,8 +338,20 @@ class GEH_Controller extends CI_Controller
 
     public function check_user_logged_in()
     {
-        if(!$this->session->userdata(USER_SESSION_NAME))
-            redirect(user_login_url());
+        $flag = FALSE;
+        if ($this->router->class != 'user') {
+            $flag = TRUE;
+        }
+        else {
+            if ($this->router->method != 'login') {
+                $flag = TRUE;
+            }
+        }
+
+        if ($flag) {
+            if (!$this->session->userdata(USER_SESSION_NAME))
+                redirect(user_login_url());
+        }
     }
 
     public function set_user_session($user_info)

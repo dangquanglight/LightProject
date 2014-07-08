@@ -5,7 +5,6 @@ function echo_checked_day($data, $value)
         if ($item == $value)
             echo 'checked';
 }
-
 ?>
 
 <style>

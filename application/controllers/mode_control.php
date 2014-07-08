@@ -40,9 +40,9 @@ class Mode_control extends GEH_Controller
                 redirect(control_controller_url());
             }
         }
-		//$this->session->set_flashdata('call_client', $this->client_address);
+
         // Get floor list
-        $data['floor_list'] = $this->floor_model->get_list();
+        $data['floor_list'] = $this->get_floors_list_by_privileges();
 
         // Get list mode control
         $data['list_mode'] = $this->prepare_mode_info($this->mode_control_model->get_list());

@@ -41,4 +41,14 @@ class Floor_model extends CI_Model{
         return $query->row_array();
     }
 
+    public function get_by_building_id($id, $order_by = "floor_name", $condition = "ASC")
+    {
+        $this->db->select('id AS floor_id, floor_name');
+        $this->db->where("building_id", $id);
+        $this->db->order_by($order_by, $condition);
+        $query = $this->db->get($this->_table_name);
+
+        return $query->result_array();
+    }
+
 }

@@ -23,7 +23,7 @@ class Device_management extends GEH_Controller
         ));
 
         // Get floor list
-        $data['floor_list'] = $this->floor_model->get_list();
+        $data['floor_list'] = $this->get_floors_list_by_privileges();
 
         // Filter device by location
         if ($this->input->get()) {
@@ -73,7 +73,7 @@ class Device_management extends GEH_Controller
         }
         else {
             // Get devices list
-            $data['list_devices'] = $this->prepare_device_info($this->device_model->get_list());
+            $data['list_devices'] = $this->prepare_device_info($this->get_devices_list_by_privileges());
 
             $extend_data['content_view'] = $this->load->view($this->device_management_view . 'index', $data, TRUE);
         }

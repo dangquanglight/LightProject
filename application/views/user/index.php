@@ -1,3 +1,10 @@
+<script>
+    function confirm_delete(url) {
+        if (confirm("Do you want to delete this user?"))
+            window.location = url;
+    }
+</script>
+
 <ol class="breadcrumb">
     <li class="active">User Account Management</li>
 </ol>
@@ -50,8 +57,9 @@
                         </button>
                     </a>
                     <?php if($item['user_group'] != USER_GROUP_ROOT_ADMIN): ?>
-                    <button type="button" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-trash"></span> Remove
+                    <button type="button" class="btn btn-default btn-sm"
+                            onclick="confirm_delete('<?php echo delete_user_url($item['user_id']); ?>')">
+                        <span class="glyphicon glyphicon-trash"></span> Delete
                     </button>
                     <?php endif; ?>
                 </td>

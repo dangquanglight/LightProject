@@ -100,6 +100,9 @@ define('USER_GROUP_ROOMS_ADMIN', 3);
 
 define('USER_SESSION_NAME', 'user_session');
 
+define('USER_IS_DELETE_TRUE', 1);
+define('USER_IS_DELETE_FALSE', 0);
+
 // endregion USER ACCOUNT
 
 /* End of file constants.php */

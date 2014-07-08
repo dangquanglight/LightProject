@@ -57,7 +57,7 @@ class User_privileges_model extends CI_Model{
         }
 
         $this->db->from($this->_table_name. ' u');
-        $this->db->where('user_account', $user_id);
+        $this->db->where('u.user_account', $user_id);
         $query = $this->db->get();
 
         return $query->result_array();

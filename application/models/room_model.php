@@ -63,4 +63,16 @@ class Room_model extends CI_Model{
         return $query->row_array();
     }
 
+    public function get_floor_id($id)
+    {
+        $this->db->select('f.id as floor_id, f.floor_name');
+        $this->db->from($this->_table_name . ' r');
+        $this->db->where('r.id', $id);
+        $this->db->join('zones z', 'z.id = r.zone_id');
+        $this->db->join('floors f', 'f.id = z.floor_id');
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
 }

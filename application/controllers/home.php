@@ -17,7 +17,7 @@ class Home extends GEH_Controller {
             'device_setpoint_model'
         ));
 
-        $data['floor_list'] = $this->floor_model->get_list();
+        $data['floor_list'] = $this->get_floors_list_by_privileges();
 
         $extend_data['content_view'] = $this->load->view('home', $data, TRUE);
         $this->load_frontend_template($extend_data, 'HOMEPAGE');

@@ -24,10 +24,11 @@ class User_account_model extends CI_Model{
         return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
     }
 
-    public function get_list($order_by = "username", $condition = "ASC")
+    public function get_list($order_by = "user_group", $condition = "ASC")
     {
         $this->db->select('u.id AS user_id, u.user_group, u.username, u.email, u.is_active, u.created_date, g.group_name');
         $this->db->from($this->_table_name . ' u');
+        $this->db->where('u.is_delete', USER_IS_DELETE_FALSE);
         $this->db->join('user_groups g', 'g.id = u.user_group');
         $this->db->order_by($order_by, $condition);
         $query = $this->db->get();
@@ -43,12 +44,29 @@ class User_account_model extends CI_Model{
         return $query->row_array();
     }
 
+    public function get_by_username($username)
+    {
+        $this->db->where("username", $username);
+        $query = $this->db->get($this->_table_name);
+
+        return $query->row_array();
+    }
+
+    public function get_by_email($email)
+    {
+        $this->db->where("email", $email);
+        $query = $this->db->get($this->_table_name);
+
+        return $query->row_array();
+    }
+
     public function get_by_account($username, $pass)
     {
         $this->db->select('id, user_group, username, is_active, created_date, email');
         $this->db->where(array(
             'username' => $username,
-            'password' => $pass
+            'password' => $pass,
+            'is_delete' => USER_IS_DELETE_FALSE
         ));
 
         $query = $this->db->get($this->_table_name);
