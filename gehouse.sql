@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 08, 2014 at 07:02 AM
+-- Generation Time: Jul 13, 2014 at 04:36 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -132,7 +132,16 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('4aa504cb2c48353f0cecea2874c5ae37', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0', 1404795580, 'a:2:{s:9:"user_data";s:0:"";s:12:"user_session";a:4:{s:7:"user_id";s:1:"4";s:10:"user_email";s:14:"abc123@abc.com";s:10:"user_group";s:1:"3";s:8:"username";s:6:"light3";}}');
+('0bdd2599d27eadcdebac7223649b86c8', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0', 1404966311, 'a:2:{s:9:"user_data";s:0:"";s:12:"user_session";a:5:{s:7:"user_id";s:1:"1";s:10:"user_email";s:19:"localhost@local.com";s:10:"user_group";s:1:"1";s:8:"username";s:4:"root";s:16:"working_building";N;}}'),
+('0d41d87bcfc0f18440bbebe93c78d6cb', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36', 1404964208, 'a:2:{s:9:"user_data";s:0:"";s:12:"user_session";a:5:{s:7:"user_id";s:1:"3";s:10:"user_email";s:17:"light2@light2.com";s:10:"user_group";s:1:"2";s:8:"username";s:6:"light2";s:16:"working_building";s:1:"8";}}'),
+('2c6628ad99a7c67ec0905b02d8c58946', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0', 1404964338, ''),
+('3150dad16c1df0f503ce33c30f01c902', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36', 1404963697, ''),
+('3ebd187022286cba46323748072ddae4', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36', 1404964055, 'a:3:{s:9:"user_data";s:0:"";s:12:"user_session";a:5:{s:7:"user_id";s:1:"3";s:10:"user_email";s:17:"light2@light2.com";s:10:"user_group";s:1:"2";s:8:"username";s:6:"light2";s:16:"working_building";s:2:"10";}s:23:"flash:old:flash_success";s:5:"Done!";}'),
+('4ee584305bbb7c48953fe6ae4d138cd0', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36', 1404965760, ''),
+('640011d6eac8bf57a189c3e3a5da2753', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0', 1404964338, ''),
+('966328511ba17cf2b513e0a1029bf489', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36', 1404961804, ''),
+('a1cf7ddae0232d691e64bd5065e9ca4d', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36', 1404966296, 'a:2:{s:9:"user_data";s:0:"";s:12:"user_session";a:5:{s:7:"user_id";s:1:"4";s:10:"user_email";s:14:"abc123@abc.com";s:10:"user_group";s:1:"3";s:8:"username";s:6:"light3";s:16:"working_building";N;}}'),
+('de38439f10271ff08acb83154ff14b77', '::1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0', 1404964050, 'a:2:{s:9:"user_data";s:0:"";s:12:"user_session";a:5:{s:7:"user_id";s:1:"1";s:10:"user_email";s:19:"localhost@local.com";s:10:"user_group";s:1:"1";s:8:"username";s:4:"root";s:16:"working_building";N;}}');
 
 -- --------------------------------------------------------
 
@@ -1653,39 +1662,37 @@ INSERT INTO `user_groups` (`id`, `group_name`, `group_desc`, `group_admin`) VALU
 CREATE TABLE IF NOT EXISTS `user_privileges` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_account` int(11) NOT NULL,
-  `room_id` int(11) DEFAULT NULL,
   `building_id` int(11) DEFAULT NULL,
+  `room_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `upriv_id` (`id`) USING BTREE
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=85 ;
 
 --
 -- Dumping data for table `user_privileges`
 --
 
-INSERT INTO `user_privileges` (`id`, `user_account`, `room_id`, `building_id`) VALUES
-(11, 3, NULL, 1),
-(12, 3, NULL, 6),
-(13, 3, NULL, 7),
-(14, 3, NULL, 8),
-(18, 5, NULL, 1),
-(19, 5, NULL, 10),
-(20, 5, NULL, 2),
-(21, 5, NULL, 3),
-(22, 5, NULL, 4),
-(23, 5, NULL, 5),
-(24, 5, NULL, 6),
-(25, 5, NULL, 7),
-(26, 5, NULL, 8),
-(27, 5, NULL, 9),
-(28, 4, 1, NULL),
-(29, 4, 11, NULL),
-(30, 4, 12, NULL),
-(31, 4, 2, NULL),
-(32, 4, 3, NULL),
-(33, 4, 6, NULL),
-(34, 4, 8, NULL),
-(35, 4, 9, NULL);
+INSERT INTO `user_privileges` (`id`, `user_account`, `building_id`, `room_id`) VALUES
+(18, 5, 1, NULL),
+(19, 5, 10, NULL),
+(20, 5, 2, NULL),
+(21, 5, 3, NULL),
+(22, 5, 4, NULL),
+(23, 5, 5, NULL),
+(24, 5, 6, NULL),
+(25, 5, 7, NULL),
+(26, 5, 8, NULL),
+(27, 5, 9, NULL),
+(67, 3, 1, NULL),
+(68, 3, 2, NULL),
+(69, 3, 3, NULL),
+(78, 4, NULL, 11),
+(79, 4, NULL, 12),
+(80, 4, NULL, 2),
+(81, 4, NULL, 3),
+(82, 4, NULL, 6),
+(83, 4, NULL, 8),
+(84, 4, NULL, 9);
 
 -- --------------------------------------------------------
 
@@ -1712,9 +1719,9 @@ INSERT INTO `zones` (`id`, `floor_id`, `zone_name`, `description`, `status`, `cr
 (1, 1, 'Zone 1', NULL, 1, 1, 1),
 (2, 1, 'Zone 2', NULL, 1, 1, 1),
 (3, 1, 'Zone 3', NULL, 1, 1, 1),
-(4, 2, 'Zone 4', NULL, 1, 1, 1),
-(5, 2, 'Zone 5', NULL, 1, 1, 1),
-(6, 3, 'Zone 6', NULL, 1, 1, 1);
+(4, 2, 'Zone 21', NULL, 1, 1, 1),
+(5, 2, 'Zone 22', NULL, 1, 1, 1),
+(6, 3, 'Zone 31', NULL, 1, 1, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
