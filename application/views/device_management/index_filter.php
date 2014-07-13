@@ -39,7 +39,7 @@
         <th style="width: 30%">Action</th>
         </thead>
         <tbody>
-        <?php foreach ($list_devices as $item): ?>
+        <?php if(count($list_devices) > 0): foreach ($list_devices as $item): ?>
             <tr>
                 <td style="vertical-align: middle;"><?php echo $item['device_id']; ?></td>
                 <td style="vertical-align: middle;"><?php echo $item['device_name']; ?></td>
@@ -57,7 +57,7 @@
                     </button>
                 </td>
             </tr>
-        <?php endforeach; ?>
+        <?php endforeach; endif; ?>
         </tbody>
     </table>
 </div>

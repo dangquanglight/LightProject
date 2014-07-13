@@ -363,9 +363,34 @@ class User extends GEH_Controller {
                     $data['err_message'] = 'Your account is not active yet.';
                 }
                 else {
-                    $this->session->unset_userdata(USER_SESSION_NAME);
+                    $this->load->model(array(
+                        'user_privileges_model',
+                        'building_model'
+                    ));
+                    $buildings_list = array();
+
+                    $privileges = $this->user_privileges_model->get_by_account($account['user_group'], $account['id']);
+                    foreach($privileges as $privilege) {
+                        $result = $this->building_model->get_by_id($privilege['building_id']);
+                        array_push($buildings_list, $result);
+                    }
+
+                    // If user own 1 building, set it to user session, redirect to home
+                    // If user own more than 1 building, redirect to select building page
+                    if(count($buildings_list) == 1 and $account['user_group'] == USER_GROUP_BUILDINGS_OWNER){
+                        $account['working_building'] = $buildings_list[0]['id'];
+                        $url = home_url();
+                    }
+                    else if(count($buildings_list) > 1 and $account['user_group'] == USER_GROUP_BUILDINGS_OWNER) {
+                        $account['working_building'] = $buildings_list[0]['id'];
+                        $url = select_building_url();
+                    }
+                    else {
+                        $url = home_url();
+                    }
+
                     $this->set_user_session($account);
-                    redirect(home_url());
+                    redirect($url);
                 }
             }
             else {

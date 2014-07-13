@@ -38,46 +38,58 @@ class Device_management extends GEH_Controller
                     else if ($_GET['zone'] == 0) {
                         $list_devices = array();
                         $zones_list = $this->zone_model->get_by_floor_id($_GET['floor']);
-                        foreach ($zones_list as $zone) {
-                            $rooms_list = $this->room_model->get_by_zone_id($zone['zone_id']);
-                            foreach ($rooms_list as $room) {
-                                array_push(
-                                    $list_devices,
-                                    $this->prepare_device_info($this->device_model->get_list_by_room_id($room['room_id']))
-                                );
+                        if(count($zones_list) > 0) {
+                            foreach ($zones_list as $zone) {
+                                $rooms_list = $this->room_model->get_by_zone_id($zone['zone_id']);
+                                foreach ($rooms_list as $room) {
+                                    array_push(
+                                        $list_devices,
+                                        $this->prepare_device_info($this->device_model->get_list_by_room_id(
+                                            $room['room_id']
+                                        ))
+                                    );
+                                }
                             }
+                            $list_devices = $list_devices[0];
                         }
-                        $data['list_devices'] = $list_devices[0];
+
+                        $data['list_devices'] = $list_devices;
                     }
                     // List device of all rooms
                     else if ($_GET['room'] == 0) {
                         $list_devices = array();
                         $zone = $this->zone_model->get_by_id($_GET['zone']);
                         $rooms_list = $this->room_model->get_by_zone_id($zone['id']);
-                        foreach ($rooms_list as $room) {
-                            array_push(
-                                $list_devices,
-                                $this->prepare_device_info($this->device_model->get_list_by_room_id($room['room_id']))
-                            );
+                        if(count($rooms_list) > 0) {
+                            foreach ($rooms_list as $room) {
+                                array_push(
+                                    $list_devices,
+                                    $this->prepare_device_info($this->device_model->get_list_by_room_id($room['room_id']))
+                                );
+                            }
+                            $list_devices = $list_devices[0];
                         }
-                        $data['list_devices'] = $list_devices[0];
+
+                        $data['list_devices'] = $list_devices;
                     }
                 }
                 else {
                     // Get devices list
-                    $data['list_devices'] = $this->prepare_device_info($this->device_model->get_list_by_room_id($_GET['room']));
+                    $data['list_devices'] = $this->prepare_device_info($this->device_model->get_list_by_room_id(
+                        $_GET['room']
+                    ));
                 }
 
-                $extend_data['content_view'] = $this->load->view($this->device_management_view . 'index_filter', $data, TRUE);
+                $extend_data['content_view'] = $this->load->view(
+                    $this->device_management_view . 'index_filter', $data, TRUE
+                );
             }
         }
         else {
             // Get devices list
             $data['list_devices'] = $this->prepare_device_info($this->get_devices_list_by_privileges());
-
             $extend_data['content_view'] = $this->load->view($this->device_management_view . 'index', $data, TRUE);
         }
-
 
         $this->load_frontend_template($extend_data, 'DEVICE MANAGEMENT');
     }
@@ -108,7 +120,8 @@ class Device_management extends GEH_Controller
             'device_setpoint_model'
         ));
 
-        $data['floor_list'] = $this->floor_model->get_list();
+        $data['floor_list'] = $this->get_floors_list_by_privileges();
+
         // List temperature devices
         $type = $this->device_type_model->get_by_short_name('TEMP');
         $data['temp_devices_list'] = $this->device_model->get_list_by_device_type_id($type['id']);

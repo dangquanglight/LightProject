@@ -36,12 +36,15 @@ class GEH_Controller extends CI_Controller
     function get_common_view()
     {
         $data = new ArrayObject();
-        $username = array('username' => $this->get_username_from_session());
-        $user_group = array('user_group' => $this->get_user_group_from_session());
+        $header_data = array(
+            'username' => $this->get_username_from_session(),
+            'working_building' => $this->get_working_building_from_session()
+        );
+        $sidebar_data = array('user_group' => $this->get_user_group_from_session());
 
-        $header = $this->load->view('templates/header', $username, TRUE);
+        $header = $this->load->view('templates/header', $header_data, TRUE);
         $footer = $this->load->view('templates/footer', $data, TRUE);
-        $sidebar = $this->load->view('templates/sidebar', $user_group, TRUE);
+        $sidebar = $this->load->view('templates/sidebar', $sidebar_data, TRUE);
 
         $data = array(
             'header' => $header,
@@ -149,6 +152,27 @@ class GEH_Controller extends CI_Controller
         return $template_content;
     }
 
+    public function get_buildings_list_by_privileges()
+    {
+        $this->load->model('building_model');
+        $user_info = $this->get_user_logged_in_info();
+
+        if($user_info['user_group'] == USER_GROUP_BUILDINGS_OWNER) {
+            $this->load->model('user_privileges_model');
+            $buildings_list = array();
+
+            $privileges = $this->user_privileges_model->get_by_account($user_info['user_group'], $user_info['user_id']);
+            foreach($privileges as $privilege) {
+                $result = $this->building_model->get_by_id($privilege['building_id']);
+                array_push($buildings_list, $result);
+            }
+
+            return $buildings_list;
+        }
+        else
+            return NULL;
+    }
+
     public function get_floors_list_by_privileges()
     {
         $this->load->model('floor_model');
@@ -158,16 +182,7 @@ class GEH_Controller extends CI_Controller
             return $this->floor_model->get_list();
         }
         else if ($user_info['user_group'] == USER_GROUP_BUILDINGS_OWNER) {
-            $this->load->model('user_privileges_model');
-            $floors_list = array();
-
-            $privileges = $this->user_privileges_model->get_by_account($user_info['user_group'], $user_info['user_id']);
-            foreach ($privileges as $privilege) {
-                $result = $this->floor_model->get_by_building_id($privilege['building_id']);
-                foreach($result as $item) {
-                    array_push($floors_list, $item);
-                }
-            }
+            $floors_list = $this->floor_model->get_by_building_id($user_info['working_building']);
 
             return $floors_list;
         }
@@ -240,19 +255,8 @@ class GEH_Controller extends CI_Controller
             return $this->device_model->get_list();
         }
         else if ($user_info['user_group'] == USER_GROUP_BUILDINGS_OWNER) {
-            $this->load->model(array(
-                'user_privileges_model',
-                'building_model'
-            ));
-            $devices_list = array();
-
-            $privileges = $this->user_privileges_model->get_by_account($user_info['user_group'], $user_info['user_id']);
-            foreach ($privileges as $privilege) {
-                $result = $this->building_model->get_devices_list($privilege['building_id']);
-                foreach($result as $item) {
-                    array_push($devices_list, $item);
-                }
-            }
+            $this->load->model('building_model');
+            $devices_list = $this->building_model->get_devices_list($user_info['working_building']);
 
             return $devices_list;
         }
@@ -360,7 +364,21 @@ class GEH_Controller extends CI_Controller
             'user_id' => $user_info['id'],
             'user_email' => $user_info['email'],
             'user_group' => $user_info['user_group'],
-            'username' => $user_info['username']
+            'username' => $user_info['username'],
+            'working_building' => $user_info['working_building'] ? $user_info['working_building'] : NULL
+        );
+
+        $this->session->set_userdata(USER_SESSION_NAME, $user_data);
+    }
+
+    public function update_user_session($user_info)
+    {
+        $user_data = array(
+            'user_id' => $user_info['user_id'],
+            'user_email' => $user_info['user_email'],
+            'user_group' => $user_info['user_group'],
+            'username' => $user_info['username'],
+            'working_building' => $user_info['working_building'] ? $user_info['working_building'] : NULL
         );
 
         $this->session->set_userdata(USER_SESSION_NAME, $user_data);
@@ -376,6 +394,12 @@ class GEH_Controller extends CI_Controller
     {
         $account = $this->session->userdata(USER_SESSION_NAME);
         return $account['user_group'];
+    }
+
+    public function get_working_building_from_session()
+    {
+        $account = $this->session->userdata(USER_SESSION_NAME);
+        return $account['working_building'];
     }
 
     public function get_user_logged_in_info()

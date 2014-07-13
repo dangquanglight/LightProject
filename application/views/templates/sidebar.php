@@ -24,6 +24,11 @@
             <a href="<?php echo user_account_controller_url(); ?>">User management</a>
         </li>
         <?php endif; ?>
+        <?php if($user_group == USER_GROUP_BUILDINGS_OWNER) : ?>
+            <li <?php if($this->router->class == 'user') echo 'class="active"'; ?>>
+                <a href="<?php echo select_building_url(); ?>">Select building</a>
+            </li>
+        <?php endif; ?>
         <li><a href="<?php echo user_logout_url(); ?>">Logout</a></li>
 
         <div class="progress progress-striped active" id="loading" style="margin-top: 70px;">

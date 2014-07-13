@@ -117,11 +117,19 @@ if (!function_exists('edit_device_url')) {
 // endregion DEVICE MANAGEMENT
 
 // region STATIC PAGE
+
 if (!function_exists('document_viewer_url')) {
     function document_viewer_url() {
         return base_url('static_page/document_viewer');
     }
 }
+
+if (!function_exists('select_building_url')) {
+    function select_building_url() {
+        return base_url('static_page/select_building');
+    }
+}
+
 // endregion STATIC PAGE
 
 // region USER CONTROLLER
